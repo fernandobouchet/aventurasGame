@@ -9,10 +9,13 @@ object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	const property image = "player.png"
 	var property energia = 1000
 	var property salud = 100
+	var property dinero = 0
 	method tipo() = "protagonista"
 	override method reaccionarA(obstaculo) {
 		if (obstaculo.tipo() == "enemigo") salud -= 5
 		if (obstaculo.tipo() == "ElementoVitalidad") { salud += obstaculo.salud(); game.removeVisual(obstaculo)}
+		if (obstaculo.tipo() == "ElementoEnergizante") { energia += obstaculo.energia(); game.removeVisual(obstaculo)}
+		if (obstaculo.tipo() == "ElementoEnriquecedor") { dinero += obstaculo.dinero(); game.removeVisual(obstaculo)}
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)

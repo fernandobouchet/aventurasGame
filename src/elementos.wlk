@@ -6,12 +6,7 @@ class Bloque {
 	var property position
 	const property image = "market.png" 
 	method esAtravesable() = false
-	method reaccionarA(objeto) {
-}
-	
-	
-	
-	// agregar comportamiento	
+	method reaccionarA(objeto) {}
 }
 
 class CajaMovible inherits Movimiento(position = utilidadesParaJuego.posicionArbitraria()) {
@@ -27,6 +22,8 @@ class CajaMovible inherits Movimiento(position = utilidadesParaJuego.posicionArb
 	}
 }
 
+
+
 class ElementoVitalidad {
 	const property image = "bomba.png"
 	var property salud
@@ -34,7 +31,25 @@ class ElementoVitalidad {
 	
 	method esAtravesable() = true
 	method tipo() = "ElementoVitalidad"
-	method reaccionarA(objeto) {
+	method reaccionarA(objeto) {}
 }
 
+class ElementoEnergizante {
+	const property image = "bomba.png"
+	var property energia
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	
+	method esAtravesable() = true
+	method tipo() = "ElementoEnergizante"
+	method reaccionarA(objeto) {}
+}
+
+class ElementoEnriquecedor {
+	const property image = "bomba.png"
+	var property dinero
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	
+	method esAtravesable() = true
+	method tipo() = "ElementoEnriquecedor"
+	method reaccionarA(objeto) {}
 }

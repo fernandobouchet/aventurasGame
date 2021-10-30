@@ -12,6 +12,7 @@ object utilidadesParaJuego {
 object marcador{
     method position() = game.at(1,14)
     method text() = "Energia: " + personajeSimple.energia() + " - " + " Salud: " + personajeSimple.salud()
+    + " - " + "Dinero: " + personajeSimple.dinero()
 }
 
 object marcadorPerder {

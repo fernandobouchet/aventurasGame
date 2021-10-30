@@ -26,6 +26,8 @@ object nivelBloques {
 		game.addVisual(enemigo2)
 		game.addVisual(new CajaMovible())
 		game.addVisual(new ElementoVitalidad(salud = 5220))
+		game.addVisual(new ElementoEnergizante(energia = 1500))
+		game.addVisual(new ElementoEnriquecedor(dinero = 1000))
 		personajeSimple.iniciarPersonaje()
 		enemigo.iniciarMovimiento()
 		enemigo2.iniciarMovimiento()
