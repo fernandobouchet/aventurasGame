@@ -39,7 +39,7 @@ class Movimiento {
 			ultimaPosicion = new Position(x = position.x(), y = position.y())
 			if (position.y() == game.height() - 2) position = new Position(x = position.x(), y = 0)
 			else position = position.up(1)
-			game.schedule(50, {enMovimiento = false; puedeMover = true})
+			game.schedule(10, {enMovimiento = false; puedeMover = true})
 		}
 	}
 	method moverHaciaAbajo() {
@@ -49,7 +49,7 @@ class Movimiento {
 			ultimaPosicion = new Position(x = position.x(), y = position.y())
 			if (position.y() == 0) position = new Position(x = position.x(), y = game.height() - 2)
 			else position = position.down(1)
-			game.schedule(50, {enMovimiento = false; puedeMover = true})
+			game.schedule(10, {enMovimiento = false; puedeMover = true})
 		}
 	}
 	method moverHaciaIzquierda() {
@@ -59,7 +59,7 @@ class Movimiento {
 			ultimaPosicion = new Position(x = position.x(), y = position.y())
 			if (position.x() == 0) position = new Position(x = game.width() - 1, y = position.y())
 			else position = position.left(1)
-			game.schedule(50, {enMovimiento = false; puedeMover = true})
+			game.schedule(10, {enMovimiento = false; puedeMover = true})
 		}
 	}
 	method moverHaciaDerecha() {
@@ -69,7 +69,7 @@ class Movimiento {
 			ultimaPosicion = new Position(x = position.x(), y = position.y())
 			if (position.x() == game.width() - 1) position = new Position(x = 0, y = position.y())
 			else position = position.right(1)
-			game.schedule(50, {enMovimiento = false; puedeMover = true})
+			game.schedule(10, {enMovimiento = false; puedeMover = true})
 		}
 	}
 	method provocarMovimientoAleatorio() {

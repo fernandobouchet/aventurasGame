@@ -12,6 +12,7 @@ object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	method tipo() = "protagonista"
 	override method reaccionarA(obstaculo) {
 		if (obstaculo.tipo() == "enemigo") salud -= 5
+		if (obstaculo.tipo() == "ElementoVitalidad") { salud += obstaculo.salud(); game.removeVisual(obstaculo)}
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)
