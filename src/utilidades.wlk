@@ -1,19 +1,29 @@
 import wollok.game.*
+import personajes.*
 
 object utilidadesParaJuego {
 	method posicionArbitraria() {
 		return game.at(
-			0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)
+			0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height() - 1).truncate(0)
 		)
 	}
 }
+
+object marcador{
+    method position() = game.at(1,14)
+    method text() = "Energia: " + personajeSimple.energia() + " - " + " Salud: " + personajeSimple.salud()
+}
+
+object marcadorPerder {
+    method position() = game.at(1,14)
+    method text() = "Perdiste el nivel"}
 
 class Movimiento {
 	var property position
 	var ultimaPosicion = new Position(x = position.x(), y = position.y())
 	var enMovimiento = false
 	var puedeMover = true
-	var bloqueMovimiento = { obstaculo =>
+	const bloqueMovimiento = { obstaculo =>
 		if (not obstaculo.esAtravesable() && enMovimiento) position = ultimaPosicion
 		self.reaccionarA(obstaculo)
 		obstaculo.reaccionarA(self)

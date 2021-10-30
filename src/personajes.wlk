@@ -7,14 +7,14 @@ import utilidades.*
 
 object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	const property image = "player.png"
-	var energia = 100
+	var property energia = 1000
+	var property salud = 100
 	method tipo() = "protagonista"
 	override method reaccionarA(obstaculo) {
-		if (obstaculo.tipo() == "enemigo") energia -= 5 
-		game.say(self, "Estoy con " + energia + " de energia")
+		if (obstaculo.tipo() == "enemigo") salud -= 5
 	}
 	method iniciarPersonaje() {
-		game.say(self, "Estoy con " + energia + " de energia")
+		game.addVisual(self)
 		game.onCollideDo(self, bloqueMovimiento)
 		keyboard.up().onPressDo({ self.moverHaciaArriba(); energia -= 1 })
 		keyboard.down().onPressDo({ self.moverHaciaAbajo(); energia -= 1 })
@@ -31,7 +31,7 @@ class EnemigoComun inherits Movimiento(position = game.at(5,5)) {
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
 		game.onCollideDo(self, bloqueMovimiento)
-		game.onTick(500, nombre, {self.provocarMovimientoAleatorio()})
+		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
 	}
 }
 
@@ -43,6 +43,6 @@ class EnemigoSeguidor inherits Movimiento(position = game.at(5,5)) {
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
 		game.onCollideDo(self, bloqueMovimiento)
-		game.onTick(500, nombre, {self.moverUnPasoHacia(personajeSimple)})
+		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
 	}
 }
