@@ -13,10 +13,15 @@ object nivelBloques {
 				 
 		// otros visuals, p.ej. bloques o llaves
 		game.addVisual(new Bloque(position=game.at(3,12)))
-			
+		const enemigo = new EnemigoComun(nombre = "malo")
+		const enemigo2 = new EnemigoSeguidor(nombre = "malo2")
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(personajeSimple)
-		
+		game.addVisual(enemigo)
+		game.addVisual(enemigo2)
+		personajeSimple.iniciarPersonaje()
+		enemigo.iniciarMovimiento()
+		enemigo2.iniciarMovimiento()
 		// teclado
 		// este es para probar, no es necesario dejarlo
 		keyboard.t().onPressDo({ self.terminar() })
