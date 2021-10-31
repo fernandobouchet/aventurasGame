@@ -9,78 +9,84 @@ object utilidadesParaJuego {
 	}
 }
 
+object direccionArriba{}
+object direccionAbajo{}
+object direccionIzquierda{}
+object direccionDerecha{}
+
 object marcador{
-    method position() = game.at(1,14)
+    method position() = game.at(1,game.height() - 1)
     method text() = "Energia: " + personajeSimple.energia() + " - " + " Salud: " + personajeSimple.salud()
     + " - " + "Dinero: " + personajeSimple.dinero()
 }
 
 object marcadorPerder {
-    method position() = game.at(1,14)
+    method position() = game.at(1,game.height() - 1)
     method text() = "Perdiste el nivel"}
 
 class Movimiento {
 	var property position
-	var ultimaPosicion = new Position(x = position.x(), y = position.y())
-	var enMovimiento = false
-	var puedeMover = true
-	const bloqueMovimiento = { obstaculo =>
-		if (not obstaculo.esAtravesable() && enMovimiento) position = ultimaPosicion
-		self.reaccionarA(obstaculo)
-		obstaculo.reaccionarA(self)
-	}
+	var property ultimoMovimiento = direccionAbajo
 
 	method reaccionarA(obstaculo)
+	
 	method esAtravesable() = false
 	
-	method moverHaciaArriba() {
-		if (puedeMover) {
-			puedeMover = false
-			enMovimiento = true
-			ultimaPosicion = new Position(x = position.x(), y = position.y())
-			if (position.y() == game.height() - 2) position = new Position(x = position.x(), y = 0)
-			else position = position.up(1)
-			game.schedule(10, {enMovimiento = false; puedeMover = true})
+	method siguienteMovimientoHacia(direccion) {
+		var siguiente
+		if (direccion == direccionDerecha) 
+			siguiente =
+				if (position.x() == game.width() - 1)
+					game.at(0, position.y())
+				else
+					position.right(1)
+		if (direccion == direccionIzquierda) 
+			siguiente =
+				if (position.x() == 0)
+					game.at(game.width() - 1, position.y())
+				else
+					position.left(1) 
+		if (direccion == direccionArriba) 
+			siguiente =
+				if (position.y() == game.height() - 2)
+					game.at(position.x(), 0)
+				else
+					position.up(1)
+		if (direccion == direccionAbajo) 
+			siguiente =
+				if (position.y() == 0)
+					game.at(position.x(), game.height() - 2)
+				else
+					position.down(1)
+		return siguiente
+	}
+
+	method objetosHacia(direccion) {
+		return game.getObjectsIn(self.siguienteMovimientoHacia(direccion))
+	}
+	
+	method puedeMover(direccion) {
+		return self.objetosHacia(direccion).all{ objeto => objeto.esAtravesable() }
+	} 
+
+	method moverHacia(direccion) {
+		ultimoMovimiento = direccion
+		if (self.puedeMover(direccion)) position = self.siguienteMovimientoHacia(direccion)
+		else {
+			const objetoHacia = self.objetosHacia(direccion).find{objeto => not objeto.esAtravesable()}
+			objetoHacia.reaccionarA(self)
+			self.reaccionarA(objetoHacia)
 		}
 	}
-	method moverHaciaAbajo() {
-		if (puedeMover) {
-			puedeMover = false
-			enMovimiento = true
-			ultimaPosicion = new Position(x = position.x(), y = position.y())
-			if (position.y() == 0) position = new Position(x = position.x(), y = game.height() - 2)
-			else position = position.down(1)
-			game.schedule(10, {enMovimiento = false; puedeMover = true})
-		}
-	}
-	method moverHaciaIzquierda() {
-		if (puedeMover) {
-			puedeMover = false
-			enMovimiento = true
-			ultimaPosicion = new Position(x = position.x(), y = position.y())
-			if (position.x() == 0) position = new Position(x = game.width() - 1, y = position.y())
-			else position = position.left(1)
-			game.schedule(10, {enMovimiento = false; puedeMover = true})
-		}
-	}
-	method moverHaciaDerecha() {
-		if (puedeMover) {
-			puedeMover = false
-			enMovimiento = true
-			ultimaPosicion = new Position(x = position.x(), y = position.y())
-			if (position.x() == game.width() - 1) position = new Position(x = 0, y = position.y())
-			else position = position.right(1)
-			game.schedule(10, {enMovimiento = false; puedeMover = true})
-		}
-	}
+	
 	method provocarMovimientoAleatorio() {
 		const numAleatorio = 0.randomUpTo(100)
-		if (numAleatorio < 25) self.moverHaciaArriba()
+		if (numAleatorio < 25) self.moverHacia(direccionArriba)
 		else
-			if (numAleatorio < 50) self.moverHaciaDerecha()
+			if (numAleatorio < 50) self.moverHacia(direccionDerecha)
 			else
-				if (numAleatorio < 75) self.moverHaciaAbajo()
-					else self.moverHaciaIzquierda()
+				if (numAleatorio < 75) self.moverHacia(direccionAbajo)
+					else self.moverHacia(direccionIzquierda)
 	}
 	method moverUnPasoHacia(objetivo) {
 		const xObjetivo = objetivo.position().x()
@@ -88,22 +94,22 @@ class Movimiento {
 		const numAleatorio = 0.randomUpTo(100)
 		if (numAleatorio < 50){
 			if(xObjetivo != position.x()) {
-				if (xObjetivo < position.x()) self.moverHaciaIzquierda()
-				else self.moverHaciaDerecha()
+				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda)
+				else self.moverHacia(direccionDerecha)
 			}
 			else {
-				if (yObjetivo < position.y()) self.moverHaciaAbajo()
-				else self.moverHaciaArriba()
+				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo)
+				else self.moverHacia(direccionArriba)
 			}
 		}
 		else {
 			if(yObjetivo != position.y()) {
-				if (yObjetivo < position.y()) self.moverHaciaAbajo()
-				else self.moverHaciaArriba()
+				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo)
+				else self.moverHacia(direccionArriba)
 			}
 			else {
-				if (xObjetivo < position.x()) self.moverHaciaIzquierda()
-				else self.moverHaciaDerecha()
+				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda)
+				else self.moverHacia(direccionDerecha)
 			}
 		}
 	}

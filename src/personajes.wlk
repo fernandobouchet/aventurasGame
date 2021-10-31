@@ -19,11 +19,11 @@ object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)
-		game.onCollideDo(self, bloqueMovimiento)
-		keyboard.up().onPressDo({ self.moverHaciaArriba(); energia -= 1 })
-		keyboard.down().onPressDo({ self.moverHaciaAbajo(); energia -= 1 })
-		keyboard.left().onPressDo({ self.moverHaciaIzquierda(); energia -= 1 })
-		keyboard.right().onPressDo({ self.moverHaciaDerecha(); energia -= 1 })
+		//game.onCollideDo(self, bloqueMovimiento)
+		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); energia -= 1 })
+		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); energia -= 1 })
+		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); energia -= 1 })
+		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); energia -= 1 })
 	}
 }
 
@@ -34,7 +34,7 @@ class EnemigoComun inherits Movimiento(position = game.at(5,5)) {
 
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
-		game.onCollideDo(self, bloqueMovimiento)
+		//game.onCollideDo(self, bloqueMovimiento)
 		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
 	}
 }
@@ -46,7 +46,7 @@ class EnemigoSeguidor inherits Movimiento(position = game.at(5,5)) {
 
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
-		game.onCollideDo(self, bloqueMovimiento)
+		//game.onCollideDo(self, bloqueMovimiento)
 		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
 	}
 }

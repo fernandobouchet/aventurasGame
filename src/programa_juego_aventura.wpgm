@@ -4,8 +4,8 @@ import nivel1.*
 program juego_aventura {
 
 	game.title("Oh qué aventura objetosa")
-	game.height(15)
-	game.width(15)
+	game.height(13)
+	game.width(13)
 	game.boardGround("fondoBlanco.png")
 
 	nivelBloques.configurate()	

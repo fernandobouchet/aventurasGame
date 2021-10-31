@@ -11,14 +11,14 @@ class Bloque {
 
 class CajaMovible inherits Movimiento(position = utilidadesParaJuego.posicionArbitraria()) {
 	const property image = "enemigoVivo.png" 
-	method tipo() = "CajaMovible"
+	method tipo() = "cajaMovible"
 	override method reaccionarA(objeto) {
-		const positionX = personajeSimple.position().x()
-		const positionY = personajeSimple.position().y()
-		if (positionX == game.width() - 1 or positionX < position.x()) self.moverHaciaDerecha()
-		if (positionX == 0 or positionX > position.x()) self.moverHaciaIzquierda()
-		if (positionY == 0 or positionY < position.y()) self.moverHaciaArriba()
-		if (positionY == game.height() - 2 or positionY > position.y()) self.moverHaciaAbajo()
+		if (objeto.tipo() == "protagonista") {
+			if (self.puedeMover(objeto.ultimoMovimiento())) {
+				self.moverHacia(objeto.ultimoMovimiento())
+				objeto.moverHacia(objeto.ultimoMovimiento())
+			}
+		}
 	}
 }
 
