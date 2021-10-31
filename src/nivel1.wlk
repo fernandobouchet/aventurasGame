@@ -20,13 +20,14 @@ object nivelBloques {
 		game.addVisual(new Bloque(position=game.at(3,12)))
 		const enemigo = new EnemigoComun(nombre = "malo")
 		const enemigo2 = new EnemigoSeguidor(nombre = "malo2")
+		5.times{ i => new ElementoEnergizante(energia = 1500)}
+	
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(marcador)
 		game.addVisual(enemigo)
 		game.addVisual(enemigo2)
 		game.addVisual(new CajaMovible())
 		game.addVisual(new ElementoVitalidad(salud = 5220))
-		game.addVisual(new ElementoEnergizante(energia = 1500))
 		game.addVisual(new ElementoEnriquecedor(dinero = 1000))
 		personajeSimple.iniciarPersonaje()
 		enemigo.iniciarMovimiento()

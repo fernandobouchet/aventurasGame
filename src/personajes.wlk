@@ -5,7 +5,7 @@ import utilidades.*
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
 // imagen y posición
 
-object personajeSimple inherits Movimiento(position = game.at(0,0)) {
+object personajeSimple inherits Movimiento {
 	const property image = "player.png"
 	var property energia = 1000
 	var property salud = 100
@@ -19,7 +19,6 @@ object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)
-		//game.onCollideDo(self, bloqueMovimiento)
 		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); energia -= 1 })
 		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); energia -= 1 })
 		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); energia -= 1 })
@@ -27,26 +26,24 @@ object personajeSimple inherits Movimiento(position = game.at(0,0)) {
 	}
 }
 
-class EnemigoComun inherits Movimiento(position = game.at(5,5)) {
+class EnemigoComun inherits Movimiento {
 	const nombre
 	const property image = "player.png"
 	method tipo() = "enemigo"
 
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
-		//game.onCollideDo(self, bloqueMovimiento)
 		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
 	}
 }
 
-class EnemigoSeguidor inherits Movimiento(position = game.at(5,5)) {
+class EnemigoSeguidor inherits Movimiento {
 	const nombre
 	const property image = "player.png"
 	method tipo() = "enemigo"
 
 	override method reaccionarA(obstaculo) {}
 	method iniciarMovimiento() {
-		//game.onCollideDo(self, bloqueMovimiento)
 		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
 	}
 }

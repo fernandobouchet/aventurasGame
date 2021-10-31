@@ -9,8 +9,8 @@ class Bloque {
 	method reaccionarA(objeto) {}
 }
 
-class CajaMovible inherits Movimiento(position = utilidadesParaJuego.posicionArbitraria()) {
-	const property image = "enemigoVivo.png" 
+class CajaMovible inherits Movimiento {
+	const property image = "chest.png" 
 	method tipo() = "cajaMovible"
 	override method reaccionarA(objeto) {
 		if (objeto.tipo() == "protagonista") {
@@ -35,10 +35,17 @@ class ElementoVitalidad {
 }
 
 class ElementoEnergizante {
-	const property image = "bomba.png"
+	const property image = "beer.png"
 	var property energia
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			objeto.reaccionarA(self)
+		})
+	}
 	method esAtravesable() = true
 	method tipo() = "ElementoEnergizante"
 	method reaccionarA(objeto) {}

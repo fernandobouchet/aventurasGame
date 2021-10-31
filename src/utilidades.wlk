@@ -25,7 +25,7 @@ object marcadorPerder {
     method text() = "Perdiste el nivel"}
 
 class Movimiento {
-	var property position
+	var property position = utilidadesParaJuego.posicionArbitraria()
 	var property ultimoMovimiento = direccionAbajo
 
 	method reaccionarA(obstaculo)
