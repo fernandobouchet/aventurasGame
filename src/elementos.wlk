@@ -29,6 +29,14 @@ class ElementoVitalidad {
 	var property salud
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			objeto.reaccionarA(self)
+		})
+	}
+	
 	method esAtravesable() = true
 	method tipo() = "ElementoVitalidad"
 	method reaccionarA(objeto) {}
@@ -56,7 +64,44 @@ class ElementoEnriquecedor {
 	var property dinero
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			objeto.reaccionarA(self)
+		})
+	}
+	
 	method esAtravesable() = true
 	method tipo() = "ElementoEnriquecedor"
 	method reaccionarA(objeto) {}
+}
+
+
+class ElementoSorpresa {
+	const property image = "pizza.png"
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			self.reaccionarA(objeto)
+		})
+	}
+	
+	method esAtravesable() = true
+	method tipo() = "ElementoSorpresa"
+	method reaccionarA(objeto) {
+		const numeroRandom = 0.randomUpTo(100)
+		if ( numeroRandom.between(0 , 33) ) {
+		const vitalidad =	new ElementoVitalidad(salud = 5220)
+		}
+		if (numeroRandom.between(33 , 66)) {
+		const energizante =	new ElementoEnergizante(energia = 5220)
+		}
+		else {
+		const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
+		}
+	}
 }
