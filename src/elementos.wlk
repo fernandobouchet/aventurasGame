@@ -97,11 +97,30 @@ class ElementoSorpresa {
 		if ( numeroRandom.between(0 , 33) ) {
 		const vitalidad =	new ElementoVitalidad(salud = 5220)
 		}
-		if (numeroRandom.between(33 , 66)) {
+		else if (numeroRandom.between(33 , 66)) {
 		const energizante =	new ElementoEnergizante(energia = 5220)
 		}
 		else {
 		const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
 		}
+		game.removeVisual(self)
+	}
+}
+
+class ElementoTransportador {
+	const property image = "bomba.png"
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			objeto.reaccionarA(self)
+		})
+	}
+	
+	method esAtravesable() = true
+	method tipo() = "ElementoTransportador"
+	method reaccionarA(objeto) {
 	}
 }

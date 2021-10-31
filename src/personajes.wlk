@@ -16,6 +16,7 @@ object personajeSimple inherits Movimiento {
 		if (obstaculo.tipo() == "ElementoVitalidad") { salud += obstaculo.salud(); game.removeVisual(obstaculo)}
 		if (obstaculo.tipo() == "ElementoEnergizante") { energia += obstaculo.energia(); game.removeVisual(obstaculo)}
 		if (obstaculo.tipo() == "ElementoEnriquecedor") { dinero += obstaculo.dinero(); game.removeVisual(obstaculo)}
+		if (obstaculo.tipo() == "ElementoTransportador") { position = utilidadesParaJuego.posicionArbitraria(); game.removeVisual(obstaculo)}
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)
