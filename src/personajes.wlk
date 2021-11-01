@@ -29,7 +29,7 @@ object personajeSimple inherits Movimiento {
 
 class EnemigoComun inherits Movimiento {
 	const nombre
-	const property image = "player.png"
+	const property image = "crab.png"
 	method tipo() = "enemigo"
 
 	override method reaccionarA(obstaculo) {}
@@ -40,7 +40,7 @@ class EnemigoComun inherits Movimiento {
 
 class EnemigoSeguidor inherits Movimiento {
 	const nombre
-	const property image = "player.png"
+	const property image = "crab_black.png"
 	method tipo() = "enemigo"
 
 	override method reaccionarA(obstaculo) {}

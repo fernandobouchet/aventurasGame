@@ -25,7 +25,7 @@ class CajaMovible inherits Movimiento {
 
 
 class ElementoVitalidad {
-	const property image = "bomba.png"
+	const property image = "burger.png"
 	var property salud
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
@@ -60,7 +60,7 @@ class ElementoEnergizante {
 }
 
 class ElementoEnriquecedor {
-	const property image = "bomba.png"
+	const property image = "buck.png"
 	var property dinero
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
@@ -79,7 +79,7 @@ class ElementoEnriquecedor {
 
 
 class ElementoSorpresa {
-	const property image = "pizza.png"
+	const property image = "random.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
 	method initialize() {
@@ -108,7 +108,7 @@ class ElementoSorpresa {
 }
 
 class ElementoTransportador {
-	const property image = "bomba.png"
+	const property image = "stars.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
 	method initialize() {
