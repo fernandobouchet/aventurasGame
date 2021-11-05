@@ -10,14 +10,8 @@ object personajeSimple inherits Movimiento {
 	var property energia = 0
 	var property salud = 0
 	var property dinero = 0
-	method tipo() = "protagonista"
-	override method reaccionarA(obstaculo) {
-		if (obstaculo.tipo() == "enemigo") salud -= 5
-		if (obstaculo.tipo() == "ElementoVitalidad") { salud += obstaculo.salud(); game.removeVisual(obstaculo)}
-		if (obstaculo.tipo() == "ElementoEnergizante") { energia += obstaculo.energia(); game.removeVisual(obstaculo)}
-		if (obstaculo.tipo() == "ElementoEnriquecedor") { dinero += obstaculo.dinero(); game.removeVisual(obstaculo)}
-		if (obstaculo.tipo() == "ElementoTransportador") { position = utilidadesParaJuego.posicionArbitraria(); game.removeVisual(obstaculo)}
-	}
+	override method esProtagonista() = true
+	override method reaccionarA(obstaculo) {}
 	method iniciarPersonaje() {
 		game.addVisual(self)
 		energia = 1000
@@ -33,9 +27,10 @@ object personajeSimple inherits Movimiento {
 class EnemigoComun inherits Movimiento {
 	const nombre
 	const property image = "crab.png"
-	method tipo() = "enemigo"
 
-	override method reaccionarA(obstaculo) {}
+	override method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
+	}
 	method iniciarMovimiento() {
 		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
 	}
@@ -44,9 +39,11 @@ class EnemigoComun inherits Movimiento {
 class EnemigoSeguidor inherits Movimiento {
 	const nombre
 	const property image = "crab_black.png"
-	method tipo() = "enemigo"
+	
 
-	override method reaccionarA(obstaculo) {}
+	override method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
+	}
 	method iniciarMovimiento() {
 		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
 	}

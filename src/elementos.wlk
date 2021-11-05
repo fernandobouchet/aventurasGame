@@ -7,14 +7,12 @@ class Bloque {
 	const property image = "market.png" 
 	method esAtravesable() = false
 	method reaccionarA(objeto) {}
-	method tipo() = "Bloque"
 }
 
 class CajaMovible inherits Movimiento {
 	const property image = "chest.png" 
-	method tipo() = "cajaMovible"
 	override method reaccionarA(objeto) {
-		if (objeto.tipo() == "protagonista") {
+		if (objeto.esProtagonista()) {
 			if (self.puedeMover(objeto.ultimoMovimiento())) {
 				self.moverHacia(objeto.ultimoMovimiento())
 				objeto.moverHacia(objeto.ultimoMovimiento())
@@ -34,13 +32,17 @@ class ElementoVitalidad {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			objeto.reaccionarA(self)
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
 		})
 	}
 	
 	method esAtravesable() = true
-	method tipo() = "ElementoVitalidad"
-	method reaccionarA(objeto) {}
+	method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) {
+			objeto.salud(objeto.salud()+ salud)
+			game.removeVisual(self)
+		}
+	}
 }
 
 class ElementoEnergizante {
@@ -52,12 +54,16 @@ class ElementoEnergizante {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			objeto.reaccionarA(self)
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
 		})
 	}
 	method esAtravesable() = true
-	method tipo() = "ElementoEnergizante"
-	method reaccionarA(objeto) {}
+	method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) {
+			objeto.energia(objeto.energia()+ energia)
+			game.removeVisual(self)
+		}
+	}
 }
 
 class ElementoEnriquecedor {
@@ -69,13 +75,17 @@ class ElementoEnriquecedor {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			objeto.reaccionarA(self)
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
 		})
 	}
 	
 	method esAtravesable() = true
-	method tipo() = "ElementoEnriquecedor"
-	method reaccionarA(objeto) {}
+	method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) {
+			objeto.dinero(objeto.dinero() + dinero)
+			game.removeVisual(self)
+		}
+	}
 }
 
 
@@ -87,22 +97,23 @@ class ElementoSorpresa {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			self.reaccionarA(objeto)
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
 		})
 	}
 	
 	method esAtravesable() = true
-	method tipo() = "ElementoSorpresa"
 	method reaccionarA(objeto) {
 		const numeroRandom = 0.randomUpTo(100)
-		if ( numeroRandom.between(0 , 33) ) {
-		const vitalidad =	new ElementoVitalidad(salud = 5220)
-		}
-		else if (numeroRandom.between(33 , 66)) {
-		const energizante =	new ElementoEnergizante(energia = 5220)
-		}
-		else {
-		const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
+		if(objeto.esProtagonista()) {
+			if ( numeroRandom.between(0 , 33) ) {
+				const vitalidad =	new ElementoVitalidad(salud = 5220)
+			}
+			else if (numeroRandom.between(33 , 66)) {
+				const energizante =	new ElementoEnergizante(energia = 5220)
+			}
+			else {
+				const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
+			}
 		}
 		game.removeVisual(self)
 	}
@@ -116,12 +127,15 @@ class ElementoTransportador {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			objeto.reaccionarA(self)
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
 		})
 	}
 	
 	method esAtravesable() = true
-	method tipo() = "ElementoTransportador"
 	method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) {
+			objeto.position(utilidadesParaJuego.posicionArbitraria())
+			game.removeVisual(self)
+		}
 	}
 }
