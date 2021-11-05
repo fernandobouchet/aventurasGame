@@ -139,3 +139,24 @@ class ElementoTransportador {
 		}
 	}
 }
+
+class ElementoAcumulable {
+	const property image = "chicken.png"
+	var property position = utilidadesParaJuego.posicionArbitraria()
+	
+	method initialize() {
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+		})
+	}
+	
+	method esAtravesable() = true
+	method reaccionarA(objeto) {
+		if (objeto.esProtagonista()) {
+			objeto.agarrarItem(self)
+			game.removeVisual(self)
+		}
+	}
+}

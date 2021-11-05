@@ -31,6 +31,7 @@ object nivelBloques {
 		const elementoEnr1 = new ElementoEnriquecedor(dinero = 1000)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
+		const elementoAcumulable = new ElementoAcumulable()
 	
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(marcador)

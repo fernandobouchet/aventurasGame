@@ -10,7 +10,14 @@ object personajeSimple inherits Movimiento {
 	var property energia = 0
 	var property salud = 0
 	var property dinero = 0
+	const property inventario = []
 	override method esProtagonista() = true
+	method agarrarItem(item) {
+		inventario.add(item)
+	}
+	method desecharItem(item) {
+		inventario.remove(item)
+	}
 	override method reaccionarA(obstaculo) {}
 	method iniciarPersonaje() {
 		game.addVisual(self)
