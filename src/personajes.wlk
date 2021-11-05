@@ -7,8 +7,8 @@ import utilidades.*
 
 object personajeSimple inherits Movimiento {
 	const property image = "player.png"
-	var property energia = 1000
-	var property salud = 100
+	var property energia = 0
+	var property salud = 0
 	var property dinero = 0
 	method tipo() = "protagonista"
 	override method reaccionarA(obstaculo) {
@@ -20,6 +20,9 @@ object personajeSimple inherits Movimiento {
 	}
 	method iniciarPersonaje() {
 		game.addVisual(self)
+		energia = 1000
+		salud = 100
+		dinero = 0
 		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); energia -= 1 })
 		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); energia -= 1 })
 		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); energia -= 1 })

@@ -6,6 +6,12 @@ import nivel2.*
 import utilidades.*
 
 object nivelBloques {
+	
+	method restart() {
+		game.clear()
+		self.configurate()
+	}
+	
 	method perder() {
 		game.clear()
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
@@ -17,7 +23,7 @@ object nivelBloques {
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
 				 
 		// otros visuals, p.ej. bloques o llaves
-		game.addVisual(new Bloque(position=game.at(3,12)))
+		game.addVisual(new Bloque(position=game.at(0,11)))
 		const enemigo = new EnemigoComun(nombre = "malo")
 		const enemigo2 = new EnemigoSeguidor(nombre = "malo2")
 		3.times{ i => new ElementoEnergizante(energia = 1500)}
@@ -38,7 +44,7 @@ object nivelBloques {
 		// este es para probar, no es necesario dejarlo
 		game.onTick(50, "perder", {if (personajeSimple.energia() <= 0 or personajeSimple.salud() <= 0) self.perder()})
 		keyboard.t().onPressDo({ self.terminar() })
-
+		keyboard.r().onPressDo{ self.restart()}
 		// en este no hacen falta colisiones
 	}
 	

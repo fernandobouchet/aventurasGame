@@ -7,6 +7,7 @@ class Bloque {
 	const property image = "market.png" 
 	method esAtravesable() = false
 	method reaccionarA(objeto) {}
+	method tipo() = "Bloque"
 }
 
 class CajaMovible inherits Movimiento {
