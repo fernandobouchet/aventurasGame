@@ -7,6 +7,11 @@ import utilidades.*
 
 object nivelBloques {
 	var property juegoEnPausa = false
+	const property inventario = []
+	
+	method agregarItem(item) {
+		inventario.add(item)
+	}
 	
 	method restart() {
 		game.clear()

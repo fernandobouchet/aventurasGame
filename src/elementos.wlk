@@ -11,25 +11,17 @@ object deposito {
 	method reaccionarA(objeto) {}
 	method configurate() {
 		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(game.getObjectsIn(position).size() == 7)
-			 nivelBloques.terminar()
-		})
 	}
 }
 
 class ObjetoMovible inherits Movimiento {
 	const property image
 	
-	override method esAtravesable() {
-		return deposito.position() == position
-	}
-	
 	override method configurate() {
 		super()
 		game.addVisual(self)
 	}
+	
 
 	override method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) {
@@ -37,6 +29,12 @@ class ObjetoMovible inherits Movimiento {
 				self.moverHacia(objeto.ultimoMovimiento())
 				objeto.moverHacia(objeto.ultimoMovimiento())
 			}
+		}
+		if (deposito.position() == position) {
+			nivelBloques.agregarItem(objeto)
+			game.removeVisual(self)
+			game.schedule(500,{if(nivelBloques.inventario().size() == 2)
+			nivelBloques.terminar()})
 		}
 	}
 }
