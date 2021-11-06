@@ -1,11 +1,18 @@
 import wollok.game.*
 import personajes.*
+import nivel1.*
 
 object utilidadesParaJuego {
 	method posicionArbitraria() {
 		return game.at(
 			0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height() - 1).truncate(0)
 		)
+	}
+	method posicionArbitrariaNoOcupada() {
+		var posicionA = self.posicionArbitraria()
+		if (game.getObjectsIn(posicionA).size() > 1)
+			posicionA = self.posicionArbitrariaNoOcupada()
+		return posicionA
 	}
 }
 
@@ -14,10 +21,16 @@ object direccionAbajo{}
 object direccionIzquierda{}
 object direccionDerecha{}
 
-object marcador{
+object marcador {
     method position() = game.at(1,game.height() - 1)
-    method text() = "Energia: " + personajeSimple.energia() + " - " + " Salud: " + personajeSimple.salud()
-    + " - " + "Dinero: " + personajeSimple.dinero()
+    method text() {
+    	var mensaje = ""
+    	mensaje = "Energia: " + personajeSimple.energia() + " - " 
+        mensaje += "Salud: " + personajeSimple.salud() + " - "
+        mensaje += "Dinero: " + personajeSimple.dinero() + " - "
+        mensaje += "Inventario: " + personajeSimple.inventario().size()
+        return mensaje
+    }
 }
 
 object marcadorPerder {
@@ -25,12 +38,16 @@ object marcadorPerder {
     method text() = "Perdiste el nivel"}
 
 class Movimiento {
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var property position = game.at(0,0)
 	var property ultimoMovimiento = direccionAbajo
 
 	method reaccionarA(obstaculo)
 	
+	method esProtagonista() = false
+	
 	method esAtravesable() = false
+	
+	method configurate() { position = utilidadesParaJuego.posicionArbitrariaNoOcupada() }
 	
 	method siguienteMovimientoHacia(direccion) {
 		var siguiente
@@ -70,24 +87,22 @@ class Movimiento {
 	} 
 
 	method moverHacia(direccion) {
-		ultimoMovimiento = direccion
-		if (self.puedeMover(direccion)) position = self.siguienteMovimientoHacia(direccion)
-		else {
-			const objetoHacia = self.objetosHacia(direccion).find{objeto => not objeto.esAtravesable()}
-			objetoHacia.reaccionarA(self)
-			self.reaccionarA(objetoHacia)
+		if (not nivelBloques.juegoEnPausa()) {
+			ultimoMovimiento = direccion
+			if (self.puedeMover(direccion)) position = self.siguienteMovimientoHacia(direccion)
+			else {
+				const objetoHacia = self.objetosHacia(direccion).find{objeto => not objeto.esAtravesable()}
+				objetoHacia.reaccionarA(self)
+				self.reaccionarA(objetoHacia)
+			}
 		}
 	}
 	
 	method provocarMovimientoAleatorio() {
-		const numAleatorio = 0.randomUpTo(100)
-		if (numAleatorio < 25) self.moverHacia(direccionArriba)
-		else
-			if (numAleatorio < 50) self.moverHacia(direccionDerecha)
-			else
-				if (numAleatorio < 75) self.moverHacia(direccionAbajo)
-					else self.moverHacia(direccionIzquierda)
+		const movimientosPosibles = [direccionArriba, direccionAbajo, direccionDerecha, direccionIzquierda]
+		self.moverHacia(movimientosPosibles.anyOne())
 	}
+	
 	method moverUnPasoHacia(objetivo) {
 		const xObjetivo = objetivo.position().x()
 		const yObjetivo = objetivo.position().y()
@@ -112,5 +127,46 @@ class Movimiento {
 				else self.moverHacia(direccionDerecha)
 			}
 		}
+	}
+}
+
+class Animacion {
+	var imagenes
+	var duracion
+	var cuadro = 0
+	var detener = false
+	var repetirInfinito = false
+	var repetirVeces = 0
+	
+	method repetir() { repetirInfinito = true }
+	method repetir(veces) { if (repetirVeces > 0) repetirVeces = veces }
+	
+	method detener() { detener = true }
+	
+	method animar(objeto) {
+		if (detener) detener = false
+		else {
+			const cantImagenes = imagenes.size()
+			cuadro += 1
+			if (cuadro == cantImagenes) {
+				cuadro = 0
+				if (repetirInfinito or repetirVeces > 0) {
+					game.schedule(duracion.div(cantImagenes), {self.animar(objeto)})
+					if (repetirVeces > 0) repetirVeces -= 1
+				}
+			}
+			else game.schedule(duracion.div(cantImagenes), {self.animar(objeto)})
+			objeto.image(imagenes.get(cuadro))
+		}
+	}
+}
+
+object sumaRecursiva {
+	method irA0(numero) {
+		var nuevoNum = numero
+		if (numero > 0) {
+			nuevoNum = self.irA0(numero - 1)
+		}
+		return nuevoNum
 	}
 }
