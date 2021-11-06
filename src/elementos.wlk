@@ -7,10 +7,23 @@ class Bloque {
 	const property image = "market.png" 
 	method esAtravesable() = false
 	method reaccionarA(objeto) {}
+	method configurate() {
+		game.addVisual(self)
+	}
 }
 
 class CajaMovible inherits Movimiento {
 	const property image = "chest.png" 
+	
+	override method esAtravesable() {
+		if (caja esta en la celda tal) return true
+	}
+	
+	override method configurate() {
+		super()
+		game.addVisual(self)
+	}
+
 	override method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) {
 			if (self.puedeMover(objeto.ultimoMovimiento())) {
@@ -26,9 +39,10 @@ class CajaMovible inherits Movimiento {
 class ElementoVitalidad {
 	const property image = "burger.png"
 	var property salud
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var property position = game.at(0,0)
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -50,7 +64,8 @@ class ElementoEnergizante {
 	var property energia
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -71,7 +86,8 @@ class ElementoEnriquecedor {
 	var property dinero
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -93,7 +109,8 @@ class ElementoSorpresa {
 	const property image = "random.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -114,16 +131,20 @@ class ElementoSorpresa {
 			else {
 				const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
 			}
+			game.removeVisual(self)
 		}
-		game.removeVisual(self)
 	}
 }
 
 class ElementoTransportador {
-	const property image = "stars.png"
+	var property image = "stars.png"
+	const animacionEstrella = new Animacion(imagenes = ["estrellas1.png","estrellas2.png","estrellas3.png","estrellas4.png","estrellas3.png","estrellas2.png"], duracion = 500)
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		animacionEstrella.repetir()
+		animacionEstrella.animar(self)
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -135,6 +156,7 @@ class ElementoTransportador {
 	method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) {
 			objeto.position(utilidadesParaJuego.posicionArbitraria())
+			animacionEstrella.repetir(false)
 			game.removeVisual(self)
 		}
 	}
@@ -144,7 +166,8 @@ class ElementoAcumulable {
 	const property image = "chicken.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
-	method initialize() {
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>

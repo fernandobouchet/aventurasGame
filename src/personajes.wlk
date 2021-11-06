@@ -19,7 +19,8 @@ object personajeSimple inherits Movimiento {
 		inventario.remove(item)
 	}
 	override method reaccionarA(obstaculo) {}
-	method iniciarPersonaje() {
+	override method configurate() {
+		super()
 		game.addVisual(self)
 		energia = 1000
 		salud = 100
@@ -38,7 +39,9 @@ class EnemigoComun inherits Movimiento {
 	override method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
 	}
-	method iniciarMovimiento() {
+	override method configurate() {
+		super()
+		game.addVisual(self)
 		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
 	}
 }
@@ -51,7 +54,9 @@ class EnemigoSeguidor inherits Movimiento {
 	override method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
 	}
-	method iniciarMovimiento() {
+	override method configurate() {
+		super()
+		game.addVisual(self)
 		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
 	}
 }
