@@ -14,6 +14,7 @@ object utilidadesParaJuego {
 			posicionA = self.posicionArbitrariaNoOcupada()
 		return posicionA
 	}
+	method protagonista() = personajeSimple
 }
 
 object direccionArriba{}
@@ -42,9 +43,7 @@ class Movimiento {
 	var property ultimoMovimiento = direccionAbajo
 
 	method reaccionarA(obstaculo)
-	
-	method esProtagonista() = false
-	
+		
 	method esAtravesable() = false
 	
 	method esInteractivo() = false	

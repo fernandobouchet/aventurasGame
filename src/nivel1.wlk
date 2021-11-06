@@ -8,7 +8,7 @@ import utilidades.*
 object nivelBloques {
 	var property juegoEnPausa = false
 	const property inventario = []
-	
+	method nivel() = 1
 	method agregarItem(item) {
 		inventario.add(item)
 	}
@@ -29,21 +29,21 @@ object nivelBloques {
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
 				 
 		// otros visuals, p.ej. bloques o llaves
-		const enemigo = new EnemigoComun(nombre = "malo")
-		const enemigo2 = new EnemigoSeguidor(nombre = "malo2")
-		const elemenerg = new ElementoEnergizante(energia = 1500)
-		const elementoVit1 = new ElementoVitalidad(salud = 5220)
-		const elementoEnr1 = new ElementoEnriquecedor(dinero = 1000)
+		var enemigo2
+		const enemigo = new EnemigoSeguidor(); enemigo.configurate()
+		2.times {i => enemigo2 = new EnemigoComun(); enemigo2.configurate()}
+		const elementoEnergizante = new ElementoEnergizante(energia = 30)
+		const elementoEnergizanteQuita = new ElementoEnergizante(energia = -15)
+		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
-		const elementoAcumulable = new ElementoAcumulable()
 		const caja1 = new CajaMovible()
 		const caja2 = new CajaMovible()
 		const caja3 = new CajaMovible()
 		const llave1 = new LlavePesada()
 		const llave2 = new LlavePesada()
 		const llave3 = new LlavePesada()
-		const listaElementos = [caja1,caja2,caja3,llave1,llave2,llave3,deposito,enemigo,enemigo2,elemenerg,elementoVit1,elementoEnr1,elementoSorp1,elementoTran1,elementoAcumulable, personajeSimple]
+		const listaElementos = [caja1,caja2,caja3,llave1,llave2,llave3,deposito,elementoEnergizante,elementoEnergizanteQuita,elementoVit1,elementoSorp1,elementoTran1, personajeSimple]
 	
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(marcador)

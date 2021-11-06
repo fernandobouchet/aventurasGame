@@ -1,5 +1,6 @@
 import wollok.game.*
 import utilidades.*
+import nivel1.*
 
 // en la implementación real, conviene tener un personaje por nivel
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
@@ -11,7 +12,6 @@ object personajeSimple inherits Movimiento {
 	var property salud = 0
 	var property dinero = 0
 	const property inventario = []
-	override method esProtagonista() = true
 	method agarrarItem(item) {
 		inventario.add(item)
 	}
@@ -28,7 +28,7 @@ object personajeSimple inherits Movimiento {
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		energia = 1000
+		energia = 30
 		salud = 100
 		dinero = 0
 		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); energia -= 1 })
@@ -40,30 +40,27 @@ object personajeSimple inherits Movimiento {
 }
 
 class EnemigoComun inherits Movimiento {
-	const nombre
 	const property image = "crab.png"
 
 	override method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
+		if (objeto == utilidadesParaJuego.protagonista()) objeto.salud(objeto.salud() - 5)
 	}
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		game.onTick(1000, nombre, {self.provocarMovimientoAleatorio()})
+		game.onTick(1000, "enemigoComun", {self.provocarMovimientoAleatorio()})
 	}
 }
 
 class EnemigoSeguidor inherits Movimiento {
-	const nombre
 	const property image = "crab_black.png"
 	
-
 	override method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) objeto.salud(objeto.salud() - 5)
+		if (objeto == utilidadesParaJuego.protagonista()) objeto.salud(objeto.salud() - 5)
 	}
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		game.onTick(1000, nombre, {self.moverUnPasoHacia(personajeSimple)})
+		game.onTick(1000, "enemigoSeguidor", {self.moverUnPasoHacia(personajeSimple)})
 	}
 }

@@ -24,7 +24,7 @@ class ObjetoMovible inherits Movimiento {
 	
 
 	override method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			if (self.puedeMover(objeto.ultimoMovimiento())) {
 				self.moverHacia(objeto.ultimoMovimiento())
 				objeto.moverHacia(objeto.ultimoMovimiento())
@@ -60,7 +60,7 @@ class ElementoVitalidad {
 	method esInteractivo() = false
 	
 	method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.salud(objeto.salud()+ salud)
 			game.removeVisual(self)
 		}
@@ -82,7 +82,7 @@ class ElementoEnergizante {
 	method reaccionarA(objeto) {
 	}
 	method interactuarCon(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.energia(objeto.energia()+ energia)
 			game.removeVisual(self)
 		}
@@ -106,7 +106,7 @@ class ElementoEnriquecedor {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.dinero(objeto.dinero() + dinero)
 			game.removeVisual(self)
 		}
@@ -130,17 +130,20 @@ class ElementoSorpresa {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		const numeroRandom = 0.randomUpTo(100)
-		if(objeto.esProtagonista()) {
+		var numeroRandom = 0.randomUpTo(100)
+		if (nivelBloques.nivel() == 1) numeroRandom = 0.randomUpTo(66)
+		if(objeto == utilidadesParaJuego.protagonista()) {
+			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
-				const vitalidad =	new ElementoVitalidad(salud = 5220)
+				nuevoObjeto = new ElementoVitalidad(salud = 25)
 			}
 			else if (numeroRandom.between(33 , 66)) {
-				const energizante =	new ElementoEnergizante(energia = 5220)
+				nuevoObjeto = new ElementoEnergizante(energia = 40)
 			}
 			else {
-				const enriquecedor = new ElementoEnriquecedor(dinero = 5220)
+				nuevoObjeto = new ElementoEnriquecedor(dinero = 200)
 			}
+			nuevoObjeto.configurate()
 			game.removeVisual(self)
 		}
 	}
@@ -164,7 +167,7 @@ class ElementoTransportador {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.position(utilidadesParaJuego.posicionArbitraria())
 			animacionEstrella.repetir(false)
 			game.removeVisual(self)
@@ -187,7 +190,7 @@ class ElementoAcumulable {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto.esProtagonista()) {
+		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.agarrarItem(self)
 			game.removeVisual(self)
 		}
