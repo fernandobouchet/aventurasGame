@@ -6,6 +6,7 @@ import nivel1.*
 object deposito {
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	const property image = "market.png" 
+	method esInteractivo() = false
 	method esAtravesable() = true
 	method reaccionarA(objeto) {}
 	method configurate() {
@@ -58,6 +59,8 @@ class ElementoVitalidad {
 	}
 	
 	method esAtravesable() = true
+	method esInteractivo() = false
+	
 	method reaccionarA(objeto) {
 		if (objeto.esProtagonista()) {
 			objeto.salud(objeto.salud()+ salud)
@@ -70,17 +73,17 @@ class ElementoEnergizante {
 	const property image = "beer.png"
 	var property energia
 	var property position = utilidadesParaJuego.posicionArbitraria()
+	method esInteractivo() = true
 	
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
-		})
 	}
-	method esAtravesable() = true
+	method esAtravesable() = false
+
 	method reaccionarA(objeto) {
+	}
+	method interactuarCon(objeto) {
 		if (objeto.esProtagonista()) {
 			objeto.energia(objeto.energia()+ energia)
 			game.removeVisual(self)
@@ -92,6 +95,7 @@ class ElementoEnriquecedor {
 	const property image = "buck.png"
 	var property dinero
 	var property position = utilidadesParaJuego.posicionArbitraria()
+	method esInteractivo() = false
 	
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
@@ -115,6 +119,7 @@ class ElementoEnriquecedor {
 class ElementoSorpresa {
 	const property image = "random.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
+	method esInteractivo() = false
 	
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()

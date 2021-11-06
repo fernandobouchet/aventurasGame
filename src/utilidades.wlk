@@ -47,6 +47,8 @@ class Movimiento {
 	
 	method esAtravesable() = false
 	
+	method esInteractivo() = false	
+	
 	method configurate() { position = utilidadesParaJuego.posicionArbitrariaNoOcupada() }
 	
 	method siguienteMovimientoHacia(direccion) {

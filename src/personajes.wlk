@@ -18,6 +18,12 @@ object personajeSimple inherits Movimiento {
 	method desecharItem(item) {
 		inventario.remove(item)
 	}
+	method objetoInteractivoHacia() {
+		return self.objetosHacia(ultimoMovimiento).find({ obj => not obj.esAtravesable() and obj.esInteractivo()})
+	}
+	method hayObjetoInteractivo() {
+		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
+	}
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
@@ -29,6 +35,7 @@ object personajeSimple inherits Movimiento {
 		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); energia -= 1 })
 		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); energia -= 1 })
 		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); energia -= 1 })
+		keyboard.space().onPressDo{if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)}
 	}
 }
 
