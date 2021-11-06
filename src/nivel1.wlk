@@ -24,7 +24,6 @@ object nivelBloques {
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
 				 
 		// otros visuals, p.ej. bloques o llaves
-		game.addVisual(new Bloque(position=game.at(0,11)))
 		const enemigo = new EnemigoComun(nombre = "malo")
 		const enemigo2 = new EnemigoSeguidor(nombre = "malo2")
 		const elemenerg = new ElementoEnergizante(energia = 1500)
@@ -33,8 +32,13 @@ object nivelBloques {
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
 		const elementoAcumulable = new ElementoAcumulable()
-		const caja = new CajaMovible()
-		const listaElementos = [caja,enemigo,enemigo2,elemenerg,elementoVit1,elementoEnr1,elementoSorp1,elementoTran1,elementoAcumulable, personajeSimple]
+		const caja1 = new CajaMovible()
+		const caja2 = new CajaMovible()
+		const caja3 = new CajaMovible()
+		const llave1 = new LlavePesada()
+		const llave2 = new LlavePesada()
+		const llave3 = new LlavePesada()
+		const listaElementos = [caja1,caja2,caja3,llave1,llave2,llave3,deposito,enemigo,enemigo2,elemenerg,elementoVit1,elementoEnr1,elementoSorp1,elementoTran1,elementoAcumulable, personajeSimple]
 	
 		// personaje, es importante que sea el último visual que se agregue
 		game.addVisual(marcador)

@@ -1,22 +1,28 @@
 import wollok.game.*
 import utilidades.*
 import personajes.*
+import nivel1.*
 
-class Bloque {
-	var property position
+object deposito {
+	var property position = utilidadesParaJuego.posicionArbitraria()
 	const property image = "market.png" 
-	method esAtravesable() = false
+	method esAtravesable() = true
 	method reaccionarA(objeto) {}
 	method configurate() {
 		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(game.getObjectsIn(position).size() == 7)
+			 nivelBloques.terminar()
+		})
 	}
 }
 
-class CajaMovible inherits Movimiento {
-	const property image = "chest.png" 
+class ObjetoMovible inherits Movimiento {
+	const property image
 	
 	override method esAtravesable() {
-		if (caja esta en la celda tal) return true
+		return deposito.position() == position
 	}
 	
 	override method configurate() {
@@ -34,7 +40,8 @@ class CajaMovible inherits Movimiento {
 	}
 }
 
-
+class CajaMovible inherits ObjetoMovible(image = "chest.png") {}
+class LlavePesada inherits ObjetoMovible(image = "pizza.png") {}
 
 class ElementoVitalidad {
 	const property image = "burger.png"
