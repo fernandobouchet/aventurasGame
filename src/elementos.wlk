@@ -131,7 +131,7 @@ class ElementoSorpresa {
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
 		var numeroRandom = 0.randomUpTo(100)
-		if (nivelBloques.nivel() == 1) numeroRandom = 0.randomUpTo(66)
+		if (utilidadesParaJuego.nivel() == 1) numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidadesParaJuego.protagonista()) {
 			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
