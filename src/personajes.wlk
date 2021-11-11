@@ -37,20 +37,20 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
 	
-	override method actualizarImagen() {
+	override method actualizarImagen(movimiento) {
 		pelo.actualizar(ultimoMovimiento)
-		image = ultimoMovimiento.imagenProtagonista(false)
+		image = ultimoMovimiento.imagenProtagonista(movimiento)
 	}
 	
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
-		game.addVisual(self)
 		energia = 30
 		salud = 100
 		dinero = 0
-		self.actualizarImagen()
+		game.addVisual(self)
 		game.addVisual(pelo)
+		self.actualizarImagen(false)
 		keyboard.up().onPressDo({self.ejecutarMovimiento(direccionArriba) })
 		keyboard.down().onPressDo({ self.ejecutarMovimiento(direccionAbajo) })
 		keyboard.left().onPressDo({ self.ejecutarMovimiento(direccionIzquierda) })
@@ -59,9 +59,11 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	}
 	
 	method ejecutarMovimiento(direccion) {
-		self.moverHacia(direccion)
-		self.cansarse(1)
-		image = direccion.imagenProtagonista(true)
+		self.actualizarImagen(true)
+		game.schedule(50,{
+			self.moverHacia(direccion)
+			self.cansarse(1)
+		})
 	}
 }
 

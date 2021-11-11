@@ -1,6 +1,7 @@
 import wollok.game.*
 import fondo.*
 import personajes.*
+import accesorios.*
 import elementos.*
 import nivel2.*
 import utilidades.*
@@ -53,7 +54,7 @@ object nivelBloques {
 		const llave2 = new LlavePesada()
 		const llave3 = new LlavePesada()
 		const listaElementos = [caja1,caja2,caja3,llave1,llave2,llave3,deposito,elementoEnergizante,elementoEnergizanteQuita,elementoVit1,elementoSorp1,elementoTran1, personajeSimple]
-
+		shampoo.configurate()
 		// personaje, es importante que sea el último visual que se agregue
 		//game.addVisual(marcador)
 		listaElementos.forEach{ obj => obj.configurate()}
