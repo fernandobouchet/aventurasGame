@@ -2,8 +2,16 @@ import wollok.game.*
 import utilidades.*
 import personajes.*
 import nivel1.*
+import marcadores.*
 
-object deposito {
+class Pared {
+	const property image = "piedra.png"
+	const property position
+	method esAtravesable() = false
+	method reaccionarA(objeto) {}
+}
+
+object fogata {
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	const property image = "market.png" 
 	method esInteractivo() = false
@@ -38,7 +46,10 @@ class ObjetoMovible inherits Movimiento {
 	}
 }
 
-class CajaMovible inherits ObjetoMovible(image = "chest.png") {}
+object sarten inherits ObjetoMovible(image = "chest.png") {
+	
+}
+
 class LlavePesada inherits ObjetoMovible(image = "pizza.png") {}
 
 class ElementoVitalidad {
@@ -169,6 +180,7 @@ class ElementoTransportador {
 	method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.position(utilidadesParaJuego.posicionArbitraria())
+			objeto.actualizarImagen(false)
 			animacionEstrella.repetir(false)
 			game.removeVisual(self)
 		}
