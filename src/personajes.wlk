@@ -2,6 +2,7 @@ import wollok.game.*
 import utilidades.*
 import accesorios.*
 import nivel1.*
+import marcadores.*
 
 // en la implementación real, conviene tener un personaje por nivel
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
