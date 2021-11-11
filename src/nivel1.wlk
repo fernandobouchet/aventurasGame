@@ -20,7 +20,7 @@ object nivelBloques {
 	
 	method perder() {
 		game.clear()
-		game.addVisual(new Fondo(image="neanthy-bgn.png"))
+		game.addVisual(new Fondo(image="neanthy-game-over.png"))
 		game.addVisual(marcadorPerder)
 		keyboard.r().onPressDo{ self.restart()}
 	}

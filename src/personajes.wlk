@@ -60,7 +60,7 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	
 	method ejecutarMovimiento(direccion) {
 		self.actualizarImagen(true)
-		game.schedule(50,{
+		game.schedule(100,{
 			self.moverHacia(direccion)
 			self.cansarse(1)
 		})

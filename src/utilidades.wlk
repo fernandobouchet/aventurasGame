@@ -116,7 +116,7 @@ class ParedInvisible {
 
 object marcadorPerder {
     method position() = game.at(1,game.height() - 1)
-    method text() = "Perdiste el nivel"}
+    // method text() = "Perdiste el nivel"}
 
 class Movimiento {
 	var property position = game.at(0,0)
