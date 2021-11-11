@@ -1,14 +1,14 @@
 import wollok.game.*
-import nivel1.*
+import portada.*
 
 program juego_aventura {
 
-	game.title("Oh qué aventura objetosa")
-	game.height(13)
-	game.width(13)
+	game.title("Neanthy")
+	game.height(12)
+	game.width(12)
 	game.boardGround("fondoBlanco.png")
-
-	nivelBloques.configurate()	
+	
+	portada.configurate()	
 	
 	game.start()
 }
