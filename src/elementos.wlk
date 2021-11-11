@@ -84,6 +84,7 @@ class ElementoEnergizante {
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.energia(objeto.energia()+ energia)
+			marcadorFuerza.actualizar()
 			game.removeVisual(self)
 		}
 	}

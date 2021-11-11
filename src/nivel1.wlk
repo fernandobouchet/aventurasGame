@@ -21,12 +21,13 @@ object nivelBloques {
 		game.clear()
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
 		game.addVisual(marcadorPerder)
+		keyboard.r().onPressDo{ self.restart()}
 	}
 
 	method configurate() {
 		// fondo - es importante que sea el primer visual que se agregue
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
-				 
+		game.addVisual(barraMarcador)
 		// otros visuals, p.ej. bloques o llaves
 		var enemigo2
 		const enemigo = new EnemigoSeguidor(); enemigo.configurate()
@@ -43,10 +44,12 @@ object nivelBloques {
 		const llave2 = new LlavePesada()
 		const llave3 = new LlavePesada()
 		const listaElementos = [caja1,caja2,caja3,llave1,llave2,llave3,deposito,elementoEnergizante,elementoEnergizanteQuita,elementoVit1,elementoSorp1,elementoTran1, personajeSimple]
-	
+
 		// personaje, es importante que sea el último visual que se agregue
-		game.addVisual(marcador)
+		//game.addVisual(marcador)
 		listaElementos.forEach{ obj => obj.configurate()}
+		marcadorFuerza.actualizar()
+		marcadorSalud.actualizar()
 		// teclado
 		// este es para probar, no es necesario dejarlo
 		game.onTick(50, "perder", {if (personajeSimple.energia() <= 0 or personajeSimple.salud() <= 0) self.perder()})

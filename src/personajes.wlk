@@ -21,6 +21,17 @@ object personajeSimple inherits Movimiento {
 	method objetoInteractivoHacia() {
 		return self.objetosHacia(ultimoMovimiento).find({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
+	
+	method recibirAtaque(danio) {
+		salud -= danio
+		marcadorSalud.actualizar()
+	}
+	
+	method cansarse(cantidad) {
+		energia -= cantidad
+		marcadorFuerza.actualizar()
+	}
+	
 	method hayObjetoInteractivo() {
 		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
@@ -31,10 +42,10 @@ object personajeSimple inherits Movimiento {
 		energia = 30
 		salud = 100
 		dinero = 0
-		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); energia -= 1 })
-		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); energia -= 1 })
-		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); energia -= 1 })
-		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); energia -= 1 })
+		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); self.cansarse(1) })
+		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); self.cansarse(1) })
+		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); self.cansarse(1) })
+		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); self.cansarse(1) })
 		keyboard.space().onPressDo{if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)}
 	}
 }
@@ -43,7 +54,7 @@ class EnemigoComun inherits Movimiento {
 	const property image = "crab.png"
 
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) objeto.salud(objeto.salud() - 5)
+		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
 	}
 	override method configurate() {
 		super()
@@ -56,7 +67,7 @@ class EnemigoSeguidor inherits Movimiento {
 	const property image = "crab_black.png"
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) objeto.salud(objeto.salud() - 5)
+		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
 	}
 	override method configurate() {
 		super()
