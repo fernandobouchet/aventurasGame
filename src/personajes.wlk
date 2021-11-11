@@ -6,8 +6,7 @@ import nivel1.*
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
 // imagen y posición
 
-object personajeSimple inherits Movimiento {
-	var property image = "neanthy_der.png"
+object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	var property energia = 0
 	var property salud = 0
 	var property dinero = 0
@@ -40,7 +39,7 @@ object personajeSimple inherits Movimiento {
 		if (ultimoMovimiento == direccionDerecha) image = "neanthy_der.png"
 		if (ultimoMovimiento == direccionAbajo) image = "neanthy_der.png"
 		if (ultimoMovimiento == direccionIzquierda) image = "neanthy_izq.png"
-		if (ultimoMovimiento == direccionArriba) image = "neanthy_izq.png"
+		if (ultimoMovimiento == direccionArriba) image = "chicken.png"
 	}
 	
 	override method reaccionarA(obstaculo) {}
@@ -50,7 +49,11 @@ object personajeSimple inherits Movimiento {
 		energia = 30
 		salud = 100
 		dinero = 0
-		keyboard.up().onPressDo({ self.moverHacia(direccionArriba); self.cansarse(1); self.actualizarImagen() })
+		keyboard.up().onPressDo({
+			self.moverHacia(direccionArriba);
+			self.cansarse(1);
+			self.actualizarImagen()
+		})
 		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); self.cansarse(1); self.actualizarImagen() })
 		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); self.cansarse(1); self.actualizarImagen() })
 		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); self.cansarse(1); self.actualizarImagen() })
@@ -58,8 +61,7 @@ object personajeSimple inherits Movimiento {
 	}
 }
 
-class EnemigoComun inherits Movimiento {
-	const property image = "crab.png"
+class EnemigoComun inherits Movimiento(image = "crab.png") {
 
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
@@ -71,8 +73,7 @@ class EnemigoComun inherits Movimiento {
 	}
 }
 
-class EnemigoSeguidor inherits Movimiento {
-	const property image = "crab_black.png"
+class EnemigoSeguidor inherits Movimiento(image = "crab_black.png") {
 	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)

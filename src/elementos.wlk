@@ -15,7 +15,6 @@ object deposito {
 }
 
 class ObjetoMovible inherits Movimiento {
-	const property image
 	
 	override method configurate() {
 		super()
@@ -33,7 +32,7 @@ class ObjetoMovible inherits Movimiento {
 		if (deposito.position() == position) {
 			nivelBloques.agregarItem(objeto)
 			game.removeVisual(self)
-			game.schedule(500,{if(nivelBloques.inventario().size() == 2)
+			game.schedule(500,{if(nivelBloques.inventario().size() == 1)
 			nivelBloques.terminar()})
 		}
 	}
