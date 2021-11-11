@@ -1,5 +1,6 @@
 import wollok.game.*
 import utilidades.*
+import accesorios.*
 import nivel1.*
 
 // en la implementación real, conviene tener un personaje por nivel
@@ -11,12 +12,13 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	var property salud = 0
 	var property dinero = 0
 	const property inventario = []
+	
 	method agarrarItem(item) {
 		inventario.add(item)
 	}
-	method desecharItem(item) {
-		inventario.remove(item)
-	}
+
+	method tiene(item) = inventario.contains(item)
+	
 	method objetoInteractivoHacia() {
 		return self.objetosHacia(ultimoMovimiento).find({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
@@ -35,11 +37,9 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
 	
-	method actualizarImagen() {
-		if (ultimoMovimiento == direccionDerecha) image = "neanthy_der.png"
-		if (ultimoMovimiento == direccionAbajo) image = "neanthy_der.png"
-		if (ultimoMovimiento == direccionIzquierda) image = "neanthy_izq.png"
-		if (ultimoMovimiento == direccionArriba) image = "chicken.png"
+	override method actualizarImagen() {
+		pelo.actualizar(ultimoMovimiento)
+		image = ultimoMovimiento.imagenProtagonista(false)
 	}
 	
 	override method reaccionarA(obstaculo) {}
@@ -49,15 +49,19 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 		energia = 30
 		salud = 100
 		dinero = 0
-		keyboard.up().onPressDo({
-			self.moverHacia(direccionArriba);
-			self.cansarse(1);
-			self.actualizarImagen()
-		})
-		keyboard.down().onPressDo({ self.moverHacia(direccionAbajo); self.cansarse(1); self.actualizarImagen() })
-		keyboard.left().onPressDo({ self.moverHacia(direccionIzquierda); self.cansarse(1); self.actualizarImagen() })
-		keyboard.right().onPressDo({ self.moverHacia(direccionDerecha); self.cansarse(1); self.actualizarImagen() })
-		keyboard.space().onPressDo{if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self); self.actualizarImagen()}
+		self.actualizarImagen()
+		game.addVisual(pelo)
+		keyboard.up().onPressDo({self.ejecutarMovimiento(direccionArriba) })
+		keyboard.down().onPressDo({ self.ejecutarMovimiento(direccionAbajo) })
+		keyboard.left().onPressDo({ self.ejecutarMovimiento(direccionIzquierda) })
+		keyboard.right().onPressDo({ self.ejecutarMovimiento(direccionDerecha) })
+		keyboard.space().onPressDo{if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)}
+	}
+	
+	method ejecutarMovimiento(direccion) {
+		self.moverHacia(direccion)
+		self.cansarse(1)
+		image = direccion.imagenProtagonista(true)
 	}
 }
 
