@@ -1,12 +1,13 @@
 import wollok.game.*
 import personajes.*
+import accesorios.*
 import nivel1.*
 
 object utilidadesParaJuego {
 	var property nivel = 1
 	method posicionArbitraria() {
 		return game.at(
-			0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height() - 1).truncate(0)
+			1.randomUpTo(game.width() - 1).truncate(0), 1.randomUpTo(game.height() - 2).truncate(0)
 		)
 	}
 	method posicionArbitrariaNoOcupada() {
@@ -18,10 +19,26 @@ object utilidadesParaJuego {
 	method protagonista() = personajeSimple
 }
 
-object direccionArriba{}
-object direccionAbajo{}
-object direccionIzquierda{}
-object direccionDerecha{}
+object direccionArriba{
+	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista(caminando)
+		= "neanthy_der" + (if(caminando) "_mov" else "") + ".png"
+}
+object direccionAbajo{
+	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista(caminando)
+		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
+}
+object direccionIzquierda{
+	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista(caminando)
+		= "neanthy_izq" + (if(caminando) "_mov" else "") +".png"
+}
+object direccionDerecha{
+	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista(caminando)
+		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
+}
 
 object barraMarcador {
 	const property position = game.at(0,game.height() - 1)
@@ -90,17 +107,11 @@ object marcadorSalud {
 	}
 }
 
-
-object marcador {
-    method position() = game.at(1,game.height() - 1)
-    method text() {
-    	var mensaje = ""
-    	mensaje = "Energia: " + personajeSimple.energia() + " - " 
-        mensaje += "Salud: " + personajeSimple.salud() + " - "
-        mensaje += "Dinero: " + personajeSimple.dinero() + " - "
-        mensaje += "Inventario: " + personajeSimple.inventario().size()
-        return mensaje
-    }
+class ParedInvisible {
+	const property image = "transparente.png"
+	const property position
+	method esAtravesable() = false
+	method reaccionarA(objeto) {}
 }
 
 object marcadorPerder {
@@ -109,7 +120,8 @@ object marcadorPerder {
 
 class Movimiento {
 	var property position = game.at(0,0)
-	var property ultimoMovimiento = direccionAbajo
+	var property image
+	var property ultimoMovimiento = direccionDerecha
 
 	method reaccionarA(obstaculo)
 		
@@ -118,6 +130,8 @@ class Movimiento {
 	method esInteractivo() = false	
 	
 	method configurate() { position = utilidadesParaJuego.posicionArbitrariaNoOcupada() }
+	
+	method actualizarImagen(movimiento) {}
 	
 	method siguienteMovimientoHacia(direccion) {
 		var siguiente
@@ -159,12 +173,15 @@ class Movimiento {
 	method moverHacia(direccion) {
 		if (not nivelBloques.juegoEnPausa()) {
 			ultimoMovimiento = direccion
-			if (self.puedeMover(direccion)) position = self.siguienteMovimientoHacia(direccion)
+			if (self.puedeMover(direccion)) {
+				position = self.siguienteMovimientoHacia(direccion)
+			}
 			else {
 				const objetoHacia = self.objetosHacia(direccion).find{objeto => not objeto.esAtravesable()}
 				objetoHacia.reaccionarA(self)
 				self.reaccionarA(objetoHacia)
 			}
+			self.actualizarImagen(false)
 		}
 	}
 	
@@ -228,15 +245,5 @@ class Animacion {
 			else game.schedule(duracion.div(cantImagenes), {self.animar(objeto)})
 			objeto.image(imagenes.get(cuadro))
 		}
-	}
-}
-
-object sumaRecursiva {
-	method irA0(numero) {
-		var nuevoNum = numero
-		if (numero > 0) {
-			nuevoNum = self.irA0(numero - 1)
-		}
-		return nuevoNum
 	}
 }
