@@ -7,7 +7,7 @@ import utilidades.*
 
 object nivelBloques {
 	var property juegoEnPausa = false
-	const property inventario = []
+	var property inventario = []
 	method agregarItem(item) {
 		inventario.add(item)
 	}
@@ -25,6 +25,7 @@ object nivelBloques {
 	}
 
 	method configurate() {
+		inventario = []
 		// fondo - es importante que sea el primer visual que se agregue
 		game.addVisual(new Fondo(image="fondoCompleto.png"))
 		game.addVisual(barraMarcador)
