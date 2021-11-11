@@ -13,7 +13,20 @@ class Pared {
 
 object fogata {
 	var property position = utilidadesParaJuego.posicionArbitraria()
-	const property image = "market.png" 
+	var property image = "fogata.png"
+	var tieneSarten = false
+	var cantHuevos = 0
+	method tieneSarten() = tieneSarten
+	method ponerSarten() {
+		tieneSarten = true
+		image = "fogataConSarten.png"
+	}
+	
+	method ponerHuevo() {
+		cantHuevos += 1
+		image = "fogataHuevos_"+ cantHuevos + ".png"
+	}
+	
 	method esInteractivo() = false
 	method esAtravesable() = true
 	method reaccionarA(objeto) {}
@@ -37,7 +50,7 @@ class ObjetoMovible inherits Movimiento {
 				objeto.moverHacia(objeto.ultimoMovimiento())
 			}
 		}
-		if (deposito.position() == position) {
+		if (fogata.position() == position) {
 			nivelBloques.agregarItem(objeto)
 			game.removeVisual(self)
 			game.schedule(500,{if(nivelBloques.inventario().size() == 1)
@@ -46,11 +59,25 @@ class ObjetoMovible inherits Movimiento {
 	}
 }
 
-object sarten inherits ObjetoMovible(image = "chest.png") {
-	
+object sarten inherits ObjetoMovible(image = "sarten.png") {
+	override method reaccionarA(objeto) {
+		super(objeto)
+		if (fogata.position() == position) {
+			fogata.ponerSarten()
+			game.removeVisual(self)
+		}
+	}
 }
 
-class LlavePesada inherits ObjetoMovible(image = "pizza.png") {}
+class Huevo inherits ObjetoMovible(image = "huevo.png") {
+	override method reaccionarA(objeto) {
+		super(objeto)
+		if (fogata.position() == position and fogata.tieneSarten()) {
+			fogata.ponerHuevo()
+			game.removeVisual(self)
+		}
+	}
+}
 
 class ElementoVitalidad {
 	const property image = "burger.png"
@@ -93,6 +120,7 @@ class ElementoEnergizante {
 	}
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
+			nivelBloques.cantElementosEnergizantes(nivelBloques.cantElementosEnergizantes() - 1)
 			objeto.energia(objeto.energia()+ energia)
 			marcadorFuerza.actualizar()
 			game.removeVisual(self)

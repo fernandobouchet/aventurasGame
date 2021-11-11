@@ -9,8 +9,19 @@ import utilidades.*
 
 object nivelBloques {
 	var property juegoEnPausa = false
+	var property cantElementosEnergizantes = 0
+	const maximoElementosEnergizantes = 2
 	var property inventario = []
 	var elementosNivel1 = []
+	
+	method crearElementoEnergizante() {
+		const elementoEnergizante = new ElementoEnergizante(energia = 30)
+		if (maximoElementosEnergizantes >= cantElementosEnergizantes) {
+			elementoEnergizante.configurate()
+			cantElementosEnergizantes += 1
+		}
+		
+	}
 	
 	method agregarItem(item) {
 		inventario.add(item)
@@ -41,7 +52,7 @@ object nivelBloques {
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
-
+		game.onTick(2000, "elementosEnergizantes", { self.crearElementoEnergizante() })
 		game.onTick(50, "perder", {if (personajeSimple.energia() <= 0 or personajeSimple.salud() <= 0) self.perder()})
 		
 		keyboard.t().onPressDo({ self.terminar() })
@@ -77,21 +88,16 @@ object nivelBloques {
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
-		const caja1 = new CajaMovible()
-		const caja2 = new CajaMovible()
-		const caja3 = new CajaMovible()
-		const llave1 = new LlavePesada()
-		const llave2 = new LlavePesada()
-		const llave3 = new LlavePesada()
+		const huevo1 = new Huevo()
+		const huevo2 = new Huevo()
+		const huevo3 = new Huevo()
 		elementosNivel1 = [
 			enemigo,
-			caja1,
-			caja2,
-			caja3,
-			llave1,
-			llave2,
-			llave3,
-			deposito,
+			sarten,
+			huevo1,
+			huevo2,
+			huevo3,
+			fogata,
 			elementoEnergizante,
 			elementoEnergizanteQuita,
 			elementoVit1,
