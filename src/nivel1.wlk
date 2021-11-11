@@ -29,6 +29,14 @@ object nivelBloques {
 		// fondo - es importante que sea el primer visual que se agregue
 		game.addVisual(new Fondo(image="neanthy-bgn.png")) //nuevo fondo de juego
 		game.addVisual(barraMarcador)
+		self.generarParedInvisibleEnX(1, 4, 0)
+		self.generarParedInvisibleEnX(7, game.width() - 2, 0)
+		self.generarParedInvisibleEnX(1, 4, game.height() - 2)
+		self.generarParedInvisibleEnX(7, 10, game.height() - 2)
+		self.generarParedInvisibleEnY(0, 1, 3)
+		self.generarParedInvisibleEnY(0, 7, game.height() - 3)
+		self.generarParedInvisibleEnY(game.width() - 1, 1, 3)
+		self.generarParedInvisibleEnY(game.width() - 1, 7, game.height() - 3)
 		// otros visuals, p.ej. bloques o llaves
 		var enemigo2
 		const enemigo = new EnemigoSeguidor(); enemigo.configurate()
@@ -79,6 +87,23 @@ object nivelBloques {
 			})
 		})
 	}
-		
+	
+	method generarParedInvisibleEnX(desdeX, hastaX, y) {
+		const pared = []
+		pared.add(new ParedInvisible(position = game.at(desdeX, y)))
+		(hastaX - desdeX).times{ x =>
+			pared.add(new ParedInvisible(position = game.at(desdeX + x, y)))
+		}
+		pared.forEach{ p => game.addVisual(p) }
+	}
+
+	method generarParedInvisibleEnY(x, desdeY, hastaY) {
+		const pared = []
+		pared.add(new ParedInvisible(position = game.at(x, desdeY)))
+		(hastaY - desdeY).times{ y =>
+			pared.add(new ParedInvisible(position = game.at(x, desdeY + y)))
+		}
+		pared.forEach{ p => game.addVisual(p) }
+	}
 }
 
