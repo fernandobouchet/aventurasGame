@@ -19,7 +19,7 @@ object nivelBloques {
 	
 	method perder() {
 		game.clear()
-		game.addVisual(new Fondo(image="fondoCompleto.png"))
+		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(marcadorPerder)
 		keyboard.r().onPressDo{ self.restart()}
 	}
@@ -27,7 +27,7 @@ object nivelBloques {
 	method configurate() {
 		inventario = []
 		// fondo - es importante que sea el primer visual que se agregue
-		game.addVisual(new Fondo(image="fondoCompleto.png"))
+		game.addVisual(new Fondo(image="neanthy-bgn.png")) //nuevo fondo de juego
 		game.addVisual(barraMarcador)
 		// otros visuals, p.ej. bloques o llaves
 		var enemigo2
@@ -64,7 +64,7 @@ object nivelBloques {
 		// game.clear() limpia visuals, teclado, colisiones y acciones
 		game.clear()
 		// después puedo volver a agregar el fondo, y algún visual para que no quede tan pelado
-		game.addVisual(new Fondo(image="fondoCompleto.png"))
+		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		// después de un ratito ...
 		game.schedule(2500, {
 			game.clear()
