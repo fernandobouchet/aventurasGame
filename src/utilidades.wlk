@@ -7,12 +7,13 @@ object utilidadesParaJuego {
 	var property nivel = 1
 	method posicionArbitraria() {
 		return game.at(
-			1.randomUpTo(game.width() - 1).truncate(0), 1.randomUpTo(game.height() - 2).truncate(0)
+			2.randomUpTo(game.width() - 2).truncate(0), 2.randomUpTo(game.height() - 3).truncate(0)
 		)
 	}
+	
 	method posicionArbitrariaNoOcupada() {
 		var posicionA = self.posicionArbitraria()
-		if (game.getObjectsIn(posicionA).size() > 1)
+		if (game.getObjectsIn(posicionA).size() > 0)
 			posicionA = self.posicionArbitrariaNoOcupada()
 		return posicionA
 	}

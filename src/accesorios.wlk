@@ -22,10 +22,12 @@ object pelo {
 }
 
 object shampoo {
-	const property position = utilidadesParaJuego.posicionArbitraria()
+	var position = game.at(0,0)
 	const property image = "chicken.png"
 
+	method position() = position
 	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>

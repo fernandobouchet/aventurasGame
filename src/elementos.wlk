@@ -12,7 +12,7 @@ class Pared {
 }
 
 object fogata {
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var position = game.at(0,0)
 	var property image = "fogata.png"
 	var tieneSarten = false
 	var cantHuevos = 0
@@ -21,6 +21,8 @@ object fogata {
 		tieneSarten = true
 		image = "fogataConSarten.png"
 	}
+	
+	method position() = position
 	
 	method ponerHuevo() {
 		cantHuevos += 1
@@ -31,6 +33,9 @@ object fogata {
 	method esAtravesable() = true
 	method reaccionarA(objeto) {}
 	method configurate() {
+		tieneSarten = false
+		cantHuevos = 0
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 	}
 }
@@ -50,12 +55,12 @@ class ObjetoMovible inherits Movimiento {
 				objeto.moverHacia(objeto.ultimoMovimiento())
 			}
 		}
-		if (fogata.position() == position) {
+		/*if (fogata.position() == position) {
 			nivelBloques.agregarItem(objeto)
 			game.removeVisual(self)
 			game.schedule(500,{if(nivelBloques.inventario().size() == 1)
 			nivelBloques.terminar()})
-		}
+		}*/
 	}
 }
 
@@ -82,8 +87,9 @@ class Huevo inherits ObjetoMovible(image = "huevo.png") {
 class ElementoVitalidad {
 	const property image = "burger.png"
 	var property salud
-	var property position = game.at(0,0)
+	var position = game.at(0,0)
 	
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
@@ -107,9 +113,11 @@ class ElementoVitalidad {
 class ElementoEnergizante {
 	const property image = "beer.png"
 	var property energia
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var position = game.at(0,0)
+	
 	method esInteractivo() = true
 	
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
@@ -131,9 +139,10 @@ class ElementoEnergizante {
 class ElementoEnriquecedor {
 	const property image = "buck.png"
 	var property dinero
-	var property position = utilidadesParaJuego.posicionArbitraria()
-	method esInteractivo() = false
+	var position = game.at(0,0)
 	
+	method esInteractivo() = false
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
@@ -155,9 +164,10 @@ class ElementoEnriquecedor {
 
 class ElementoSorpresa {
 	const property image = "random.png"
-	var property position = utilidadesParaJuego.posicionArbitraria()
-	method esInteractivo() = false
+	var position = game.at(0,0)
 	
+	method esInteractivo() = false
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
@@ -190,31 +200,37 @@ class ElementoSorpresa {
 
 class ElementoTransportador {
 	var property image = "agujero.png"
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var activado = true
+	var position = game.at(0,0)
 	
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+			if(not objeto.esAtravesable() and activado) self.reaccionarA(objeto)
 		})
 	}
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			objeto.position(utilidadesParaJuego.posicionArbitraria())
+			activado = false
+			const posicion = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+			position = posicion
+			objeto.position(posicion)
 			objeto.actualizarImagen(false)
-			game.removeVisual(self)
+			game.schedule(500, {game.removeVisual(self)})
 		}
 	}
 }
 
 class ElementoAcumulable {
 	const property image = "chicken.png"
-	var property position = utilidadesParaJuego.posicionArbitraria()
+	var position = game.at(0,0)
 	
+	method position() = position
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)

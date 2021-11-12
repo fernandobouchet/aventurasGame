@@ -12,7 +12,10 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	var property energia = 0
 	var property salud = 0
 	var property dinero = 0
-	const property inventario = []
+	var inventario = []
+	
+	
+	method inventario() = inventario
 	
 	method agarrarItem(item) {
 		inventario.add(item)
@@ -49,6 +52,7 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 		energia = 30
 		salud = 100
 		dinero = 0
+		inventario = []
 		game.addVisual(self)
 		game.addVisual(pelo)
 		self.actualizarImagen(false)
