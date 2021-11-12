@@ -33,8 +33,7 @@ object direccionAbajo{
 	method imagenProtagonista(caminando)
 		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
-	method imagenReloj(movimiento)
-		= "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
+	method imagenReloj(movimiento) = "transparente.png"
 }
 object direccionIzquierda{
 	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
@@ -49,8 +48,7 @@ object direccionDerecha{
 	method imagenProtagonista(caminando)
 		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
-	method imagenReloj(movimiento)
-		= "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
+	method imagenReloj(movimiento) = "transparente.png"
 }
 
 class Movimiento {
