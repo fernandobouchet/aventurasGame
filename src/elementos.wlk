@@ -29,6 +29,8 @@ object fogata {
 		image = "fogataHuevos_"+ cantHuevos + ".png"
 	}
 	
+	method estaCompleta() = cantHuevos == 3
+	
 	method esInteractivo() = false
 	method esAtravesable() = true
 	method reaccionarA(objeto) {}
@@ -54,12 +56,6 @@ class ObjetoMovible inherits Movimiento {
 				self.moverHacia(objeto.ultimoMovimiento())
 				objeto.moverHacia(objeto.ultimoMovimiento())
 			}
-		}
-		if (fogata.position() == position) {
-			nivelBloques.agregarItem(objeto)
-			game.removeVisual(self)
-			game.schedule(500,{if(nivelBloques.inventario().size() == 4)
-			nivelBloques.terminar()})
 		}
 	}
 }

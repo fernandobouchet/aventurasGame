@@ -58,7 +58,12 @@ object nivelBloques {
 		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.r().onPressDo{ self.restart()}
 		keyboard.p().onPressDo{ juegoEnPausa = !juegoEnPausa }
-
+		game.onTick(50, "estado juego",{self.estadoJuego()})
+	}
+	
+	method estadoJuego() {
+		if(fogata.estaCompleta() and
+		utilidadesParaJuego.protagonista().inventario().size() == 1) self.terminar()
 	}
 	
 	method terminar() {
@@ -86,11 +91,11 @@ object nivelBloques {
 		const huevo3 = new Huevo()
 		elementosNivel1 = [
 			elementoTran1,
+			fogata,
 			sarten,
 			huevo1,
 			huevo2,
 			huevo3,
-			fogata,
 			elementoEnergizante,
 			elementoEnergizanteQuita,
 			elementoVit1,
