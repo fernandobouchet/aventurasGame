@@ -41,8 +41,8 @@ class AccesorioAgarrable {
 	method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.agarrarItem(self)
-			objeto.actualizarImagen(false)
 			game.removeVisual(self)
+			objeto.actualizarImagen(false)
 		}
 	}
 }
@@ -50,13 +50,13 @@ class AccesorioAgarrable {
 object peine inherits AccesorioAgarrable(image = "peine.png") {}
 
 object reloj inherits AccesorioAgarrable(image = "reloj.png") {
-	method actualizar(direccion) {
-		/*const protagonista = utilidadesParaJuego.protagonista()
+	method actualizar(direccion, movimiento) {
+		const protagonista = utilidadesParaJuego.protagonista()
 		if (protagonista.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
 			position = protagonista.position()
-			image = direccion.imagenReloj()
-		}*/
+			image = direccion.imagenReloj(movimiento)
+		}
 	}
 }
 

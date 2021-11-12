@@ -43,7 +43,7 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	
 	override method actualizarImagen(movimiento) {
 		pelo.actualizar(ultimoMovimiento)
-		reloj.actualizar(ultimoMovimiento)
+		reloj.actualizar(ultimoMovimiento, movimiento)
 		anteojos.actualizar(ultimoMovimiento)
 		image = ultimoMovimiento.imagenProtagonista(movimiento)
 	}
