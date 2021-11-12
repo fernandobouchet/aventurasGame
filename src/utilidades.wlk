@@ -138,34 +138,3 @@ class Movimiento {
 		}
 	}
 }
-
-class Animacion {
-	var imagenes
-	var duracion
-	var cuadro = 0
-	var detener = false
-	var repetirInfinito = false
-	var repetirVeces = 0
-	
-	method repetir() { repetirInfinito = true }
-	method repetir(veces) { if (repetirVeces > 0) repetirVeces = veces }
-	
-	method detener() { detener = true }
-	
-	method animar(objeto) {
-		if (detener) detener = false
-		else {
-			const cantImagenes = imagenes.size()
-			cuadro += 1
-			if (cuadro == cantImagenes) {
-				cuadro = 0
-				if (repetirInfinito or repetirVeces > 0) {
-					game.schedule(duracion.div(cantImagenes), {self.animar(objeto)})
-					if (repetirVeces > 0) repetirVeces -= 1
-				}
-			}
-			else game.schedule(duracion.div(cantImagenes), {self.animar(objeto)})
-			objeto.image(imagenes.get(cuadro))
-		}
-	}
-}

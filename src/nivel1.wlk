@@ -62,20 +62,13 @@ object nivelBloques {
 	}
 	
 	method terminar() {
-		// game.clear() limpia visuals, teclado, colisiones y acciones
 		game.clear()
-		// después puedo volver a agregar el fondo, y algún visual para que no quede tan pelado
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
-		// después de un ratito ...
 		game.schedule(2500, {
 			game.clear()
-			// cambio de fondo
 			game.addVisual(new Fondo(image="finNivel1.png"))
-			// después de un ratito ...
 			game.schedule(3000, {
-				// ... limpio todo de nuevo
 				game.clear()
-				// y arranco el siguiente nivel
 				nivelLlaves.configurate()
 			})
 		})
@@ -92,7 +85,7 @@ object nivelBloques {
 		const huevo2 = new Huevo()
 		const huevo3 = new Huevo()
 		elementosNivel1 = [
-			enemigo,
+			elementoTran1,
 			sarten,
 			huevo1,
 			huevo2,
@@ -102,7 +95,7 @@ object nivelBloques {
 			elementoEnergizanteQuita,
 			elementoVit1,
 			elementoSorp1,
-			elementoTran1,
+			enemigo,
 			personajeSimple
 		]
 	}

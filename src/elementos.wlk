@@ -189,14 +189,11 @@ class ElementoSorpresa {
 }
 
 class ElementoTransportador {
-	var property image = "stars.png"
-	const animacionEstrella = new Animacion(imagenes = ["estrellas1.png","estrellas2.png","estrellas3.png","estrellas4.png","estrellas3.png","estrellas2.png"], duracion = 500)
+	var property image = "agujero.png"
 	var property position = utilidadesParaJuego.posicionArbitraria()
 	
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
-		animacionEstrella.repetir()
-		animacionEstrella.animar(self)
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -209,7 +206,6 @@ class ElementoTransportador {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			objeto.position(utilidadesParaJuego.posicionArbitraria())
 			objeto.actualizarImagen(false)
-			animacionEstrella.repetir(false)
 			game.removeVisual(self)
 		}
 	}
