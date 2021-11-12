@@ -6,7 +6,7 @@ object nivelLlaves {
 
 	method configurate() {
 		// fondo - es importante que sea el primer visual que se agregue
-		game.addVisual(new Fondo(image="fondoCompleto.png"))
+		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 				 
 		// otros visuals, p.ej. bloques o llaves
 			

@@ -48,7 +48,7 @@ object nivelBloques {
 		
 		self.generarParedesInvisibles()
 		
-		shampoo.configurate()
+		peine.configurate()
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()

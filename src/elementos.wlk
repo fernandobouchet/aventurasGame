@@ -55,12 +55,12 @@ class ObjetoMovible inherits Movimiento {
 				objeto.moverHacia(objeto.ultimoMovimiento())
 			}
 		}
-		/*if (fogata.position() == position) {
+		if (fogata.position() == position) {
 			nivelBloques.agregarItem(objeto)
 			game.removeVisual(self)
-			game.schedule(500,{if(nivelBloques.inventario().size() == 1)
+			game.schedule(500,{if(nivelBloques.inventario().size() == 4)
 			nivelBloques.terminar()})
-		}*/
+		}
 	}
 }
 

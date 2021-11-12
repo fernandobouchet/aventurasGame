@@ -17,13 +17,13 @@ object pelo {
 	}
 
 	method formaPelo() =
-		if (utilidadesParaJuego.protagonista().tiene(shampoo)) "pelo_2"
+		if (utilidadesParaJuego.protagonista().tiene(peine)) "pelo_2"
 		else "pelo_1"
 }
 
-object shampoo {
+object peine {
 	var position = game.at(0,0)
-	const property image = "chicken.png"
+	const property image = "peine.png"
 
 	method position() = position
 	method configurate() {
