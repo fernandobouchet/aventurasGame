@@ -35,6 +35,7 @@ object fogata {
 	method esAtravesable() = true
 	method reaccionarA(objeto) {}
 	method configurate() {
+		image = "fogata.png"
 		tieneSarten = false
 		cantHuevos = 0
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
@@ -80,10 +81,11 @@ class Huevo inherits ObjetoMovible(image = "huevo.png") {
 	}
 }
 
-class ElementoVitalidad {
-	const property image = "burger.png"
-	var property salud
+class Elemento {
 	var position = game.at(0,0)
+
+	method esAtravesable() = true
+	method esInteractivo() = false
 	
 	method position() = position
 	method configurate() {
@@ -95,33 +97,32 @@ class ElementoVitalidad {
 		})
 	}
 	
-	method esAtravesable() = true
-	method esInteractivo() = false
+	method reaccionarA(objeto) {}
+}
+class ElementoVitalidad inherits Elemento {
+	const property image = "burger.png"
+	var property salud
 	
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			objeto.salud(objeto.salud()+ salud)
-			game.removeVisual(self)
+		objeto.salud(objeto.salud()+ salud)
+		game.removeVisual(self)
 		}
 	}
 }
 
-class ElementoEnergizante {
+class ElementoEnergizante inherits Elemento {
 	const property image = "beer.png"
 	var property energia
-	var position = game.at(0,0)
+
+	override method esAtravesable() = false
+	override method esInteractivo() = true
 	
-	method esInteractivo() = true
-	
-	method position() = position
-	method configurate() {
+	override method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 	}
-	method esAtravesable() = false
 
-	method reaccionarA(objeto) {
-	}
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			nivelBloques.cantElementosEnergizantes(nivelBloques.cantElementosEnergizantes() - 1)
@@ -132,49 +133,23 @@ class ElementoEnergizante {
 	}
 }
 
-class ElementoEnriquecedor {
+class ElementoEnriquecedor inherits Elemento {
 	const property image = "buck.png"
 	var property dinero
-	var position = game.at(0,0)
 	
-	method esInteractivo() = false
-	method position() = position
-	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
-		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
-		})
-	}
-	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			objeto.dinero(objeto.dinero() + dinero)
-			game.removeVisual(self)
+		objeto.dinero(objeto.dinero() + dinero)
+		game.removeVisual(self)
 		}
 	}
 }
 
 
-class ElementoSorpresa {
+class ElementoSorpresa inherits Elemento {
 	const property image = "random.png"
-	var position = game.at(0,0)
 	
-	method esInteractivo() = false
-	method position() = position
-	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
-		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
-		})
-	}
-	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		var numeroRandom = 0.randomUpTo(100)
 		if (utilidadesParaJuego.nivel() == 1) numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidadesParaJuego.protagonista()) {
@@ -194,23 +169,11 @@ class ElementoSorpresa {
 	}
 }
 
-class ElementoTransportador {
+class ElementoTransportador inherits Elemento {
 	var property image = "agujero.png"
 	var activado = true
-	var position = game.at(0,0)
 	
-	method position() = position
-	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
-		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(not objeto.esAtravesable() and activado) self.reaccionarA(objeto)
-		})
-	}
-	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
 			activado = false
 			const posicion = utilidadesParaJuego.posicionArbitrariaNoOcupada()
@@ -222,25 +185,13 @@ class ElementoTransportador {
 	}
 }
 
-class ElementoAcumulable {
+class ElementoAcumulable inherits Elemento {
 	const property image = "chicken.png"
-	var position = game.at(0,0)
 	
-	method position() = position
-	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
-		game.addVisual(self)
-		game.onCollideDo(self, {
-			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
-		})
-	}
-	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			objeto.agarrarItem(self)
-			game.removeVisual(self)
+		objeto.agarrarItem(self)
+		game.removeVisual(self)
 		}
 	}
 }
