@@ -48,7 +48,6 @@ object nivelBloques {
 		
 		self.generarParedesInvisibles()
 		
-		peine.configurate()
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
@@ -63,7 +62,7 @@ object nivelBloques {
 	
 	method estadoJuego() {
 		if(fogata.estaCompleta() and
-		utilidadesParaJuego.protagonista().inventario().size() == 1) self.terminar()
+		utilidadesParaJuego.protagonista().inventario().size() == 3) self.terminar()
 	}
 	
 	method terminar() {
@@ -96,6 +95,9 @@ object nivelBloques {
 			huevo1,
 			huevo2,
 			huevo3,
+			peine,
+			reloj,
+			anteojos,
 			elementoEnergizante,
 			elementoEnergizanteQuita,
 			elementoVit1,

@@ -21,11 +21,13 @@ object pelo {
 		else "pelo_1"
 }
 
-object peine {
+class AccesorioAgarrable {
 	var position = game.at(0,0)
-	const property image = "peine.png"
+	var image
 
 	method position() = position
+	method image() = image
+	
 	method configurate() {
 		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
@@ -41,6 +43,30 @@ object peine {
 			objeto.agarrarItem(self)
 			objeto.actualizarImagen(false)
 			game.removeVisual(self)
+		}
+	}
+}
+
+object peine inherits AccesorioAgarrable(image = "peine.png") {}
+
+object reloj inherits AccesorioAgarrable(image = "reloj.png") {
+	method actualizar(direccion) {
+		/*const protagonista = utilidadesParaJuego.protagonista()
+		if (protagonista.tiene(self)) {
+			if (not game.hasVisual(self)) game.addVisual(self)
+			position = protagonista.position()
+			image = direccion.imagenReloj()
+		}*/
+	}
+}
+
+object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
+	method actualizar(direccion) {
+		const protagonista = utilidadesParaJuego.protagonista()
+		if (protagonista.tiene(self)) {
+			if (not game.hasVisual(self)) game.addVisual(self)
+			position = protagonista.position()
+			image = direccion.imagenAnteojos()
 		}
 	}
 }
