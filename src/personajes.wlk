@@ -74,7 +74,7 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	}
 }
 
-class EnemigoComun inherits Movimiento(image = "crab.png") {
+class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
@@ -86,7 +86,7 @@ class EnemigoComun inherits Movimiento(image = "crab.png") {
 	}
 }
 
-class EnemigoSeguidor inherits Movimiento(image = "crab_black.png") {
+class EnemigoSeguidor inherits Movimiento(image = "dino-rex-izq.png") {
 	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
