@@ -67,3 +67,22 @@ object marcadorSalud {
 		}
 	}
 }
+
+object marcadorBitcoin {
+	
+	const decena = new DecenaNumeroMarcador(position = game.at(11,game.height() - 1))
+	const unidad = new UnidadNumeroMarcador(position = game.at(11,game.height() - 1))
+	
+	method actualizar() {
+		const dineroProtagonista = utilidadesParaJuego.protagonista().dinero()
+		if (dineroProtagonista > 99) {
+			decena.cambiarOMostrar(9)
+			unidad.cambiarOMostrar(9)
+		}
+		else {
+			const decenaT = dineroProtagonista.div(10)
+			decena.cambiarOMostrar(decenaT)
+			unidad.cambiarOMostrar(dineroProtagonista - decenaT * 10)
+		}
+	}
+}

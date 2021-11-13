@@ -11,6 +11,28 @@ class Pared {
 	method reaccionarA(objeto) {}
 }
 
+object puertaVictoriosa { 
+	var position = game.at(0,0)
+	var property image = "fogata.png" 
+	
+    method position() = position
+	
+	method esAtravesable() = true
+	method reaccionarA(objeto) {
+		if (objeto == neanthy) utilidadesParaJuego.nivel().terminar()
+	}
+	
+	
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+	    game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+		})		
+	}
+}
+
 object fogata {
 	var position = game.at(0,0)
 	var property image = "fogata.png"
@@ -135,12 +157,12 @@ class ElementoEnergizante inherits Elemento {
 
 class ElementoEnriquecedor inherits Elemento {
 	const property image = "buck.png"
-	var property dinero
-	
+		
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-		objeto.dinero(objeto.dinero() + dinero)
-		game.removeVisual(self)
+		    marcadorBitcoin.actualizar()
+		    objeto.dinero(objeto.dinero() + 1)
+		    game.removeVisual(self)
 		}
 	}
 }
@@ -150,19 +172,16 @@ class ElementoSorpresa inherits Elemento {
 	const property image = "medialuna.png"
 	
 	override method reaccionarA(objeto) {
-		var numeroRandom = 0.randomUpTo(100)
-		if (utilidadesParaJuego.nivel() == 1) numeroRandom = 0.randomUpTo(66)
+		var numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidadesParaJuego.protagonista()) {
 			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
 				nuevoObjeto = new ElementoVitalidad(salud = 25)
 			}
-			else if (numeroRandom.between(33 , 66)) {
+			else {
 				nuevoObjeto = new ElementoEnergizante(energia = 40)
 			}
-			else {
-				nuevoObjeto = new ElementoEnriquecedor(dinero = 200)
-			}
+			
 			nuevoObjeto.configurate()
 			game.removeVisual(self)
 		}

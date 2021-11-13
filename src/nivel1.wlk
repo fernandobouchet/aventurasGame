@@ -8,6 +8,7 @@ import nivel2.*
 import utilidades.*
 
 object nivelBloques {
+	
 	var property juegoEnPausa = false
 	var property cantElementosEnergizantes = 0
 	var elementosNivel1 = []
