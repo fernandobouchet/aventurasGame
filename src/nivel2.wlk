@@ -5,22 +5,23 @@ import marcadores.*
 import accesorios.*
 import elementos.*
 import utilidades.*
+import nivel3.*
+
 
 
 object nivelBitcoin {
 	
 	var property juegoEnPausa = false
 	var property cantElementosEnergizantes = 0
-	var elementosNivel1 = []
 	var elementosEnriquecedores = 10
 	
 	method crearElementoEnriquecedor() {
-		var elementoEnriquecedor = new ElementoEnriquecedor()
+		const elementoEnriquecedor = new ElementoEnriquecedor()
 		
 		if (elementosEnriquecedores != 0) {
 			elementoEnriquecedor.configurate()
 		    elementosEnriquecedores -= 1
-		    game.schedule(1000, {self.crearElementoEnriquecedor()})
+		    game.schedule(2500, {self.crearElementoEnriquecedor()})
 		}
 		
 	}
@@ -57,7 +58,6 @@ object nivelBitcoin {
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
-		elementosNivel1.forEach{ obj => obj.configurate()}
 		self.crearElementoEnriquecedor()
 		self.generarParedesInvisibles()
 		
@@ -88,9 +88,9 @@ object nivelBitcoin {
 			game.addVisual(new Fondo(image="cargandoNivel2.png"))
 			game.schedule(3000, {
 				game.clear()
-				utilidadesParaJuego.nivel(nivelBitcoin)
-				nivelBitcoin.configurate()
-			})
+				utilidadesParaJuego.nivel(nivelBonus)
+				nivelBonus.configurate()
+			}) 
 		})})
 	}
 	
@@ -101,8 +101,8 @@ object nivelBitcoin {
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTransportador1 = new ElementoTransportador()
-
-		elementosNivel1 = [
+		
+		const elementosNivel = [
 			elementoTransportador1,
 			elementoVit1,
 			elementoSorp1,
@@ -110,8 +110,9 @@ object nivelBitcoin {
 			dino,
 			dino2,
 			neanthy
+			]
 			
-		]
+		elementosNivel.forEach{ obj => obj.configurate()}
 	}
 	
 	method generarParedesInvisibles() {

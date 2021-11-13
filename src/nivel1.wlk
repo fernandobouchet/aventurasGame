@@ -11,7 +11,7 @@ object nivelBloques {
 	
 	var property juegoEnPausa = false
 	var property cantElementosEnergizantes = 0
-	var elementosNivel1 = []
+
 	
 	method crearElementoEnergizante() {
 		var elementoEnergizante = new ElementoEnergizante(energia = 30)
@@ -43,7 +43,6 @@ object nivelBloques {
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
-		elementosNivel1.forEach{ obj => obj.configurate()}
 		
 		self.generarParedesInvisibles()
 		
@@ -89,7 +88,8 @@ object nivelBloques {
 		const huevo1 = new Huevo()
 		const huevo2 = new Huevo()
 		const huevo3 = new Huevo()
-		elementosNivel1 = [
+	
+		const elementosNivel = [
 			elementoTran1,
 			fogata,
 			sarten,
@@ -105,6 +105,8 @@ object nivelBloques {
 			dino,
 			neanthy
 		]
+		
+		elementosNivel.forEach{ obj => obj.configurate()}
 	}
 	
 	method generarParedesInvisibles() {
