@@ -67,7 +67,7 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
 	override method configurate() {
 		super()
-		image = "reloj.png"
+		image = "anteojos.png"
 	}
 	method actualizar(direccion) {
 		const protagonista = utilidadesParaJuego.protagonista()
