@@ -13,7 +13,8 @@ object nivelBloques {
 	var elementosNivel1 = []
 	
 	method crearElementoEnergizante() {
-		const elementoEnergizante = new ElementoEnergizante(energia = 30)
+		var elementoEnergizante = new ElementoEnergizante(energia = 30)
+		if(0.randomUpTo(100) > 70) elementoEnergizante = new ElementoEnergizante(energia = -20)
 		if (cantElementosEnergizantes == 0) {
 			elementoEnergizante.configurate()
 			cantElementosEnergizantes += 1
@@ -58,10 +59,12 @@ object nivelBloques {
 	
 	method estadoJuego() {
 		if(fogata.estaCompleta() and
-		utilidadesParaJuego.protagonista().inventario().size() == 3) self.terminar()
+		neanthy.inventario().size() == 3) self.terminar()
 	}
 	
 	method terminar() {
+		juegoEnPausa = true
+		game.schedule(2000,{
 		game.clear()
 		game.addVisual(new Fondo(image="finNivel1.png"))
 		game.schedule(2500, {
@@ -71,13 +74,12 @@ object nivelBloques {
 				game.clear()
 				nivelLlaves.configurate()
 			})
-		})
+		})})
 	}
 	
 	method cargarPersonajesYObjetos(){
 		const dinoRex = new EnemigoSeguidor();
 		const dino = new EnemigoComun();
-		const elementoEnergizanteQuita = new ElementoEnergizante(energia = -15)
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
@@ -94,7 +96,6 @@ object nivelBloques {
 			peine,
 			reloj,
 			anteojos,
-			elementoEnergizanteQuita,
 			elementoVit1,
 			elementoSorp1,
 			dinoRex,
