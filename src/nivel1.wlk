@@ -82,7 +82,8 @@ object nivelBloques {
 	}
 	
 	method cargarPersonajesYObjetos(){
-		const enemigo = new EnemigoSeguidor();
+		const dinoRex = new EnemigoSeguidor();
+		const dino = new EnemigoComun();
 		const elementoEnergizante = new ElementoEnergizante(energia = 30)
 		const elementoEnergizanteQuita = new ElementoEnergizante(energia = -15)
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
@@ -105,7 +106,8 @@ object nivelBloques {
 			elementoEnergizanteQuita,
 			elementoVit1,
 			elementoSorp1,
-			enemigo,
+			dinoRex,
+			dino,
 			personajeSimple
 		]
 	}

@@ -100,7 +100,7 @@ class Elemento {
 	method reaccionarA(objeto) {}
 }
 class ElementoVitalidad inherits Elemento {
-	const property image = "burger.png"
+	const property image = "mate.png"
 	var property salud
 	
 	override method reaccionarA(objeto) {
@@ -112,7 +112,7 @@ class ElementoVitalidad inherits Elemento {
 }
 
 class ElementoEnergizante inherits Elemento {
-	const property image = "beer.png"
+	const property image = "red_bull.png"
 	var property energia
 
 	override method esAtravesable() = false
