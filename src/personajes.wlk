@@ -56,10 +56,12 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
+		if (utilidadesParaJuego.nivel() == 1) {
+			inventario = []
+		}
 		energia = 30
 		salud = 100
 		dinero = 0
-		inventario = []
 		game.addVisual(self)
 		game.addVisual(pelo)
 		self.actualizarImagen(false)

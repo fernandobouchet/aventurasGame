@@ -14,7 +14,7 @@ object nivelBloques {
 	
 	method crearElementoEnergizante() {
 		var elementoEnergizante = new ElementoEnergizante(energia = 30)
-		if(0.randomUpTo(100) > 70) elementoEnergizante = new ElementoEnergizante(energia = -20)
+		if(0.randomUpTo(100) > 90) elementoEnergizante = new ElementoEnergizante(energia = -20)
 		if (cantElementosEnergizantes == 0) {
 			elementoEnergizante.configurate()
 			cantElementosEnergizantes += 1
@@ -37,6 +37,7 @@ object nivelBloques {
 	}
 
 	method configurate() {
+		cantElementosEnergizantes = 0
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
@@ -72,7 +73,8 @@ object nivelBloques {
 			game.addVisual(new Fondo(image="cargandoNivel2.png"))
 			game.schedule(3000, {
 				game.clear()
-				nivelLlaves.configurate()
+				utilidadesParaJuego.nivel(nivelBitcoin)
+				nivelBitcoin.configurate()
 			})
 		})})
 	}

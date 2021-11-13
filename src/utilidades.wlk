@@ -4,7 +4,7 @@ import accesorios.*
 import nivel1.*
 
 object utilidadesParaJuego {
-	var property nivel = 1
+	var property nivel = nivelBloques
 	method posicionArbitraria() {
 		return game.at(
 			2.randomUpTo(game.width() - 2).truncate(0), 2.randomUpTo(game.height() - 3).truncate(0)
@@ -126,7 +126,7 @@ class Movimiento {
 	} 
 
 	method moverHacia(direccion) {
-		if (not nivelBloques.juegoEnPausa()) {
+		if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
 			ultimoMovimiento = direccion
 			if (self.puedeMover(direccion)) {
 				position = self.siguienteMovimientoHacia(direccion)

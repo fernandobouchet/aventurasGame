@@ -2,16 +2,12 @@ import wollok.game.*
 import fondo.*
 import personajes.*
 
-object nivelLlaves {
+object nivelBitcoin {
+	var property juegoEnPausa = false
 
 	method configurate() {
-		// fondo - es importante que sea el primer visual que se agregue
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
-				 
-		// otros visuals, p.ej. bloques o llaves
-			
-		// personaje, es importante que sea el último visual que se agregue
-		game.addVisual(neanthy)
+		neanthy.configurate()
 		
 		// teclado
 		// este es para probar, no es necesario dejarlo
