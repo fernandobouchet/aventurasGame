@@ -50,6 +50,10 @@ class AccesorioAgarrable {
 object peine inherits AccesorioAgarrable(image = "peine.png") {}
 
 object reloj inherits AccesorioAgarrable(image = "reloj.png") {
+	override method configurate() {
+		super()
+		image = "reloj.png"
+	}
 	method actualizar(direccion, movimiento) {
 		const protagonista = utilidadesParaJuego.protagonista()
 		if (protagonista.tiene(self)) {
@@ -61,6 +65,10 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 }
 
 object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
+	override method configurate() {
+		super()
+		image = "anteojos.png"
+	}
 	method actualizar(direccion) {
 		const protagonista = utilidadesParaJuego.protagonista()
 		if (protagonista.tiene(self)) {
