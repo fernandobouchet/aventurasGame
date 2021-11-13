@@ -230,14 +230,12 @@ class Coco inherits Movimiento(image = "piedra.png") {
 		}
 	   }
 		else {
+			if (not esAtravesable and game.hasVisual(self)) {
 			game.removeVisual(objeto)
 			game.removeVisual(self)
+			}
 		}
-		
 	   marcadorCoco.actualizar()
-	   
-	   	
-	   
 	}
 	
 	
