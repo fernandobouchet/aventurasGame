@@ -51,6 +51,7 @@ object nivelBitcoin {
 
 	method configurate() {
 		cantElementosEnergizantes = 0
+		elementosEnriquecedores = 10
 		
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)

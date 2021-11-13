@@ -160,8 +160,8 @@ class ElementoEnriquecedor inherits Elemento {
 		
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-		    marcadorBitcoin.actualizar()
 		    objeto.dinero(objeto.dinero() + 1)
+		    marcadorBitcoin.actualizar()
 		    game.removeVisual(self)
 		}
 	}
