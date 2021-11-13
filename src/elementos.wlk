@@ -158,7 +158,7 @@ class ElementoEnergizante inherits Elemento {
 }
 
 class ElementoEnriquecedor inherits Elemento {
-	const property image = "buck.png"
+	const property image = "bitcoin.png"
 		
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
@@ -230,14 +230,12 @@ class Coco inherits Movimiento(image = "piedra.png") {
 		}
 	   }
 		else {
+			if (not esAtravesable and game.hasVisual(self)) {
 			game.removeVisual(objeto)
 			game.removeVisual(self)
+			}
 		}
-		
 	   marcadorCoco.actualizar()
-	   
-	   	
-	   
 	}
 	
 	
@@ -254,7 +252,6 @@ class Coco inherits Movimiento(image = "piedra.png") {
 	override method esAtravesable() = esAtravesable
 	
 	method lanzar () {
-		
 		const direccionPersonaje = neanthy.ultimoMovimiento()
 		
 		position = neanthy.position()
@@ -264,12 +261,6 @@ class Coco inherits Movimiento(image = "piedra.png") {
         game.onTick(500,"coco" , {
         	self.moverHacia(direccionPersonaje)
         	})
-        game.schedule(2000 , {game.removeVisual(self) ; game.removeTickEvent("coco")} )
-     
-        	
-
+        game.schedule(2000 , { if (game.hasVisual(self)) {game.removeVisual(self) ; game.removeTickEvent("coco")}} )
 	}
-	
-	
-	
 }
