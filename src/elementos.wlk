@@ -1,7 +1,7 @@
 import wollok.game.*
 import utilidades.*
 import personajes.*
-import nivel1.*
+import nivel2.*
 import marcadores.*
 
 class Pared {

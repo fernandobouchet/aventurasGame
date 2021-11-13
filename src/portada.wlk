@@ -11,6 +11,6 @@ object portada {
 	
 	method comenzarJuego() {
 		game.clear()
-		nivelBloques.configurate()
+		nivelCocos.configurate()
 	}
 }

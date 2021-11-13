@@ -4,81 +4,18 @@ import personajes.*
 import marcadores.*
 import accesorios.*
 import elementos.*
-import utilidades.*
+import nivelbase.*
 import nivel3.*
+import utilidades.*
 
+object nivelHuevos inherits Nivel {
 
-
-object nivelBitcoin {
-	
-	var property juegoEnPausa = false
-	var property cantElementosEnergizantes = 0
-	var elementosEnriquecedores = 10
-	
-	method crearElementoEnriquecedor() {
-		const elementoEnriquecedor = new ElementoEnriquecedor()
-		
-		if (elementosEnriquecedores != 0) {
-			elementoEnriquecedor.configurate()
-		    elementosEnriquecedores -= 1
-		    game.schedule(2500, {self.crearElementoEnriquecedor()})
-		}
-		
+	override method estadoJuego() {
+		if(fogata.estaCompleta() and
+		neanthy.inventario().size() == 3) self.terminar()
 	}
 	
-	method crearElementoEnergizante() {
-		var elementoEnergizante = new ElementoEnergizante(energia = 30)
-		if(0.randomUpTo(100) > 90) elementoEnergizante = new ElementoEnergizante(energia = -20)
-		if (cantElementosEnergizantes == 0) {
-			elementoEnergizante.configurate()
-			cantElementosEnergizantes += 1
-		}
-		
-	}
-	
-	method restart() {
-		game.clear()
-		self.configurate()
-	}
-	
-	method perder() {
-		game.clear()
-		game.addVisual(new Fondo(image="neanthy-game-over.png"))
-		game.schedule(2500, {
-			game.addVisual(new Fondo(image="neanthy-creditos.png"))
-			})
-		keyboard.r().onPressDo{ self.restart()}
-	}
-
-	method configurate() {
-		cantElementosEnergizantes = 0
-		elementosEnriquecedores = 10
-		
-		game.addVisual(new Fondo(image="neanthy-bgn.png"))
-		game.addVisual(barraMarcador)
-		neanthy.esAtacado(false)
-		self.cargarPersonajesYObjetos()
-		self.crearElementoEnriquecedor()
-		self.generarParedesInvisibles()
-		
-
-		marcadorFuerza.actualizar()
-		marcadorSalud.actualizar()
-		marcadorBitcoin.actualizar()
-		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
-		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
-		
-		keyboard.t().onPressDo({ self.terminar() })
-		keyboard.r().onPressDo{ self.restart()}
-		keyboard.p().onPressDo{ juegoEnPausa = !juegoEnPausa }
-		game.onTick(50, "estado juego",{self.estadoJuego()})
-	}
-	
-	method estadoJuego() {
-		if(neanthy.dinero() == 10 and not game.hasVisual(puertaVictoriosa)) puertaVictoriosa.configurate()
-	}
-	
-	method terminar() {
+	override method terminar() {
 		juegoEnPausa = true
 		game.schedule(2000,{
 		game.clear()
@@ -88,60 +25,40 @@ object nivelBitcoin {
 			game.addVisual(new Fondo(image="cargandoNivel2.png"))
 			game.schedule(3000, {
 				game.clear()
-				utilidadesParaJuego.nivel(nivelBonus)
-				nivelBonus.configurate()
-			}) 
+				utilidadesParaJuego.nivel(nivelBitcoin)
+				nivelBitcoin.configurate()
+			})
 		})})
 	}
 	
-	method cargarPersonajesYObjetos(){
+	override method cargarPersonajesYObjetos(){
 		const dinoRex = new EnemigoSeguidor();
 		const dino = new EnemigoComun();
-		const dino2 = new EnemigoComun();
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
-		const elementoTransportador1 = new ElementoTransportador()
-		
+		const elementoTran1 = new ElementoTransportador()
+		const huevo1 = new Huevo()
+		const huevo2 = new Huevo()
+		const huevo3 = new Huevo()
+	
 		const elementosNivel = [
-			elementoTransportador1,
+			elementoTran1,
+			fogata,
+			sarten,
+			huevo1,
+			huevo2,
+			huevo3,
+			peine,
+			reloj,
+			anteojos,
 			elementoVit1,
 			elementoSorp1,
 			dinoRex,
 			dino,
-			dino2,
 			neanthy
-			]
-			
+		]
+		
 		elementosNivel.forEach{ obj => obj.configurate()}
-	}
-	
-	method generarParedesInvisibles() {
-		self.generarParedInvisibleEnX(1, 4, 0)
-		self.generarParedInvisibleEnX(7, game.width() - 2, 0)
-		self.generarParedInvisibleEnX(1, 4, game.height() - 2)
-		self.generarParedInvisibleEnX(7, 10, game.height() - 2)
-		self.generarParedInvisibleEnY(0, 1, 3)
-		self.generarParedInvisibleEnY(0, 7, game.height() - 3)
-		self.generarParedInvisibleEnY(game.width() - 1, 1, 3)
-		self.generarParedInvisibleEnY(game.width() - 1, 7, game.height() - 3)
-	}
-	
-	method generarParedInvisibleEnX(desdeX, hastaX, y) {
-		const pared = []
-		pared.add(new Pared(position = game.at(desdeX, y)))
-		(hastaX - desdeX).times{ x =>
-			pared.add(new Pared(position = game.at(desdeX + x, y)))
-		}
-		pared.forEach{ p => game.addVisual(p) }
-	}
-
-	method generarParedInvisibleEnY(x, desdeY, hastaY) {
-		const pared = []
-		pared.add(new Pared(position = game.at(x, desdeY)))
-		(hastaY - desdeY).times{ y =>
-			pared.add(new Pared(position = game.at(x, desdeY + y)))
-		}
-		pared.forEach{ p => game.addVisual(p) }
 	}
 }
 

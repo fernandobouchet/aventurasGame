@@ -6,7 +6,6 @@ program juego_aventura {
 	game.title("Neanthy")
 	game.height(12)
 	game.width(12)
-	//game.boardGround("fondoBlanco.png")
 	
 	portada.configurate()	
 	

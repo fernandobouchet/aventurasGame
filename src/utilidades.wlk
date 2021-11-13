@@ -4,7 +4,7 @@ import accesorios.*
 import nivel1.*
 
 object utilidadesParaJuego {
-	var property nivel = nivelBloques
+	var property nivel = nivelCocos
 	method posicionArbitraria() {
 		return game.at(
 			2.randomUpTo(game.width() - 2).truncate(0), 2.randomUpTo(game.height() - 3).truncate(0)

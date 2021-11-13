@@ -1,9 +1,9 @@
 import wollok.game.*
 import utilidades.*
 import accesorios.*
-import nivel1.*
+import nivel2.*
 import marcadores.*
-import nivel3.*
+import nivel1.*
 
 // en la implementación real, conviene tener un personaje por nivel
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
@@ -22,7 +22,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	method inventario() = inventario
 	
 	method agarrarItem(item) {
-		if (utilidadesParaJuego.nivel() == nivelBonus) { 
+		if (utilidadesParaJuego.nivel() == nivelCocos) { 
 		cocos.add(item)}
 	    else {
 	    inventario.add(item)
@@ -76,7 +76,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
-		if (utilidadesParaJuego.nivel() == nivelBloques) {
+		if (utilidadesParaJuego.nivel() == nivelHuevos) {
 			inventario = []
 		}
 		energia = 30
