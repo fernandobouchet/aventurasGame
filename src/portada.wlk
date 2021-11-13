@@ -5,8 +5,7 @@ import nivel1.*
 object portada {
 	method configurate() {
 		game.addVisual(new Fondo(image="portada.png"))
-		//game.schedule(1000, {game.addVisual(new Fondo(image="neanthy-game-over.png"))
-		//})
+		keyboard.i().onPressDo{ game.addVisual(new Fondo(image="instrucciones.png"))}
 		keyboard.enter().onPressDo{ self.comenzarJuego()}
 	}
 	
