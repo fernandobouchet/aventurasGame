@@ -11,7 +11,7 @@ object nivelLlaves {
 		// otros visuals, p.ej. bloques o llaves
 			
 		// personaje, es importante que sea el último visual que se agregue
-		game.addVisual(personajeSimple)
+		game.addVisual(neanthy)
 		
 		// teclado
 		// este es para probar, no es necesario dejarlo

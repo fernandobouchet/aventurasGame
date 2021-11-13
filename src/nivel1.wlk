@@ -10,21 +10,15 @@ import utilidades.*
 object nivelBloques {
 	var property juegoEnPausa = false
 	var property cantElementosEnergizantes = 0
-	const maximoElementosEnergizantes = 2
-	var property inventario = []
 	var elementosNivel1 = []
 	
 	method crearElementoEnergizante() {
 		const elementoEnergizante = new ElementoEnergizante(energia = 30)
-		if (maximoElementosEnergizantes >= cantElementosEnergizantes) {
+		if (cantElementosEnergizantes == 0) {
 			elementoEnergizante.configurate()
 			cantElementosEnergizantes += 1
 		}
 		
-	}
-	
-	method agregarItem(item) {
-		inventario.add(item)
 	}
 	
 	method restart() {
@@ -42,10 +36,9 @@ object nivelBloques {
 	}
 
 	method configurate() {
-		inventario = []
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)
-		
+		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
 		elementosNivel1.forEach{ obj => obj.configurate()}
 		
@@ -54,8 +47,8 @@ object nivelBloques {
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
-		game.onTick(2000, "elementosEnergizantes", { self.crearElementoEnergizante() })
-		game.onTick(50, "perder", {if (personajeSimple.energia() <= 0 or personajeSimple.salud() <= 0) self.perder()})
+		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
+		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
 		
 		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.r().onPressDo{ self.restart()}
@@ -84,7 +77,6 @@ object nivelBloques {
 	method cargarPersonajesYObjetos(){
 		const dinoRex = new EnemigoSeguidor();
 		const dino = new EnemigoComun();
-		const elementoEnergizante = new ElementoEnergizante(energia = 30)
 		const elementoEnergizanteQuita = new ElementoEnergizante(energia = -15)
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
@@ -102,13 +94,12 @@ object nivelBloques {
 			peine,
 			reloj,
 			anteojos,
-			elementoEnergizante,
 			elementoEnergizanteQuita,
 			elementoVit1,
 			elementoSorp1,
 			dinoRex,
 			dino,
-			personajeSimple
+			neanthy
 		]
 	}
 	

@@ -8,10 +8,12 @@ import marcadores.*
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
 // imagen y posición
 
-object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
+object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	var property energia = 0
 	var property salud = 0
 	var property dinero = 0
+	var property esAtacado = false
+	
 	var inventario = []
 	
 	
@@ -28,8 +30,11 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	}
 	
 	method recibirAtaque(danio) {
+		esAtacado = true
 		salud -= danio
 		marcadorSalud.actualizar()
+		self.actualizarImagen(false)
+		game.schedule(100, { esAtacado = false; self.actualizarImagen(false) })
 	}
 	
 	method cansarse(cantidad) {
@@ -74,7 +79,13 @@ object personajeSimple inherits Movimiento(image = "neanthy_der.png") {
 	}
 }
 
+
+
 class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
+
+	override method actualizarImagen(movimiento) {
+		image = ultimoMovimiento.imagenDino()
+	}
 
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
@@ -88,12 +99,16 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 
 class EnemigoSeguidor inherits Movimiento(image = "dino-rex-izq.png") {
 	
+	override method actualizarImagen(movimiento) {
+		image = ultimoMovimiento.imagenDinoRex()
+	}
+	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
 	}
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		game.onTick(1000, "enemigoSeguidor", {self.moverUnPasoHacia(personajeSimple)})
+		game.onTick(1000, "enemigoSeguidor", {self.moverUnPasoHacia(neanthy)})
 	}
 }
