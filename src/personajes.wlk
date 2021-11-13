@@ -3,6 +3,7 @@ import utilidades.*
 import accesorios.*
 import nivel1.*
 import marcadores.*
+import nivel3.*
 
 // en la implementación real, conviene tener un personaje por nivel
 // los personajes probablemente tengan un comportamiendo más complejo que solamente
@@ -13,6 +14,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	var property salud = 0
 	var property dinero = 0
 	var property esAtacado = false
+	const property cocos = [] 
 	
 	var inventario = []
 	
@@ -20,7 +22,11 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	method inventario() = inventario
 	
 	method agarrarItem(item) {
-		inventario.add(item)
+		if (utilidadesParaJuego.nivel() == nivelBonus) { 
+		cocos.add(item)}
+	    else {
+	    inventario.add(item)
+		}
 	}
 
 	method tiene(item) = inventario.contains(item)
@@ -46,6 +52,11 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
 	
+	method tirarCoco(coco) { 
+		
+	}
+	
+	
 	override method actualizarImagen(movimiento) {
 		pelo.actualizar(ultimoMovimiento)
 		reloj.actualizar(ultimoMovimiento, movimiento)
@@ -56,7 +67,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
-		if (utilidadesParaJuego.nivel() == 1) {
+		if (utilidadesParaJuego.nivel() == nivelBloques) {
 			inventario = []
 		}
 		energia = 30

@@ -1,5 +1,6 @@
 import utilidades.*
 import wollok.game.*
+import personajes.*
 
 object barraMarcador {
 	const property position = game.at(0,game.height() - 1)
@@ -83,6 +84,25 @@ object marcadorBitcoin {
 			const decenaT = dineroProtagonista.div(10)
 			decena.cambiarOMostrar(decenaT)
 			unidad.cambiarOMostrar(dineroProtagonista - decenaT * 10)
+		}
+	}
+}
+
+object marcadorCoco {
+	
+	const decena = new DecenaNumeroMarcador(position = game.at(11,game.height() - 1))
+	const unidad = new UnidadNumeroMarcador(position = game.at(11,game.height() - 1))
+	
+	method actualizar() {
+		const cocosProtagonista = neanthy.cocos().size()
+		if (cocosProtagonista > 99) {
+			decena.cambiarOMostrar(9)
+			unidad.cambiarOMostrar(9)
+		}
+		else {
+			const decenaT = cocosProtagonista.div(10)
+			decena.cambiarOMostrar(decenaT)
+			unidad.cambiarOMostrar(cocosProtagonista - decenaT * 10)
 		}
 	}
 }

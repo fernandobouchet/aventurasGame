@@ -172,7 +172,7 @@ class ElementoSorpresa inherits Elemento {
 	const property image = "medialuna.png"
 	
 	override method reaccionarA(objeto) {
-		var numeroRandom = 0.randomUpTo(66)
+	    const numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidadesParaJuego.protagonista()) {
 			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
@@ -205,12 +205,23 @@ class ElementoTransportador inherits Elemento {
 }
 
 class ElementoAcumulable inherits Elemento {
+	
 	const property image = "chicken.png"
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == neanthy) {
 		objeto.agarrarItem(self)
 		game.removeVisual(self)
 		}
 	}
+}
+
+class Coco inherits ElementoAcumulable {
+	
+	override method reaccionarA(objeto) {  
+	   super(objeto)  		
+	   marcadorCoco.actualizar()
+	   
+	}
+	
 }

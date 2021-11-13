@@ -16,7 +16,7 @@ object nivelBonus {
 	var cantidadDeCocos = 10
 	
 	method crearCoco() {
-		const cocos = new ElementoAcumulable()
+		const cocos = new Coco()
 		
 		if (cantidadDeCocos != 0) {
 			cocos.configurate()
@@ -64,7 +64,7 @@ object nivelBonus {
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
-		marcadorBitcoin.actualizar()
+		marcadorCoco.actualizar()
 		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
 		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
 		
