@@ -147,7 +147,7 @@ class ElementoEnriquecedor inherits Elemento {
 
 
 class ElementoSorpresa inherits Elemento {
-	const property image = "random.png"
+	const property image = "medialuna.png"
 	
 	override method reaccionarA(objeto) {
 		var numeroRandom = 0.randomUpTo(100)
