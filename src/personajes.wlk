@@ -115,7 +115,13 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		game.onTick(1000, "enemigoComun", {self.provocarMovimientoAleatorio()})
+		self.moverEnemigo()
+	}
+	
+	method moverEnemigo() {
+		if (game.hasVisual(self)) {
+		self.provocarMovimientoAleatorio()
+		game.schedule(1000, {self.moverEnemigo()})}
 	}
 }
 
@@ -131,6 +137,13 @@ class EnemigoSeguidor inherits Movimiento(image = "dino-rex-izq.png") {
 	override method configurate() {
 		super()
 		game.addVisual(self)
-		game.onTick(1000, "enemigoSeguidor", {self.moverUnPasoHacia(neanthy)})
+		self.moverEnemigo()
+	}
+	
+	method moverEnemigo() {
+		if (game.hasVisual(self)) {
+		self.moverUnPasoHacia(neanthy)
+		game.schedule(1000, {self.moverEnemigo()})
+		}
 	}
 }
