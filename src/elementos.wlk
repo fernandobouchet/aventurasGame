@@ -223,11 +223,20 @@ class Coco inherits Movimiento(image = "piedra.png") {
 	var esAtravesable = true
 	
 	override method reaccionarA(objeto) {    		
-	   if (objeto == neanthy and esAtravesable) {
+	   if (objeto == neanthy) {
+	   	if (esAtravesable) {
 		objeto.agarrarItem(self)
 		game.removeVisual(self)
 		}
+	   }
+		else {
+			game.removeVisual(objeto)
+			game.removeVisual(self)
+		}
+		
 	   marcadorCoco.actualizar()
+	   
+	   	
 	   
 	}
 	
@@ -252,13 +261,15 @@ class Coco inherits Movimiento(image = "piedra.png") {
 		esAtravesable = false
 		game.addVisual(self)
 		self.moverHacia(direccionPersonaje)
-        game.onTick(1000,"coco" , {
+        game.onTick(500,"coco" , {
         	self.moverHacia(direccionPersonaje)
         	})
-        game.schedule(4000 , {game.removeVisual(self) ; game.removeTickEvent("coco")} )
+        game.schedule(2000 , {game.removeVisual(self) ; game.removeTickEvent("coco")} )
      
         	
 
 	}
+	
+	
 	
 }
