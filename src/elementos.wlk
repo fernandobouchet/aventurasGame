@@ -9,7 +9,9 @@ class Pared {
 	const property position
 	method esAtravesable() = false
 	method reaccionarA(objeto) {}
+	method esInteractivo() = false
 }
+
 
 object puertaVictoriosa { 
 	var position = game.at(0,0)
@@ -216,12 +218,47 @@ class ElementoAcumulable inherits Elemento {
 	}
 }
 
-class Coco inherits ElementoAcumulable {
+class Coco inherits Movimiento(image = "piedra.png") {
 	
-	override method reaccionarA(objeto) {  
-	   super(objeto)  		
+	var esAtravesable = true
+	
+	override method reaccionarA(objeto) {    		
+	   if (objeto == neanthy and esAtravesable) {
+		objeto.agarrarItem(self)
+		game.removeVisual(self)
+		}
 	   marcadorCoco.actualizar()
 	   
+	}
+	
+	
+	override method configurate() {
+		super()
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+		})
+		
+	}
+	
+	override method esAtravesable() = esAtravesable
+	
+	method lanzar () {
+		
+		const direccionPersonaje = neanthy.ultimoMovimiento()
+		
+		position = neanthy.position()
+		esAtravesable = false
+		game.addVisual(self)
+		self.moverHacia(direccionPersonaje)
+        game.onTick(1000,"coco" , {
+        	self.moverHacia(direccionPersonaje)
+        	})
+        game.schedule(4000 , {game.removeVisual(self) ; game.removeTickEvent("coco")} )
+     
+        	
+
 	}
 	
 }

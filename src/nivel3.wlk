@@ -67,7 +67,7 @@ object nivelBonus {
 		marcadorCoco.actualizar()
 		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
 		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
-		
+		keyboard.space().onPressDo({ neanthy.tirarCoco() })
 		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.r().onPressDo{ self.restart()}
 		keyboard.p().onPressDo{ juegoEnPausa = !juegoEnPausa }

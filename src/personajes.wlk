@@ -52,8 +52,17 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo()})
 	}
 	
-	method tirarCoco(coco) { 
+	method tirarCoco() { 
 		
+		
+	     if (not cocos.isEmpty()) {
+	     	const coco = cocos.first()
+	     	cocos.remove(coco)
+	     	
+	     	coco.lanzar()
+	     	
+	     }
+
 	}
 	
 	
