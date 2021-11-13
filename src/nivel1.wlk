@@ -35,6 +35,9 @@ object nivelBloques {
 	method perder() {
 		game.clear()
 		game.addVisual(new Fondo(image="neanthy-game-over.png"))
+		game.schedule(2500, {
+			game.addVisual(new Fondo(image="neanthy-creditos.png"))
+			})
 		keyboard.r().onPressDo{ self.restart()}
 	}
 
@@ -67,10 +70,10 @@ object nivelBloques {
 	
 	method terminar() {
 		game.clear()
-		game.addVisual(new Fondo(image="neanthy-bgn.png"))
+		game.addVisual(new Fondo(image="finNivel1.png"))
 		game.schedule(2500, {
 			game.clear()
-			game.addVisual(new Fondo(image="finNivel1.png"))
+			game.addVisual(new Fondo(image="cargandoNivel2.png"))
 			game.schedule(3000, {
 				game.clear()
 				nivelLlaves.configurate()
