@@ -12,3 +12,4 @@ program juego_aventura {
 	
 	game.start()
 }
+

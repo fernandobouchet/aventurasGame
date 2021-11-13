@@ -9,6 +9,30 @@ class Pared {
 	const property position
 	method esAtravesable() = false
 	method reaccionarA(objeto) {}
+	method esInteractivo() = false
+}
+
+
+object puertaVictoriosa { 
+	var position = game.at(0,0)
+	var property image = "fogata.png" 
+	
+    method position() = position
+	
+	method esAtravesable() = true
+	method reaccionarA(objeto) {
+		if (objeto == neanthy) utilidadesParaJuego.nivel().terminar()
+	}
+	
+	
+	method configurate() {
+		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+	    game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+		})		
+	}
 }
 
 object fogata {
@@ -125,7 +149,7 @@ class ElementoEnergizante inherits Elemento {
 
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			nivelBloques.cantElementosEnergizantes(nivelBloques.cantElementosEnergizantes() - 1)
+			utilidadesParaJuego.nivel().cantElementosEnergizantes(utilidadesParaJuego.nivel().cantElementosEnergizantes() - 1)
 			objeto.energia(objeto.energia()+ energia)
 			marcadorFuerza.actualizar()
 			game.removeVisual(self)
@@ -135,12 +159,12 @@ class ElementoEnergizante inherits Elemento {
 
 class ElementoEnriquecedor inherits Elemento {
 	const property image = "buck.png"
-	var property dinero
-	
+		
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-		objeto.dinero(objeto.dinero() + dinero)
-		game.removeVisual(self)
+		    objeto.dinero(objeto.dinero() + 1)
+		    marcadorBitcoin.actualizar()
+		    game.removeVisual(self)
 		}
 	}
 }
@@ -150,19 +174,16 @@ class ElementoSorpresa inherits Elemento {
 	const property image = "medialuna.png"
 	
 	override method reaccionarA(objeto) {
-		var numeroRandom = 0.randomUpTo(100)
-		if (utilidadesParaJuego.nivel() == 1) numeroRandom = 0.randomUpTo(66)
+	    const numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidadesParaJuego.protagonista()) {
 			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
 				nuevoObjeto = new ElementoVitalidad(salud = 25)
 			}
-			else if (numeroRandom.between(33 , 66)) {
+			else {
 				nuevoObjeto = new ElementoEnergizante(energia = 40)
 			}
-			else {
-				nuevoObjeto = new ElementoEnriquecedor(dinero = 200)
-			}
+			
 			nuevoObjeto.configurate()
 			game.removeVisual(self)
 		}
@@ -186,12 +207,58 @@ class ElementoTransportador inherits Elemento {
 }
 
 class ElementoAcumulable inherits Elemento {
+	
 	const property image = "chicken.png"
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == neanthy) {
 		objeto.agarrarItem(self)
 		game.removeVisual(self)
 		}
 	}
+}
+
+class Coco inherits Movimiento(image = "piedra.png") {
+	
+	var esAtravesable = true
+	
+	override method reaccionarA(objeto) {    		
+	   if (objeto == neanthy and esAtravesable) {
+		objeto.agarrarItem(self)
+		game.removeVisual(self)
+		}
+	   marcadorCoco.actualizar()
+	   
+	}
+	
+	
+	override method configurate() {
+		super()
+		game.addVisual(self)
+		game.onCollideDo(self, {
+			objeto =>
+			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+		})
+		
+	}
+	
+	override method esAtravesable() = esAtravesable
+	
+	method lanzar () {
+		
+		const direccionPersonaje = neanthy.ultimoMovimiento()
+		
+		position = neanthy.position()
+		esAtravesable = false
+		game.addVisual(self)
+		self.moverHacia(direccionPersonaje)
+        game.onTick(1000,"coco" , {
+        	self.moverHacia(direccionPersonaje)
+        	})
+        game.schedule(4000 , {game.removeVisual(self) ; game.removeTickEvent("coco")} )
+     
+        	
+
+	}
+	
 }

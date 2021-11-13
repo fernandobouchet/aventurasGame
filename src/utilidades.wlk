@@ -4,7 +4,7 @@ import accesorios.*
 import nivel1.*
 
 object utilidadesParaJuego {
-	var property nivel = 1
+	var property nivel = nivelBloques
 	method posicionArbitraria() {
 		return game.at(
 			2.randomUpTo(game.width() - 2).truncate(0), 2.randomUpTo(game.height() - 3).truncate(0)
@@ -17,38 +17,60 @@ object utilidadesParaJuego {
 			posicionA = self.posicionArbitrariaNoOcupada()
 		return posicionA
 	}
-	method protagonista() = personajeSimple
+	method protagonista() = neanthy
 }
 
 object direccionArriba{
 	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando)
-		= "neanthy_izq" + (if(caminando) "_mov" else "") + ".png"
+	
+	method imagenProtagonista(caminando) =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_izq" + (if(caminando) "_mov" else "") + ".png"
+		
 	method imagenAnteojos() = "neanthy_izq_anteojos.png"
-	method imagenReloj(movimiento)
-		= "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
+	
+	method imagenReloj(movimiento) =
+	 "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
+	 
+	method imagenDino() = "dino-izq.png"
+	
+	method imagenDinoRex() = "dino-rex-izq.png"
 }
 object direccionAbajo{
 	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando)
-		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
+	method imagenProtagonista(caminando) =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_der" + (if(caminando) "_mov" else "") + ".png"
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
 	method imagenReloj(movimiento) = "transparente.png"
+	method imagenDino() = "dino-der.png"
+	
+	method imagenDinoRex() = "dino-rex-der.png"
 }
 object direccionIzquierda{
 	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando)
-		= "neanthy_izq" + (if(caminando) "_mov" else "") +".png"
+	method imagenProtagonista(caminando) =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_izq" + (if(caminando) "_mov" else "") + ".png"
 	method imagenAnteojos() = "neanthy_izq_anteojos.png"
 	method imagenReloj(movimiento)
 		= "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
+
+	method imagenDino() = "dino-izq.png"
+	
+	method imagenDinoRex() = "dino-rex-izq.png"
 }
 object direccionDerecha{
 	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando)
-		= "neanthy_der" + (if(caminando) "_mov" else "") +".png"
+	method imagenProtagonista(caminando) =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_der" + (if(caminando) "_mov" else "") + ".png"
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
 	method imagenReloj(movimiento) = "transparente.png"
+
+	method imagenDino() = "dino-der.png"
+	
+	method imagenDinoRex() = "dino-rex-der.png"
 }
 
 class Movimiento {
@@ -104,7 +126,7 @@ class Movimiento {
 	} 
 
 	method moverHacia(direccion) {
-		if (not nivelBloques.juegoEnPausa()) {
+		if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
 			ultimoMovimiento = direccion
 			if (self.puedeMover(direccion)) {
 				position = self.siguienteMovimientoHacia(direccion)

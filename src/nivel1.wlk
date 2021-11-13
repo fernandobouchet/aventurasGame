@@ -8,23 +8,19 @@ import nivel2.*
 import utilidades.*
 
 object nivelBloques {
+	
 	var property juegoEnPausa = false
 	var property cantElementosEnergizantes = 0
-	const maximoElementosEnergizantes = 2
-	var property inventario = []
-	var elementosNivel1 = []
+
 	
 	method crearElementoEnergizante() {
-		const elementoEnergizante = new ElementoEnergizante(energia = 30)
-		if (maximoElementosEnergizantes >= cantElementosEnergizantes) {
+		var elementoEnergizante = new ElementoEnergizante(energia = 30)
+		if(0.randomUpTo(100) > 90) elementoEnergizante = new ElementoEnergizante(energia = -20)
+		if (cantElementosEnergizantes == 0) {
 			elementoEnergizante.configurate()
 			cantElementosEnergizantes += 1
 		}
 		
-	}
-	
-	method agregarItem(item) {
-		inventario.add(item)
 	}
 	
 	method restart() {
@@ -42,20 +38,19 @@ object nivelBloques {
 	}
 
 	method configurate() {
-		inventario = []
+		cantElementosEnergizantes = 0
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)
-		
+		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
-		elementosNivel1.forEach{ obj => obj.configurate()}
 		
 		self.generarParedesInvisibles()
 		
 
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
-		game.onTick(2000, "elementosEnergizantes", { self.crearElementoEnergizante() })
-		game.onTick(50, "perder", {if (personajeSimple.energia() <= 0 or personajeSimple.salud() <= 0) self.perder()})
+		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
+		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
 		
 		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.r().onPressDo{ self.restart()}
@@ -65,10 +60,12 @@ object nivelBloques {
 	
 	method estadoJuego() {
 		if(fogata.estaCompleta() and
-		utilidadesParaJuego.protagonista().inventario().size() == 3) self.terminar()
+		neanthy.inventario().size() == 3) self.terminar()
 	}
 	
 	method terminar() {
+		juegoEnPausa = true
+		game.schedule(2000,{
 		game.clear()
 		game.addVisual(new Fondo(image="finNivel1.png"))
 		game.schedule(2500, {
@@ -76,23 +73,23 @@ object nivelBloques {
 			game.addVisual(new Fondo(image="cargandoNivel2.png"))
 			game.schedule(3000, {
 				game.clear()
-				nivelLlaves.configurate()
+				utilidadesParaJuego.nivel(nivelBitcoin)
+				nivelBitcoin.configurate()
 			})
-		})
+		})})
 	}
 	
 	method cargarPersonajesYObjetos(){
 		const dinoRex = new EnemigoSeguidor();
 		const dino = new EnemigoComun();
-		const elementoEnergizante = new ElementoEnergizante(energia = 30)
-		const elementoEnergizanteQuita = new ElementoEnergizante(energia = -15)
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTran1 = new ElementoTransportador()
 		const huevo1 = new Huevo()
 		const huevo2 = new Huevo()
 		const huevo3 = new Huevo()
-		elementosNivel1 = [
+	
+		const elementosNivel = [
 			elementoTran1,
 			fogata,
 			sarten,
@@ -102,14 +99,14 @@ object nivelBloques {
 			peine,
 			reloj,
 			anteojos,
-			elementoEnergizante,
-			elementoEnergizanteQuita,
 			elementoVit1,
 			elementoSorp1,
 			dinoRex,
 			dino,
-			personajeSimple
+			neanthy
 		]
+		
+		elementosNivel.forEach{ obj => obj.configurate()}
 	}
 	
 	method generarParedesInvisibles() {
