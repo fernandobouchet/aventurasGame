@@ -47,6 +47,7 @@ object nivelBitcoin inherits Nivel {
 	}
 
 	override method perder() {
+		super()
 		game.schedule(2500, { game.addVisual(new Fondo(image = "neanthy-creditos3.png"))})
 	}
 
