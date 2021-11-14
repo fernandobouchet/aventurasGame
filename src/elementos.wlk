@@ -230,9 +230,11 @@ class Coco inherits Movimiento(image = "coco.png") {
 		}
 		else {
 			if (not esAtravesable and game.hasVisual(self)) {
+				const impacto = new Sound(file = "impactococo.mp3")
 				game.removeVisual(objeto)
 				self.moverHacia(ultimoMovimiento)
 				image = "cocopum.png"
+				impacto.play()
 				game.schedule(150, { if (game.hasVisual(self)) game.removeVisual(self) })
 			}
 		}
