@@ -149,6 +149,8 @@ class ElementoEnergizante inherits Elemento {
 
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
+			const tomar = new Sound(file = "abrirlata.mp3")
+			tomar.play()
 			objeto.energia(objeto.energia()+ energia)
 			marcadorFuerza.actualizar()
 			game.removeVisual(self)

@@ -33,6 +33,11 @@ object nivelHuevos inherits Nivel {
 	
 	override method configurate() {
 		super()
+		//const fondosemioscuro = new Fondo(image = "mediasombra.png")
+		//game.addVisual(fondosemioscuro)
+		const ruidofogata = new Sound(file = "fuegonivel2.mp3")
+		ruidofogata.shouldLoop(true)
+		ruidofogata.play()
 		barraMarcador.image("marcadorNivel2.png")
 	}
 	
