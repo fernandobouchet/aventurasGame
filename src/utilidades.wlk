@@ -129,6 +129,10 @@ class Movimiento {
 		if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
 			ultimoMovimiento = direccion
 			if (self.puedeMover(direccion)) {
+				if(game.hasVisual(self)) {
+					game.removeVisual(self)
+					game.addVisual(self)
+				}
 				position = self.siguienteMovimientoHacia(direccion)
 			}
 			else {
