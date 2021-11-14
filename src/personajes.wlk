@@ -33,6 +33,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	
 	method recibirAtaque(danio) {
 		esAtacado = true
+		const recibirgolpe = new Sound(file = "recibirgolpe.mp3")
+		recibirgolpe.play()
 		salud -= danio
 		marcadorSalud.actualizar()
 		self.actualizarImagen()

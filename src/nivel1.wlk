@@ -43,6 +43,8 @@ object nivelCocos inherits Nivel {
 		juegoEnPausa = true
 		game.schedule(2000,{
 			game.clear()
+			const pasarnivel = new Sound(file = "pasarnivel.mp3")
+			pasarnivel.play()
 			game.addVisual(new Fondo(image="finNivel1.png"))
 			game.schedule(2500, {
 				game.clear()
