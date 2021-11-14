@@ -8,6 +8,7 @@ import utilidades.*
 import nivelbase.*
 
 object nivelBitcoin inherits Nivel {
+	const money = new Sound(file = "money.mp3")
 	var elementosEnriquecedores = 10
 	
 	method crearElementoEnriquecedor() {
@@ -22,6 +23,8 @@ object nivelBitcoin inherits Nivel {
 	
 	override method configurate() {
 		super()
+		money.play()
+		money.volume(0.1)
 		self.cargarPersonajesYObjetos()
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10		
