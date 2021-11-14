@@ -72,7 +72,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		super()
 		if (utilidades.nivel() == nivelHuevos) inventario = []
 		energia = 30
-		salud = 100
+		salud = 50
 		dinero = 0
 		game.addVisual(self)
 		game.addVisual(pelo)
@@ -102,9 +102,9 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 	override method actualizarImagen() {
 		image = ultimoMovimiento.imagenDino()
 	}
-
+		
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(5)
+		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(10)
 	}
 
 	override method configurate() {
@@ -129,7 +129,7 @@ class EnemigoSeguidor inherits EnemigoComun(image = "dino-rex-izq.png") {
 	}
 
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(5)
+		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(20)
 	}
 
 	override method moverEnemigo() {

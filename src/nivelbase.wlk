@@ -37,6 +37,7 @@ class Nivel {
 		neanthy.esAtacado(false)
 		self.generarParedes()
 		self.crearElementoEnergizante()
+		self.cargarPersonajesYObjetos()
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
 		game.onTick(50, "perder", { if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()

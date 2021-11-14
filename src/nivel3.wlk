@@ -25,7 +25,6 @@ object nivelBitcoin inherits Nivel {
 		super()
 		money.play()
 		money.volume(0.1)
-		self.cargarPersonajesYObjetos()
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10
 		marcadorBitcoin.actualizar()
