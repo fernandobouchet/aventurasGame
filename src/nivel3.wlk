@@ -46,6 +46,10 @@ object nivelBitcoin inherits Nivel {
 		})
 	}
 
+	override method perder() {
+		game.schedule(2500, { game.addVisual(new Fondo(image = "neanthy-creditos3.png"))})
+	}
+
 	override method cargarPersonajesYObjetos() {
 		const dinoRex = new EnemigoSeguidor()
 	;

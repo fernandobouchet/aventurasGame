@@ -35,6 +35,11 @@ object nivelHuevos inherits Nivel {
 		super()
 		ruidofogata.stop()
 	}
+	
+	override method perder() {
+		game.schedule(2500, { game.addVisual(new Fondo(image = "neanthy-creditos2.png"))})
+	}
+	
 	override method configurate() {
 		super()
 		ruidofogata.shouldLoop(true)

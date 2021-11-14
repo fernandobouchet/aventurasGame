@@ -28,7 +28,6 @@ class Nivel {
 	method perder() {
 		game.clear()
 		game.addVisual(new Fondo(image = "neanthy-game-over.png"))
-		game.schedule(2500, { game.addVisual(new Fondo(image = "neanthy-creditos.png"))})
 		keyboard.r().onPressDo{ self.restart()}
 	}
 
