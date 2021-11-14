@@ -31,6 +31,11 @@ object nivelHuevos inherits Nivel {
 		})})
 	}
 	
+	override method configurate() {
+		super()
+		barraMarcador.image("marcadorNivel2.png")
+	}
+	
 	override method cargarPersonajesYObjetos(){
 		const dinoRex = new EnemigoSeguidor();
 		const dino = new EnemigoComun();

@@ -24,6 +24,7 @@ object nivelCocos inherits Nivel {
 	
 	override method configurate() {
 		super()
+		barraMarcador.image("marcadorNivel1.png")
 		cantidadDeCocos = 10
 		self.crearCoco()		
 		marcadorCoco.actualizar()

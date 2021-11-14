@@ -4,7 +4,7 @@ import personajes.*
 
 object barraMarcador {
 	const property position = game.at(0,game.height() - 1)
-	const property image = "marcador.png"
+	var property image = ""
 }
 
 class DecenaNumeroMarcador {
