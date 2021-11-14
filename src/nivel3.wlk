@@ -65,4 +65,3 @@ object nivelBitcoin inherits Nivel {
 		elementosNivel.forEach{ obj => obj.configurate()}
 	}
 }
-
