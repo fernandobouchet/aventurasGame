@@ -2,13 +2,9 @@ import wollok.game.*
 import portada.*
 
 program juego_aventura {
-
 	game.title("Neanthy")
 	game.height(12)
 	game.width(12)
-	
-	portada.configurate()	
-	
+	portada.configurate()
 	game.start()
 }
-
