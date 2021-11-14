@@ -39,7 +39,6 @@ class Nivel {
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
-		self.cargarPersonajesYObjetos()
 		self.generarParedes()
 		self.crearElementoEnergizante()
 		marcadorFuerza.actualizar()

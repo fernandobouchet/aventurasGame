@@ -9,6 +9,7 @@ import nivel3.*
 import utilidades.*
 
 object nivelHuevos inherits Nivel {
+	const ruidofogata = new Sound(file = "fuegonivel2.mp3")
 
 	override method estadoJuego() {
 		if(fogata.estaCompleta() and
@@ -18,6 +19,7 @@ object nivelHuevos inherits Nivel {
 	override method terminar() {
 		juegoEnPausa = true
 		game.schedule(2000,{
+		ruidofogata.stop()
 		game.clear()
 		game.addVisual(new Fondo(image="finNivel2.png"))
 		game.schedule(2500, {
@@ -33,11 +35,10 @@ object nivelHuevos inherits Nivel {
 	
 	override method configurate() {
 		super()
-		//const fondosemioscuro = new Fondo(image = "mediasombra.png")
-		//game.addVisual(fondosemioscuro)
-		const ruidofogata = new Sound(file = "fuegonivel2.mp3")
+		game.addVisual(new Fondo(image = "mediasombra.png"))
 		ruidofogata.shouldLoop(true)
 		ruidofogata.play()
+		self.cargarPersonajesYObjetos()
 		barraMarcador.image("marcadorNivel2.png")
 	}
 	

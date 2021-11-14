@@ -129,8 +129,10 @@ class ElementoVitalidad inherits Elemento {
 	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-		objeto.salud(objeto.salud()+ salud)
-		game.removeVisual(self)
+			const tomarmate = new Sound(file = "tomarmate.mp3")
+			tomarmate.play()
+			objeto.salud(objeto.salud()+ salud)
+			game.removeVisual(self)
 		}
 	}
 }

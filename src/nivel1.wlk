@@ -26,7 +26,8 @@ object nivelCocos inherits Nivel {
 		super()
 		barraMarcador.image("marcadorNivel1.png")
 		cantidadDeCocos = 10
-		self.crearCoco()		
+		self.crearCoco()
+		self.cargarPersonajesYObjetos()
 		marcadorCoco.actualizar()
 		keyboard.control().onPressDo({ neanthy.tirarCoco() })
 	}
