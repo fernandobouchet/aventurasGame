@@ -165,6 +165,8 @@ class ElementoEnriquecedor inherits Elemento {
 		
 	override method reaccionarA(objeto) {
 		if (objeto == utilidades.protagonista()) {
+			const moneda = new Sound(file = "coin.mp3")
+			moneda.play()
 		    objeto.dinero(objeto.dinero() + 1)
 		    marcadorBitcoin.actualizar()
 		    game.removeVisual(self)
