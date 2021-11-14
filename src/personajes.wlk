@@ -22,11 +22,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	method inventario() = inventario
 	
 	method agarrarItem(item) {
-		if (utilidadesParaJuego.nivel() == nivelCocos) { 
-		cocos.add(item)}
-	    else {
-	    inventario.add(item)
-		}
+		if (utilidadesParaJuego.nivel() == nivelCocos) cocos.add(item)
+	    else inventario.add(item)
 	}
 
 	method tiene(item) = inventario.contains(item)
@@ -53,18 +50,12 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	}
 	
 	method tirarCoco() { 
-		
-		
-	     if (not cocos.isEmpty()) {
-	     	const coco = cocos.first()
-	     	cocos.remove(coco)
-	     	
-	     	coco.lanzar()
-	     	
-	     }
-
+		if (not cocos.isEmpty()) {
+			const coco = cocos.first()
+			cocos.remove(coco)
+			coco.lanzar()
+		}
 	}
-	
 	
 	override method actualizarImagen(movimiento) {
 		pelo.actualizar(ultimoMovimiento)

@@ -1,5 +1,6 @@
 import wollok.game.*
 import utilidades.*
+import personajes.*
 
 object pelo {
 	var image = "neanthy_der_pelo_1.png"
@@ -12,14 +13,14 @@ object pelo {
 	method esAtravesable() = true
 
 	method actualizar(direccion) {
-		position = utilidadesParaJuego.protagonista().position()
+		position = neanthy.position()
 		image = direccion.imagenPelo()
 		game.removeVisual(self)
 		game.addVisual(self)
 	}
 
 	method formaPelo() =
-		if (utilidadesParaJuego.protagonista().tiene(peine)) "pelo_2"
+		if (neanthy.tiene(peine)) "pelo_2"
 		else "pelo_1"
 }
 
@@ -41,9 +42,9 @@ class AccesorioAgarrable {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
-			objeto.agarrarItem(self)
+		if (objeto == neanthy and not neanthy.tiene(self)) {
 			game.removeVisual(self)
+			objeto.agarrarItem(self)
 			objeto.actualizarImagen(false)
 		}
 	}
@@ -57,14 +58,13 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 		image = "reloj.png"
 	}
 	method actualizar(direccion, movimiento) {
-		const protagonista = utilidadesParaJuego.protagonista()
-		if (protagonista.tiene(self)) {
+		if (neanthy.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
 			else {
 				game.removeVisual(self)
 				game.addVisual(self)
 			}
-			position = protagonista.position()
+			position = neanthy.position()
 			image = direccion.imagenReloj(movimiento)
 		}
 	}
@@ -76,14 +76,13 @@ object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
 		image = "anteojos.png"
 	}
 	method actualizar(direccion) {
-		const protagonista = utilidadesParaJuego.protagonista()
-		if (protagonista.tiene(self)) {
+		if (neanthy.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
 			else {
 				game.removeVisual(self)
 				game.addVisual(self)
 			}
-			position = protagonista.position()
+			position = neanthy.position()
 			image = direccion.imagenAnteojos()
 		}
 	}
