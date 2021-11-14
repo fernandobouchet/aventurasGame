@@ -30,7 +30,11 @@ object nivelHuevos inherits Nivel {
 			})
 		})
 	}
-
+	
+	override method restart() {
+		super()
+		ruidofogata.stop()
+	}
 	override method configurate() {
 		super()
 		ruidofogata.shouldLoop(true)
