@@ -199,7 +199,7 @@ class ElementoTransportador inherits Elemento {
 			const posicion = utilidadesParaJuego.posicionArbitrariaNoOcupada()
 			position = posicion
 			objeto.position(posicion)
-			objeto.actualizarImagen(false)
+			objeto.actualizarImagen()
 			game.schedule(500, {game.removeVisual(self)})
 		}
 	}

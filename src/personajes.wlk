@@ -18,7 +18,6 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	
 	var inventario = []
 	
-	
 	method inventario() = inventario
 	
 	method agarrarItem(item) {
@@ -36,8 +35,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		esAtacado = true
 		salud -= danio
 		marcadorSalud.actualizar()
-		self.actualizarImagen(false)
-		game.schedule(100, { esAtacado = false; self.actualizarImagen(false) })
+		self.actualizarImagen()
+		game.schedule(100, { esAtacado = false; self.actualizarImagen() })
 	}
 	
 	method cansarse(cantidad) {
@@ -57,25 +56,23 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		}
 	}
 	
-	override method actualizarImagen(movimiento) {
-		pelo.actualizar(ultimoMovimiento)
-		reloj.actualizar(ultimoMovimiento, movimiento)
-		anteojos.actualizar(ultimoMovimiento)
-		image = ultimoMovimiento.imagenProtagonista(movimiento)
+	override method actualizarImagen() {
+		pelo.actualizar()
+		reloj.actualizar()
+		anteojos.actualizar()
+		image = ultimoMovimiento.imagenProtagonista()
 	}
 	
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
-		if (utilidadesParaJuego.nivel() == nivelHuevos) {
-			inventario = []
-		}
+		if (utilidadesParaJuego.nivel() == nivelHuevos) inventario = []
 		energia = 30
 		salud = 100
 		dinero = 0
 		game.addVisual(self)
 		game.addVisual(pelo)
-		self.actualizarImagen(false)
+		self.actualizarImagen()
 		keyboard.up().onPressDo({self.ejecutarMovimiento(direccionArriba) })
 		keyboard.down().onPressDo({ self.ejecutarMovimiento(direccionAbajo) })
 		keyboard.left().onPressDo({ self.ejecutarMovimiento(direccionIzquierda) })
@@ -84,7 +81,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	}
 	
 	method ejecutarMovimiento(direccion) {
-		self.actualizarImagen(true)
+		enMovimiento = true
+		self.actualizarImagen()
 		game.schedule(100,{
 			self.moverHacia(direccion)
 			self.cansarse(1)
@@ -96,7 +94,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 
 class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 
-	override method actualizarImagen(movimiento) {
+	override method actualizarImagen() {
 		image = ultimoMovimiento.imagenDino()
 	}
 
@@ -111,30 +109,26 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 	
 	method moverEnemigo() {
 		if (game.hasVisual(self)) {
-		self.provocarMovimientoAleatorio()
-		game.schedule(1000, {self.moverEnemigo()})}
+			self.provocarMovimientoAleatorio()
+			game.schedule(1000, {self.moverEnemigo()})
+		}
 	}
 }
 
-class EnemigoSeguidor inherits Movimiento(image = "dino-rex-izq.png") {
+class EnemigoSeguidor inherits EnemigoComun(image = "dino-rex-izq.png") {
 	
-	override method actualizarImagen(movimiento) {
+	override method actualizarImagen() {
 		image = ultimoMovimiento.imagenDinoRex()
 	}
 	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
 	}
-	override method configurate() {
-		super()
-		game.addVisual(self)
-		self.moverEnemigo()
-	}
 	
-	method moverEnemigo() {
+	override method moverEnemigo() {
 		if (game.hasVisual(self)) {
-		self.moverUnPasoHacia(neanthy)
-		game.schedule(1000, {self.moverEnemigo()})
+			self.moverUnPasoHacia(neanthy)
+			game.schedule(1000, {self.moverEnemigo()})
 		}
 	}
 }

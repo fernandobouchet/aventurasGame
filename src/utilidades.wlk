@@ -21,55 +21,80 @@ object utilidadesParaJuego {
 }
 
 object direccionArriba{
+	method siguienteMovimiento(desdePosicion) {
+		return
+			if (desdePosicion.y() == game.height() - 2)
+				game.at(desdePosicion.x(), 0)
+			else
+				desdePosicion.up(1)
+	}
+	
 	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
-	
-	method imagenProtagonista(caminando) =
+	method imagenProtagonista() =
 		if (neanthy.esAtacado()) "neanthy_atacado.png"
-		else "neanthy_izq" + (if(caminando) "_mov" else "") + ".png"
-		
+		else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
 	method imagenAnteojos() = "neanthy_izq_anteojos.png"
-	
-	method imagenReloj(movimiento) =
-	 "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
-	 
+	method imagenReloj() =
+	 "neanthy_izq_" + (if(neanthy.enMovimiento()) "watch2" else "watch") + ".png"
 	method imagenDino() = "dino-izq.png"
-	
 	method imagenDinoRex() = "dino-rex-izq.png"
 }
+
 object direccionAbajo{
+	method siguienteMovimiento(desdePosicion) {
+		return
+			if (desdePosicion.y() == 0)
+				game.at(desdePosicion.x(), game.height() - 2)
+			else
+				desdePosicion.down(1)
+	}
+
 	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando) =
+	method imagenProtagonista() =
 		if (neanthy.esAtacado()) "neanthy_atacado.png"
-		else "neanthy_der" + (if(caminando) "_mov" else "") + ".png"
+		else "neanthy_der" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
-	method imagenReloj(movimiento) = "transparente.png"
+	method imagenReloj() = "transparente.png"
 	method imagenDino() = "dino-der.png"
-	
 	method imagenDinoRex() = "dino-rex-der.png"
 }
-object direccionIzquierda{
-	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando) =
-		if (neanthy.esAtacado()) "neanthy_atacado.png"
-		else "neanthy_izq" + (if(caminando) "_mov" else "") + ".png"
-	method imagenAnteojos() = "neanthy_izq_anteojos.png"
-	method imagenReloj(movimiento)
-		= "neanthy_izq_" + (if(movimiento) "watch2" else "watch") + ".png"
 
+object direccionIzquierda{
+	method siguienteMovimiento(desdePosicion) {
+		return
+			if (desdePosicion.x() == 0)
+				game.at(game.width() - 1, desdePosicion.y())
+			else
+				desdePosicion.left(1)
+	}
+
+	method imagenPelo() = "neanthy_izq_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista() =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
+	method imagenAnteojos() = "neanthy_izq_anteojos.png"
+	method imagenReloj() =
+		"neanthy_izq_" + (if(neanthy.enMovimiento()) "watch2" else "watch") + ".png"
 	method imagenDino() = "dino-izq.png"
-	
 	method imagenDinoRex() = "dino-rex-izq.png"
 }
-object direccionDerecha{
-	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
-	method imagenProtagonista(caminando) =
-		if (neanthy.esAtacado()) "neanthy_atacado.png"
-		else "neanthy_der" + (if(caminando) "_mov" else "") + ".png"
-	method imagenAnteojos() = "neanthy_der_anteojos.png"
-	method imagenReloj(movimiento) = "transparente.png"
 
+object direccionDerecha{
+	method siguienteMovimiento(desdePosicion) {
+		return
+			if (desdePosicion.x() == game.width() - 1)
+				game.at(0, desdePosicion.y())
+			else
+				desdePosicion.right(1)
+	}
+
+	method imagenPelo() = "neanthy_der_"+ pelo.formaPelo() +".png"
+	method imagenProtagonista() =
+		if (neanthy.esAtacado()) "neanthy_atacado.png"
+		else "neanthy_der" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
+	method imagenAnteojos() = "neanthy_der_anteojos.png"
+	method imagenReloj() = "transparente.png"
 	method imagenDino() = "dino-der.png"
-	
 	method imagenDinoRex() = "dino-rex-der.png"
 }
 
@@ -77,48 +102,22 @@ class Movimiento {
 	var property position = game.at(0,0)
 	var property image
 	var property ultimoMovimiento = direccionDerecha
+	var enMovimiento = false
 
 	method reaccionarA(obstaculo)
-		
+	
+	method enMovimiento() = enMovimiento
+	
 	method esAtravesable() = false
 	
 	method esInteractivo() = false	
 	
 	method configurate() { position = utilidadesParaJuego.posicionArbitrariaNoOcupada() }
 	
-	method actualizarImagen(movimiento) {}
-	
-	method siguienteMovimientoHacia(direccion) {
-		var siguiente
-		if (direccion == direccionDerecha) 
-			siguiente =
-				if (position.x() == game.width() - 1)
-					game.at(0, position.y())
-				else
-					position.right(1)
-		if (direccion == direccionIzquierda) 
-			siguiente =
-				if (position.x() == 0)
-					game.at(game.width() - 1, position.y())
-				else
-					position.left(1) 
-		if (direccion == direccionArriba) 
-			siguiente =
-				if (position.y() == game.height() - 2)
-					game.at(position.x(), 0)
-				else
-					position.up(1)
-		if (direccion == direccionAbajo) 
-			siguiente =
-				if (position.y() == 0)
-					game.at(position.x(), game.height() - 2)
-				else
-					position.down(1)
-		return siguiente
-	}
+	method actualizarImagen() {}
 
 	method objetosHacia(direccion) {
-		return game.getObjectsIn(self.siguienteMovimientoHacia(direccion))
+		return game.getObjectsIn(direccion.siguienteMovimiento(position))
 	}
 	
 	method puedeMover(direccion) {
@@ -133,14 +132,15 @@ class Movimiento {
 					game.removeVisual(self)
 					game.addVisual(self)
 				}
-				position = self.siguienteMovimientoHacia(direccion)
+				position = direccion.siguienteMovimiento(position)
 			}
 			else {
 				const objetoHacia = self.objetosHacia(direccion).find{objeto => not objeto.esAtravesable()}
 				objetoHacia.reaccionarA(self)
 				self.reaccionarA(objetoHacia)
 			}
-			self.actualizarImagen(false)
+			enMovimiento = false
+			self.actualizarImagen()
 		}
 	}
 	
