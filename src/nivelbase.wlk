@@ -10,15 +10,15 @@ import utilidades.*
 class Nivel {
 	
 	var property juegoEnPausa = false
-	var property cantElementosEnergizantes = 0
+	var elementoEnergia = new ElementoEnergizante(energia = 30)
 	
 	method crearElementoEnergizante() {
-		var elementoEnergizante = new ElementoEnergizante(energia = 30)
-		if(0.randomUpTo(100) > 90) elementoEnergizante = new ElementoEnergizante(energia = -20)
-		if (cantElementosEnergizantes == 0) {
-			elementoEnergizante.configurate()
-			cantElementosEnergizantes += 1
+		if (not game.hasVisual(elementoEnergia)) {
+			elementoEnergia = new ElementoEnergizante(energia = 30)
+			if(0.randomUpTo(100) > 90) elementoEnergia = new ElementoEnergizante(energia = -20)
+			elementoEnergia.configurate()
 		}	
+		game.schedule(4000.randomUpTo(8000).truncate(0), { self.crearElementoEnergizante() })
 	}
 	
 	method restart() {
@@ -35,18 +35,15 @@ class Nivel {
 		keyboard.r().onPressDo{ self.restart()}
 	}
 
-	method configurate() {
-		cantElementosEnergizantes = 0	
+	method configurate() {	
 		game.addVisual(new Fondo(image="neanthy-bgn.png"))
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
 		self.generarParedes()
-		
-
+		self.crearElementoEnergizante()
 		marcadorFuerza.actualizar()
 		marcadorSalud.actualizar()
-		game.onTick(4000, "elementosEnergizantes", { self.crearElementoEnergizante() })
 		game.onTick(50, "perder", {if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()})
 		keyboard.t().onPressDo({ self.terminar() })
 		keyboard.r().onPressDo{ self.restart()}

@@ -149,7 +149,6 @@ class ElementoEnergizante inherits Elemento {
 
 	method interactuarCon(objeto) {
 		if (objeto == utilidadesParaJuego.protagonista()) {
-			utilidadesParaJuego.nivel().cantElementosEnergizantes(utilidadesParaJuego.nivel().cantElementosEnergizantes() - 1)
 			objeto.energia(objeto.energia()+ energia)
 			marcadorFuerza.actualizar()
 			game.removeVisual(self)

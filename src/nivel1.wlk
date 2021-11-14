@@ -10,6 +10,7 @@ import utilidades.*
 
 object nivelCocos inherits Nivel {
 	var cantidadDeCocos = 10
+	var property enemigosVivos = []
 	
 	method crearCoco() {
 		const cocos = new Coco()
@@ -30,23 +31,28 @@ object nivelCocos inherits Nivel {
 	}
 	
 	override method estadoJuego() {
-		if(neanthy.dinero() == 10 and not game.hasVisual(puertaVictoriosa)) puertaVictoriosa.configurate()
+		if(enemigosVivos.size() == 0) self.terminar()
+		else
+			enemigosVivos.forEach{ enemigo =>
+				if (not game.hasVisual(enemigo)) enemigosVivos.remove(enemigo)
+			}
 	}
 	
 	override method terminar() {
 		juegoEnPausa = true
 		game.schedule(2000,{
-		game.clear()
-		game.addVisual(new Fondo(image="finNivel1.png"))
-		game.schedule(2500, {
 			game.clear()
-			game.addVisual(new Fondo(image="cargandoNivel2.png"))
-			game.schedule(3000, {
+			game.addVisual(new Fondo(image="finNivel1.png"))
+			game.schedule(2500, {
 				game.clear()
-				utilidadesParaJuego.nivel(nivelHuevos)
-				nivelHuevos.configurate()			
+				game.addVisual(new Fondo(image="cargandoNivel2.png"))
+				game.schedule(3000, {
+					game.clear()
+					utilidadesParaJuego.nivel(nivelHuevos)
+					nivelHuevos.configurate()			
+				})
 			})
-		})})
+		})
 	}
 	
 	override method cargarPersonajesYObjetos(){
@@ -57,15 +63,20 @@ object nivelCocos inherits Nivel {
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTransportador1 = new ElementoTransportador()
 		
+		enemigosVivos = [
+			dinoRex,
+			dino,
+			dino2
+		]
+		
 		const elementosNivel = [
 			elementoTransportador1,
 			elementoVit1,
 			elementoSorp1,
-			dinoRex,
-			dino,
-			dino2,
 			neanthy
-			]
+		]
+		
+		elementosNivel.addAll(enemigosVivos)
 			
 		elementosNivel.forEach{ obj => obj.configurate()}
 	}	
