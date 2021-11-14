@@ -226,16 +226,19 @@ class ElementoAcumulable inherits Elemento {
 class Coco inherits Movimiento(image = "coco.png") {
 	
 	var esAtravesable = true
+	var esProyectil = false
 	
 	override method reaccionarA(objeto) {    		
 		if (objeto == utilidades.protagonista()) {
-			if (esAtravesable) {
+			if (not esProyectil) {
+				esProyectil = true
 				objeto.agarrarItem(self)
 				game.removeVisual(self)
 			}
 		}
 		else {
-			if (not esAtravesable and game.hasVisual(self)) {
+			if (esProyectil and game.hasVisual(self)) {
+				esAtravesable = true
 				const impacto = new Sound(file = "impactococo.mp3")
 				game.removeVisual(objeto)
 				self.moverHacia(ultimoMovimiento)
@@ -252,7 +255,7 @@ class Coco inherits Movimiento(image = "coco.png") {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			if(not objeto.esAtravesable()) self.reaccionarA(objeto)
+			self.reaccionarA(objeto)
 		})
 		
 	}
@@ -268,7 +271,7 @@ class Coco inherits Movimiento(image = "coco.png") {
 		self.moverHacia(direccionPersonaje)
 		var cantMov = 0
         game.onTick(150,"coco" , {
-        	self.moverHacia(direccionPersonaje)
+        	if(not esAtravesable) self.moverHacia(direccionPersonaje)
         	if(cantMov == 3) {
         		if (game.hasVisual(self)) {
         			game.removeVisual(self)
