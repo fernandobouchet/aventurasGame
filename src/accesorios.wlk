@@ -14,6 +14,8 @@ object pelo {
 	method actualizar(direccion) {
 		position = utilidadesParaJuego.protagonista().position()
 		image = direccion.imagenPelo()
+		game.removeVisual(self)
+		game.addVisual(self)
 	}
 
 	method formaPelo() =
@@ -58,6 +60,10 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 		const protagonista = utilidadesParaJuego.protagonista()
 		if (protagonista.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
+			else {
+				game.removeVisual(self)
+				game.addVisual(self)
+			}
 			position = protagonista.position()
 			image = direccion.imagenReloj(movimiento)
 		}
@@ -73,6 +79,10 @@ object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
 		const protagonista = utilidadesParaJuego.protagonista()
 		if (protagonista.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
+			else {
+				game.removeVisual(self)
+				game.addVisual(self)
+			}
 			position = protagonista.position()
 			image = direccion.imagenAnteojos()
 		}

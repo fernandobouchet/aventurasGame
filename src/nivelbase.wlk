@@ -41,7 +41,7 @@ class Nivel {
 		game.addVisual(barraMarcador)
 		neanthy.esAtacado(false)
 		self.cargarPersonajesYObjetos()
-		self.generarParedesInvisibles()
+		self.generarParedes()
 		
 
 		marcadorFuerza.actualizar()
@@ -60,18 +60,18 @@ class Nivel {
 	
 	method cargarPersonajesYObjetos()
 	
-	method generarParedesInvisibles() {
-		self.generarParedInvisibleEnX(1, 4, 0)
-		self.generarParedInvisibleEnX(7, game.width() - 2, 0)
-		self.generarParedInvisibleEnX(1, 4, game.height() - 2)
-		self.generarParedInvisibleEnX(7, 10, game.height() - 2)
-		self.generarParedInvisibleEnY(0, 1, 3)
-		self.generarParedInvisibleEnY(0, 7, game.height() - 3)
-		self.generarParedInvisibleEnY(game.width() - 1, 1, 3)
-		self.generarParedInvisibleEnY(game.width() - 1, 7, game.height() - 3)
+	method generarParedes() {
+		self.generarParedEnX(1, 4, 0)
+		self.generarParedEnX(7, game.width() - 2, 0)
+		self.generarParedEnX(1, 4, game.height() - 2)
+		self.generarParedEnX(7, 10, game.height() - 2)
+		self.generarParedEnY(0, 1, 3)
+		self.generarParedEnY(0, 7, game.height() - 3)
+		self.generarParedEnY(game.width() - 1, 1, 3)
+		self.generarParedEnY(game.width() - 1, 7, game.height() - 3)
 	}
 	
-	method generarParedInvisibleEnX(desdeX, hastaX, y) {
+	method generarParedEnX(desdeX, hastaX, y) {
 		const pared = []
 		pared.add(new Pared(position = game.at(desdeX, y)))
 		(hastaX - desdeX).times{ x =>
@@ -80,7 +80,7 @@ class Nivel {
 		pared.forEach{ p => game.addVisual(p) }
 	}
 
-	method generarParedInvisibleEnY(x, desdeY, hastaY) {
+	method generarParedEnY(x, desdeY, hastaY) {
 		const pared = []
 		pared.add(new Pared(position = game.at(x, desdeY)))
 		(hastaY - desdeY).times{ y =>
