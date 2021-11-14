@@ -21,12 +21,12 @@ object puertaVictoriosa {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto == neanthy) utilidadesParaJuego.nivel().terminar()
+		if (objeto == utilidades.protagonista()) utilidades.nivel().terminar()
 	}
 	
 	
 	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		position = utilidades.posicionArbitrariaNoOcupada()
 	    game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -62,7 +62,7 @@ object fogata {
 		image = "fogata.png"
 		tieneSarten = false
 		cantHuevos = 0
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		position = utilidades.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 	}
 }
@@ -76,7 +76,7 @@ class ObjetoMovible inherits Movimiento {
 	
 
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == utilidades.protagonista()) {
 			if (self.puedeMover(objeto.ultimoMovimiento())) {
 				self.moverHacia(objeto.ultimoMovimiento())
 				objeto.moverHacia(objeto.ultimoMovimiento())
@@ -113,7 +113,7 @@ class Elemento {
 	
 	method position() = position
 	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		position = utilidades.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -128,7 +128,7 @@ class ElementoVitalidad inherits Elemento {
 	var property salud
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == utilidades.protagonista()) {
 			const tomarmate = new Sound(file = "tomarmate.mp3")
 			tomarmate.play()
 			objeto.salud(objeto.salud()+ salud)
@@ -145,12 +145,12 @@ class ElementoEnergizante inherits Elemento {
 	override method esInteractivo() = true
 	
 	override method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		position = utilidades.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 	}
 
 	method interactuarCon(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == utilidades.protagonista()) {
 			const tomar = new Sound(file = "abrirlata.mp3")
 			tomar.play()
 			objeto.energia(objeto.energia()+ energia)
@@ -164,7 +164,7 @@ class ElementoEnriquecedor inherits Elemento {
 	const property image = "bitcoin.png"
 		
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == utilidades.protagonista()) {
 		    objeto.dinero(objeto.dinero() + 1)
 		    marcadorBitcoin.actualizar()
 		    game.removeVisual(self)
@@ -178,7 +178,7 @@ class ElementoSorpresa inherits Elemento {
 	
 	override method reaccionarA(objeto) {
 	    const numeroRandom = 0.randomUpTo(66)
-		if(objeto == utilidadesParaJuego.protagonista()) {
+		if(objeto == utilidades.protagonista()) {
 			var nuevoObjeto
 			if ( numeroRandom.between(0 , 33) ) {
 				nuevoObjeto = new ElementoVitalidad(salud = 25)
@@ -198,9 +198,9 @@ class ElementoTransportador inherits Elemento {
 	var activado = true
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) {
+		if (objeto == utilidades.protagonista()) {
 			activado = false
-			const posicion = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+			const posicion = utilidades.posicionArbitrariaNoOcupada()
 			position = posicion
 			objeto.position(posicion)
 			objeto.actualizarImagen()
@@ -214,7 +214,7 @@ class ElementoAcumulable inherits Elemento {
 	const property image = "chicken.png"
 	
 	override method reaccionarA(objeto) {
-		if (objeto == neanthy) {
+		if (objeto == utilidades.protagonista()) {
 		objeto.agarrarItem(self)
 		game.removeVisual(self)
 		}
@@ -226,7 +226,7 @@ class Coco inherits Movimiento(image = "coco.png") {
 	var esAtravesable = true
 	
 	override method reaccionarA(objeto) {    		
-		if (objeto == neanthy) {
+		if (objeto == utilidades.protagonista()) {
 			if (esAtravesable) {
 				objeto.agarrarItem(self)
 				game.removeVisual(self)

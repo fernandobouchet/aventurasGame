@@ -32,7 +32,7 @@ class AccesorioAgarrable {
 	method image() = image
 	
 	method configurate() {
-		position = utilidadesParaJuego.posicionArbitrariaNoOcupada()
+		position = utilidades.posicionArbitrariaNoOcupada()
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
@@ -42,7 +42,7 @@ class AccesorioAgarrable {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto == neanthy and not neanthy.tiene(self)) {
+		if (objeto == utilidades.protagonista() and not neanthy.tiene(self)) {
 			game.removeVisual(self)
 			objeto.agarrarItem(self)
 			objeto.actualizarImagen()

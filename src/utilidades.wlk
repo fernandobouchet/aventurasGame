@@ -3,7 +3,7 @@ import personajes.*
 import accesorios.*
 import nivel1.*
 
-object utilidadesParaJuego {
+object utilidades {
 	var property nivel = nivelCocos
 	method posicionArbitraria() {
 		return game.at(
@@ -112,7 +112,7 @@ class Movimiento {
 	
 	method esInteractivo() = false	
 	
-	method configurate() { position = utilidadesParaJuego.posicionArbitrariaNoOcupada() }
+	method configurate() { position = utilidades.posicionArbitrariaNoOcupada() }
 	
 	method actualizarImagen() {}
 
@@ -125,7 +125,7 @@ class Movimiento {
 	} 
 
 	method moverHacia(direccion) {
-		if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
+		if (not utilidades.nivel().juegoEnPausa()) {
 			ultimoMovimiento = direccion
 			if (self.puedeMover(direccion)) {
 				if(game.hasVisual(self)) {

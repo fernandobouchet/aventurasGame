@@ -22,6 +22,7 @@ object nivelBitcoin inherits Nivel {
 	
 	override method configurate() {
 		super()
+		self.cargarPersonajesYObjetos()
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10		
 		marcadorBitcoin.actualizar()

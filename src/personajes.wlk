@@ -21,7 +21,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	method inventario() = inventario
 	
 	method agarrarItem(item) {
-		if (utilidadesParaJuego.nivel() == nivelCocos) cocos.add(item)
+		if (utilidades.nivel() == nivelCocos) cocos.add(item)
 	    else inventario.add(item)
 	}
 
@@ -68,7 +68,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	override method reaccionarA(obstaculo) {}
 	override method configurate() {
 		super()
-		if (utilidadesParaJuego.nivel() == nivelHuevos) inventario = []
+		if (utilidades.nivel() == nivelHuevos) inventario = []
 		energia = 30
 		salud = 100
 		dinero = 0
@@ -86,7 +86,7 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		enMovimiento = true
 		self.actualizarImagen()
 		game.schedule(100,{
-			if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
+			if (not utilidades.nivel().juegoEnPausa()) {
 				self.moverHacia(direccion)
 				self.cansarse(1)
 			}
@@ -103,7 +103,7 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 	}
 
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
+		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(5)
 	}
 	override method configurate() {
 		super()
@@ -126,7 +126,7 @@ class EnemigoSeguidor inherits EnemigoComun(image = "dino-rex-izq.png") {
 	}
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidadesParaJuego.protagonista()) objeto.recibirAtaque(5)
+		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(5)
 	}
 	
 	override method moverEnemigo() {

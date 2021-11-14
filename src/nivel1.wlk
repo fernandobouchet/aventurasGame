@@ -52,7 +52,7 @@ object nivelCocos inherits Nivel {
 				game.addVisual(new Fondo(image="cargandoNivel2.png"))
 				game.schedule(3000, {
 					game.clear()
-					utilidadesParaJuego.nivel(nivelHuevos)
+					utilidades.nivel(nivelHuevos)
 					nivelHuevos.configurate()			
 				})
 			})

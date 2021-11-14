@@ -27,7 +27,7 @@ object nivelHuevos inherits Nivel {
 			game.addVisual(new Fondo(image="cargandoNivel3.png"))
 			game.schedule(3000, {
 				game.clear()
-				utilidadesParaJuego.nivel(nivelBitcoin)
+				utilidades.nivel(nivelBitcoin)
 				nivelBitcoin.configurate()
 			})
 		})})
@@ -35,7 +35,6 @@ object nivelHuevos inherits Nivel {
 	
 	override method configurate() {
 		super()
-		game.addVisual(new Fondo(image = "mediasombra.png"))
 		ruidofogata.shouldLoop(true)
 		ruidofogata.play()
 		self.cargarPersonajesYObjetos()

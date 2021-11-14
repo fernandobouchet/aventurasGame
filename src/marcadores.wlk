@@ -38,7 +38,7 @@ object marcadorFuerza {
 	const unidad = new UnidadNumeroMarcador(position = game.at(3,game.height() - 1))
 	
 	method actualizar() {
-		const energiaProtagonista = utilidadesParaJuego.protagonista().energia()
+		const energiaProtagonista = utilidades.protagonista().energia()
 		if (energiaProtagonista > 99) {
 			decena.cambiarOMostrar(9)
 			unidad.cambiarOMostrar(9)
@@ -56,7 +56,7 @@ object marcadorSalud {
 	const unidad = new UnidadNumeroMarcador(position = game.at(7,game.height() - 1))
 	
 	method actualizar() {
-		const saludProtagonista = utilidadesParaJuego.protagonista().salud()
+		const saludProtagonista = utilidades.protagonista().salud()
 		if (saludProtagonista > 99) {
 			decena.cambiarOMostrar(9)
 			unidad.cambiarOMostrar(9)
@@ -75,7 +75,7 @@ object marcadorBitcoin {
 	const unidad = new UnidadNumeroMarcador(position = game.at(11,game.height() - 1))
 	
 	method actualizar() {
-		const dineroProtagonista = utilidadesParaJuego.protagonista().dinero()
+		const dineroProtagonista = utilidades.protagonista().dinero()
 		if (dineroProtagonista > 99) {
 			decena.cambiarOMostrar(9)
 			unidad.cambiarOMostrar(9)
