@@ -35,15 +35,12 @@ object nivelBitcoin inherits Nivel {
 		juegoEnPausa = true
 		game.schedule(2000,{
 		game.clear()
-		game.addVisual(new Fondo(image="finNivel1.png"))
+		game.addVisual(new Fondo(image="finNivel3.png"))
 		game.schedule(2500, {
 			game.clear()
-			game.addVisual(new Fondo(image="cargandoNivel2.png"))
-			game.schedule(3000, {
-				game.clear()
 			game.addVisual(new Fondo(image="neanthy-creditos.png"))
 			}) 
-		})})
+		})
 	}
 	
 	override method cargarPersonajesYObjetos(){
