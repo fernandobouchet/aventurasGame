@@ -12,9 +12,9 @@ object pelo {
 
 	method esAtravesable() = true
 
-	method actualizar(direccion) {
+	method actualizar() {
 		position = neanthy.position()
-		image = direccion.imagenPelo()
+		image = neanthy.ultimoMovimiento().imagenPelo()
 		game.removeVisual(self)
 		game.addVisual(self)
 	}
@@ -45,7 +45,7 @@ class AccesorioAgarrable {
 		if (objeto == neanthy and not neanthy.tiene(self)) {
 			game.removeVisual(self)
 			objeto.agarrarItem(self)
-			objeto.actualizarImagen(false)
+			objeto.actualizarImagen()
 		}
 	}
 }
@@ -57,7 +57,7 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 		super()
 		image = "reloj.png"
 	}
-	method actualizar(direccion, movimiento) {
+	method actualizar() {
 		if (neanthy.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
 			else {
@@ -65,7 +65,7 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 				game.addVisual(self)
 			}
 			position = neanthy.position()
-			image = direccion.imagenReloj(movimiento)
+			image = neanthy.ultimoMovimiento().imagenReloj()
 		}
 	}
 }
@@ -75,7 +75,7 @@ object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
 		super()
 		image = "anteojos.png"
 	}
-	method actualizar(direccion) {
+	method actualizar() {
 		if (neanthy.tiene(self)) {
 			if (not game.hasVisual(self)) game.addVisual(self)
 			else {
@@ -83,7 +83,7 @@ object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
 				game.addVisual(self)
 			}
 			position = neanthy.position()
-			image = direccion.imagenAnteojos()
+			image = neanthy.ultimoMovimiento().imagenAnteojos()
 		}
 	}
 }
