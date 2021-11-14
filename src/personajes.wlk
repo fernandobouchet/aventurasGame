@@ -84,8 +84,10 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		enMovimiento = true
 		self.actualizarImagen()
 		game.schedule(100,{
-			self.moverHacia(direccion)
-			self.cansarse(1)
+			if (not utilidadesParaJuego.nivel().juegoEnPausa()) {
+				self.moverHacia(direccion)
+				self.cansarse(1)
+			}
 		})
 	}
 }

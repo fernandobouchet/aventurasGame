@@ -15,7 +15,7 @@ class Pared {
 
 object puertaVictoriosa { 
 	var position = game.at(0,0)
-	var property image = "fogata.png" 
+	var property image = "pilchas.png" 
 	
     method position() = position
 	
@@ -217,26 +217,27 @@ class ElementoAcumulable inherits Elemento {
 	}
 }
 
-class Coco inherits Movimiento(image = "piedra.png") {
+class Coco inherits Movimiento(image = "coco.png") {
 	
 	var esAtravesable = true
 	
 	override method reaccionarA(objeto) {    		
-	   if (objeto == neanthy) {
-	   	if (esAtravesable) {
-		objeto.agarrarItem(self)
-		game.removeVisual(self)
-		}
-	   }
-		else {
-			if (not esAtravesable and game.hasVisual(self)) {
-			game.removeVisual(objeto)
-			game.removeVisual(self)
+		if (objeto == neanthy) {
+			if (esAtravesable) {
+				objeto.agarrarItem(self)
+				game.removeVisual(self)
 			}
 		}
-	   marcadorCoco.actualizar()
+		else {
+			if (not esAtravesable and game.hasVisual(self)) {
+				game.removeVisual(objeto)
+				self.moverHacia(ultimoMovimiento)
+				image = "cocopum.png"
+				game.schedule(150, { if (game.hasVisual(self)) game.removeVisual(self) })
+			}
+		}
+		marcadorCoco.actualizar()
 	}
-	
 	
 	override method configurate() {
 		super()
@@ -257,9 +258,16 @@ class Coco inherits Movimiento(image = "piedra.png") {
 		esAtravesable = false
 		game.addVisual(self)
 		self.moverHacia(direccionPersonaje)
-        game.onTick(500,"coco" , {
+		var cantMov = 0
+        game.onTick(150,"coco" , {
         	self.moverHacia(direccionPersonaje)
-        	})
-        game.schedule(2000 , { if (game.hasVisual(self)) {game.removeVisual(self) ; game.removeTickEvent("coco")}} )
+        	if(cantMov == 3) {
+        		if (game.hasVisual(self)) {
+        			game.removeVisual(self)
+					game.removeTickEvent("coco")
+        		}
+        	}
+        	cantMov += 1
+        })
 	}
 }
