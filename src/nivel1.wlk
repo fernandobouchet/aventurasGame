@@ -26,6 +26,7 @@ object nivelCocos inherits Nivel {
 		cantidadDeCocos = 10
 		self.crearCoco()		
 		marcadorCoco.actualizar()
+		keyboard.control().onPressDo({ neanthy.tirarCoco() })
 	}
 	
 	override method estadoJuego() {
