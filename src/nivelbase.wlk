@@ -26,7 +26,9 @@ class Nivel {
 	}
 
 	method perder() {
+		const sonidoPerder = new Sound(file = "oh-no.mp3")
 		game.clear()
+		sonidoPerder.play()
 		game.addVisual(new Fondo(image = "neanthy-game-over.png"))
 		keyboard.r().onPressDo{ self.restart()}
 	}
