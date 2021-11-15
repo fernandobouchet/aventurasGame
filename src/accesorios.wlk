@@ -27,6 +27,7 @@ object pelo {
 class AccesorioAgarrable {
 	var position = game.at(0,0)
 	var image
+	const sonido
 
 	method position() = position
 	method image() = image
@@ -45,14 +46,16 @@ class AccesorioAgarrable {
 		if (objeto == utilidades.protagonista() and not neanthy.tiene(self)) {
 			game.removeVisual(self)
 			objeto.agarrarItem(self)
+			const sonidoP = new Sound(file = sonido)
+			sonidoP.play()
 			objeto.actualizarImagen()
 		}
 	}
 }
 
-object peine inherits AccesorioAgarrable(image = "peine.png") {}
+object peine inherits AccesorioAgarrable(image = "peine.png", sonido = "oh-yeah.wav") {}
 
-object reloj inherits AccesorioAgarrable(image = "reloj.png") {
+object reloj inherits AccesorioAgarrable(image = "reloj.png", sonido = "cool.wav") {
 	override method configurate() {
 		super()
 		image = "reloj.png"
@@ -70,7 +73,7 @@ object reloj inherits AccesorioAgarrable(image = "reloj.png") {
 	}
 }
 
-object anteojos inherits AccesorioAgarrable(image = "anteojos.png") {
+object anteojos inherits AccesorioAgarrable(image = "anteojos.png", sonido = "yeah.wav") {
 	override method configurate() {
 		super()
 		image = "anteojos.png"
