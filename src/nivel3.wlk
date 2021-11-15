@@ -43,8 +43,8 @@ object nivelBitcoin inherits Nivel {
 			const pasarnivel = new Sound(file = "pasarnivel.mp3")
 			pasarnivel.play()
 			game.addVisual(new Fondo(image = "finNivel3.png"))
-			game.schedule(2500, { game.clear()
-				game.addVisual(new Fondo(image = "neanthy-creditos.png"))
+			game.schedule(3500, { game.clear()
+				game.addVisual(new Fondo(image = "neanthy-creditos3.png"))
 			})
 		})
 	}
