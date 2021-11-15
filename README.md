@@ -1,6 +1,8 @@
 
 # Neanthy - Juego de aventura
 
+![image](https://github.com/rubbcc/aventurasGame/blob/main/assets/portada.png)
+
 ## Proceso de elaboración
 En base a las premisas del enunciado y con los objetivos a cumplir se generó una idea de juego donde un personaje principal pudiera desarrollar las acciones establecidas.
 Así nace **Neanthy.** Un neandertal que debe luchar contra los dinosaurios (su enemigo) manteniendo la energía y salud.
