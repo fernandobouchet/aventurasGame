@@ -39,9 +39,11 @@ object fogata {
 	var position = game.at(0,0)
 	var property image = "fogata.png"
 	var tieneSarten = false
-	var cantHuevos = 0
+	var property cantHuevos = 0
 	method tieneSarten() = tieneSarten
 	method ponerSarten() {
+		const sarten = new Sound(file = "sarten.mp3")
+		sarten.play()
 		tieneSarten = true
 		image = "fogataConSarten.png"
 	}
@@ -132,6 +134,7 @@ class ElementoVitalidad inherits Elemento {
 			const tomarmate = new Sound(file = "tomarmate.mp3")
 			tomarmate.play()
 			objeto.salud(objeto.salud()+ salud)
+			marcadorSalud.actualizar()
 			game.removeVisual(self)
 		}
 	}
@@ -182,6 +185,8 @@ class ElementoSorpresa inherits Elemento {
 	    const numeroRandom = 0.randomUpTo(66)
 		if(objeto == utilidades.protagonista()) {
 			var nuevoObjeto
+			const medialuna = new Sound(file = "comer.mp3")
+			medialuna.play()
 			if ( numeroRandom.between(0 , 33) ) {
 				nuevoObjeto = new ElementoVitalidad(salud = 25)
 			}
@@ -201,6 +206,8 @@ class ElementoTransportador inherits Elemento {
 	
 	override method reaccionarA(objeto) {
 		if (objeto == utilidades.protagonista()) {
+			const agujero = new Sound(file = "teletransporta.mp3")
+			agujero.play()
 			activado = false
 			const posicion = utilidades.posicionArbitrariaNoOcupada()
 			position = posicion
