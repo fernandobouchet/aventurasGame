@@ -29,6 +29,8 @@ object nivelHuevos inherits Nivel {
 		juegoEnPausa = true
 		game.schedule(2000, { ruidofogata.stop()
 			game.clear()
+			const pasarnivel = new Sound(file = "pasarnivel.mp3")
+			pasarnivel.play()
 			game.addVisual(new Fondo(image = "finNivel2.png"))
 			game.schedule(2500, { game.clear()
 				game.addVisual(new Fondo(image = "cargandoNivel3.png"))
@@ -40,11 +42,6 @@ object nivelHuevos inherits Nivel {
 		})
 	}
 	
-	override method restart() {
-		super()
-		ruidofogata.stop()
-	}
-	
 	override method perder() {
 		super()
 		game.schedule(2500, { game.addVisual(new Fondo(image = "neanthy-creditos2.png"))})
@@ -52,8 +49,10 @@ object nivelHuevos inherits Nivel {
 	
 	override method configurate() {
 		super()
+		if (not ruidofogata.played()) {
 		ruidofogata.shouldLoop(true)
 		ruidofogata.play()
+		}
 		barraMarcador.image("marcadorNivel2.png")
 		self.crearElementoTransportador()
 	}

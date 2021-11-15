@@ -12,6 +12,7 @@ object nivelCocos inherits Nivel {
 
 	var cantidadDeCocos = 10
 	var property enemigosVivos = []
+	const jurasic = new Sound(file = "jurasicPark.mp3")
 
 	method crearCoco() {
 		const cocos = new Coco()
@@ -24,6 +25,10 @@ object nivelCocos inherits Nivel {
 
 	override method configurate() {
 		super()
+		if (not jurasic.played()) {
+		jurasic.play()
+		jurasic.volume(0.1)
+		}
 		barraMarcador.image("marcadorNivel1.png")
 		cantidadDeCocos = 10
 		self.crearCoco()
@@ -38,6 +43,7 @@ object nivelCocos inherits Nivel {
 	}
 
 	override method terminar() {
+		jurasic.stop()
 		juegoEnPausa = true
 		game.schedule(2000, { game.clear()
 			const pasarnivel = new Sound(file = "pasarnivel.mp3")

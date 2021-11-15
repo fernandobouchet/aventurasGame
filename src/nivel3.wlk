@@ -23,8 +23,10 @@ object nivelBitcoin inherits Nivel {
 
 	override method configurate() {
 		super()
+		if (not money.played()) {
 		money.play()
 		money.volume(0.1)
+		}
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10
 		marcadorBitcoin.actualizar()
@@ -38,6 +40,8 @@ object nivelBitcoin inherits Nivel {
 	override method terminar() {
 		juegoEnPausa = true
 		game.schedule(2000, { game.clear()
+			const pasarnivel = new Sound(file = "pasarnivel.mp3")
+			pasarnivel.play()
 			game.addVisual(new Fondo(image = "finNivel3.png"))
 			game.schedule(2500, { game.clear()
 				game.addVisual(new Fondo(image = "neanthy-creditos.png"))
