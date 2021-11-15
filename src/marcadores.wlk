@@ -41,79 +41,43 @@ class UnidadNumeroMarcador {
 
 }
 
-object marcadorFuerza {
 
-	const decena = new DecenaNumeroMarcador(position = game.at(3, game.height() - 1))
-	const unidad = new UnidadNumeroMarcador(position = game.at(3, game.height() - 1))
+class MarcadorNumero {
+	const posEnX
+	const decena = new DecenaNumeroMarcador(position = game.at(posEnX, game.height() - 1))
+	const unidad = new UnidadNumeroMarcador(position = game.at(posEnX, game.height() - 1))
+
+	method datoASensar()
 
 	method actualizar() {
-		const energiaProtagonista = utilidades.protagonista().energia()
-		if (energiaProtagonista > 99) {
+		const dato = self.datoASensar()
+		if (dato > 99) {
 			decena.cambiarOMostrar(9)
 			unidad.cambiarOMostrar(9)
 		} else {
-			const decenaT = energiaProtagonista.div(10)
+			const decenaT = dato.div(10)
 			decena.cambiarOMostrar(decenaT)
-			unidad.cambiarOMostrar(energiaProtagonista - decenaT * 10)
+			unidad.cambiarOMostrar(dato - decenaT * 10)
 		}
 	}
-
 }
 
-object marcadorSalud {
-
-	const decena = new DecenaNumeroMarcador(position = game.at(7, game.height() - 1))
-	const unidad = new UnidadNumeroMarcador(position = game.at(7, game.height() - 1))
-
-	method actualizar() {
-		const saludProtagonista = utilidades.protagonista().salud()
-		if (saludProtagonista > 99) {
-			decena.cambiarOMostrar(9)
-			unidad.cambiarOMostrar(9)
-		} else {
-			const decenaT = saludProtagonista.div(10)
-			decena.cambiarOMostrar(decenaT)
-			unidad.cambiarOMostrar(saludProtagonista - decenaT * 10)
-		}
-	}
-
+object marcadorFuerza inherits MarcadorNumero(posEnX = 3) {
+	override method datoASensar() = utilidades.protagonista().energia()
 }
 
-object marcadorBitcoin {
-
-	const decena = new DecenaNumeroMarcador(position = game.at(11, game.height() - 1))
-	const unidad = new UnidadNumeroMarcador(position = game.at(11, game.height() - 1))
-
-	method actualizar() {
-		const dineroProtagonista = utilidades.protagonista().dinero()
-		if (dineroProtagonista > 99) {
-			decena.cambiarOMostrar(9)
-			unidad.cambiarOMostrar(9)
-		} else {
-			const decenaT = dineroProtagonista.div(10)
-			decena.cambiarOMostrar(decenaT)
-			unidad.cambiarOMostrar(dineroProtagonista - decenaT * 10)
-		}
-	}
-
+object marcadorSalud inherits MarcadorNumero(posEnX = 7) {
+	override method datoASensar() = utilidades.protagonista().salud()
 }
 
-object marcadorCoco {
 
-	const decena = new DecenaNumeroMarcador(position = game.at(11, game.height() - 1))
-	const unidad = new UnidadNumeroMarcador(position = game.at(11, game.height() - 1))
-
-	method actualizar() {
-		const cocosProtagonista = neanthy.cocos().size()
-		if (cocosProtagonista > 99) {
-			decena.cambiarOMostrar(9)
-			unidad.cambiarOMostrar(9)
-		} else {
-			const decenaT = cocosProtagonista.div(10)
-			decena.cambiarOMostrar(decenaT)
-			unidad.cambiarOMostrar(cocosProtagonista - decenaT * 10)
-		}
-	}
-
+object marcadorCoco inherits MarcadorNumero(posEnX = 11) {
+	override method datoASensar() = utilidades.protagonista().cocos().size()
 }
+
+
+object marcadorBitcoin inherits MarcadorNumero(posEnX = 11) {
+	override method datoASensar() = utilidades.protagonista().dinero()
+}
+
 
