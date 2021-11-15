@@ -21,7 +21,11 @@ object puertaVictoriosa {
 	
 	method esAtravesable() = true
 	method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) utilidades.nivel().terminar()
+		if (objeto == utilidades.protagonista()) {
+			const sonidoPuerta = new Sound(file = "puerta.mp3")
+			sonidoPuerta.play()
+			utilidades.nivel().terminar()
+		}
 	}
 	
 	
@@ -91,6 +95,8 @@ object sarten inherits ObjetoMovible(image = "sarten.png") {
 	override method reaccionarA(objeto) {
 		super(objeto)
 		if (fogata.position() == position) {
+			const sonidoSarten = new Sound(file = "sarten.mp3")
+			sonidoSarten.play()
 			fogata.ponerSarten()
 			game.removeVisual(self)
 		}
@@ -101,6 +107,8 @@ class Huevo inherits ObjetoMovible(image = "huevo.png") {
 	override method reaccionarA(objeto) {
 		super(objeto)
 		if (fogata.position() == position and fogata.tieneSarten()) {
+			const sonidoHuevo = new Sound(file = "huevo.mp3")
+			sonidoHuevo.play()
 			fogata.ponerHuevo()
 			game.removeVisual(self)
 		}
@@ -238,6 +246,8 @@ class Coco inherits Movimiento(image = "coco.png") {
 	override method reaccionarA(objeto) {    		
 		if (objeto == utilidades.protagonista()) {
 			if (not esProyectil) {
+				const sonidoTomarcoco = new Sound(file = "tomarcoco.mp3")
+				sonidoTomarcoco.play()
 				esProyectil = true
 				objeto.agarrarItem(self)
 				game.removeVisual(self)
@@ -245,8 +255,8 @@ class Coco inherits Movimiento(image = "coco.png") {
 		}
 		else {
 			if (esProyectil and game.hasVisual(self)) {
-				esAtravesable = true
 				const impacto = new Sound(file = "impactococo.mp3")
+				esAtravesable = true
 				game.removeVisual(objeto)
 				self.moverHacia(ultimoMovimiento)
 				image = "cocopum.png"

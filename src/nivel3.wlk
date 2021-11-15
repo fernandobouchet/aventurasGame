@@ -24,8 +24,8 @@ object nivelBitcoin inherits Nivel {
 	override method configurate() {
 		super()
 		if (not money.played()) {
-		money.play()
-		money.volume(0.1)
+			money.play()
+			money.volume(0.1)
 		}
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10
