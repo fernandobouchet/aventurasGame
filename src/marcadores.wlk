@@ -48,7 +48,7 @@ class MarcadorNumero {
 	method datoASensar()
 
 	method actualizar() {
-		const dato = self.datoASensar().min(99)
+		const dato = self.datoASensar().min(99) //cambio
 		const decenaT = dato.div(10)
 		decena.cambiarOMostrar(decenaT)
 		unidad.cambiarOMostrar(dato - decenaT * 10)
