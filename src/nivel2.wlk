@@ -59,9 +59,7 @@ object nivelHuevos inherits Nivel {
 
 	override method cargarPersonajesYObjetos() {
 		const dinoRex = new EnemigoSeguidor()
-	;
 		const dino = new EnemigoComun()
-	;
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const huevo1 = new Huevo()
@@ -70,6 +68,5 @@ object nivelHuevos inherits Nivel {
 		const elementosNivel = [ fogata, sarten, huevo1, huevo2, huevo3, peine, reloj, anteojos, elementoVit1, elementoSorp1, dinoRex, dino, neanthy ]
 		elementosNivel.forEach{ obj => obj.configurate()}
 	}
-
 }
 

@@ -56,17 +56,13 @@ object nivelBitcoin inherits Nivel {
 
 	override method cargarPersonajesYObjetos() {
 		const dinoRex = new EnemigoSeguidor()
-	;
 		const dino = new EnemigoComun()
-	;
 		const dino2 = new EnemigoComun()
-	;
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTransportador1 = new ElementoTransportador()
 		const elementosNivel = [ elementoTransportador1, elementoVit1, elementoSorp1, dinoRex, dino, dino2, neanthy ]
 		elementosNivel.forEach{ obj => obj.configurate()}
 	}
-
 }
 

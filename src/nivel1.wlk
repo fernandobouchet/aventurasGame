@@ -66,11 +66,8 @@ object nivelCocos inherits Nivel {
 	
 	override method cargarPersonajesYObjetos() {
 		const dinoRex = new EnemigoSeguidor()
-	;
 		const dino = new EnemigoComun()
-	;
 		const dino2 = new EnemigoComun()
-	;
 		const elementoVit1 = new ElementoVitalidad(salud = 50)
 		const elementoSorp1 = new ElementoSorpresa()
 		const elementoTransportador1 = new ElementoTransportador()
@@ -79,6 +76,5 @@ object nivelCocos inherits Nivel {
 		elementosNivel.addAll(enemigosVivos)
 		elementosNivel.forEach{ obj => obj.configurate()}
 	}
-
 }
 

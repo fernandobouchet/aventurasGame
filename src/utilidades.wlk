@@ -24,12 +24,16 @@ object utilidades {
 object direccionArriba {
 
 	method siguienteMovimiento(desdePosicion) {
-		return if (desdePosicion.y() == game.height() - 2) game.at(desdePosicion.x(), 0) else desdePosicion.up(1)
+		return 
+			if (desdePosicion.y() == game.height() - 2) game.at(desdePosicion.x(), 0) 
+			else desdePosicion.up(1)
 	}
 
 	method imagenPelo() = "neanthy_izq_" + pelo.formaPelo() + ".png"
 
-	method imagenProtagonista() = if (neanthy.esAtacado()) "neanthy_atacado.png" else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
+	method imagenProtagonista() = 
+		if (neanthy.esAtacado()) "neanthy_atacado.png" 
+		else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
 
 	method imagenAnteojos() = "neanthy_izq_anteojos.png"
 
@@ -44,12 +48,16 @@ object direccionArriba {
 object direccionAbajo {
 
 	method siguienteMovimiento(desdePosicion) {
-		return if (desdePosicion.y() == 0) game.at(desdePosicion.x(), game.height() - 2) else desdePosicion.down(1)
+		return 
+			if (desdePosicion.y() == 0) game.at(desdePosicion.x(), game.height() - 2) 
+			else desdePosicion.down(1)
 	}
 
 	method imagenPelo() = "neanthy_der_" + pelo.formaPelo() + ".png"
 
-	method imagenProtagonista() = if (neanthy.esAtacado()) "neanthy_atacado.png" else "neanthy_der" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
+	method imagenProtagonista() = 
+		if (neanthy.esAtacado()) "neanthy_atacado.png" 
+		else "neanthy_der" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
 
 	method imagenAnteojos() = "neanthy_der_anteojos.png"
 
@@ -64,12 +72,16 @@ object direccionAbajo {
 object direccionIzquierda {
 
 	method siguienteMovimiento(desdePosicion) {
-		return if (desdePosicion.x() == 0) game.at(game.width() - 1, desdePosicion.y()) else desdePosicion.left(1)
+		return 
+			if (desdePosicion.x() == 0) game.at(game.width() - 1, desdePosicion.y()) 
+			else desdePosicion.left(1)
 	}
 
 	method imagenPelo() = "neanthy_izq_" + pelo.formaPelo() + ".png"
 
-	method imagenProtagonista() = if (neanthy.esAtacado()) "neanthy_atacado.png" else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
+	method imagenProtagonista() = 
+		if (neanthy.esAtacado()) "neanthy_atacado.png" 
+		else "neanthy_izq" + (if(neanthy.enMovimiento()) "_mov" else "") + ".png"
 
 	method imagenAnteojos() = "neanthy_izq_anteojos.png"
 
@@ -84,7 +96,9 @@ object direccionIzquierda {
 object direccionDerecha {
 
 	method siguienteMovimiento(desdePosicion) {
-		return if (desdePosicion.x() == game.width() - 1) game.at(0, desdePosicion.y()) else desdePosicion.right(1)
+		return 
+			if (desdePosicion.x() == game.width() - 1) game.at(0, desdePosicion.y()) 
+			else desdePosicion.right(1)
 	}
 
 	method imagenPelo() = "neanthy_der_" + pelo.formaPelo() + ".png"
@@ -161,18 +175,21 @@ class Movimiento {
 		const numAleatorio = 0.randomUpTo(100)
 		if (numAleatorio < 50) {
 			if (xObjetivo != position.x()) {
-				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda) else self.moverHacia(direccionDerecha)
+				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda) 
+				else self.moverHacia(direccionDerecha)
 			} else {
-				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo) else self.moverHacia(direccionArriba)
+				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo) 
+				else self.moverHacia(direccionArriba)
 			}
 		} else {
 			if (yObjetivo != position.y()) {
-				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo) else self.moverHacia(direccionArriba)
+				if (yObjetivo < position.y()) self.moverHacia(direccionAbajo) 
+				else self.moverHacia(direccionArriba)
 			} else {
-				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda) else self.moverHacia(direccionDerecha)
+				if (xObjetivo < position.x()) self.moverHacia(direccionIzquierda) 
+				else self.moverHacia(direccionDerecha)
 			}
 		}
 	}
-
 }
 

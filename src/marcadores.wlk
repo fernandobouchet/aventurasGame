@@ -23,7 +23,6 @@ class DecenaNumeroMarcador {
 			game.addVisual(self)
 		}
 	}
-
 }
 
 class UnidadNumeroMarcador {
@@ -41,7 +40,6 @@ class UnidadNumeroMarcador {
 
 }
 
-
 class MarcadorNumero {
 	const posEnX
 	const decena = new DecenaNumeroMarcador(position = game.at(posEnX, game.height() - 1))
@@ -50,15 +48,10 @@ class MarcadorNumero {
 	method datoASensar()
 
 	method actualizar() {
-		const dato = self.datoASensar()
-		if (dato > 99) {
-			decena.cambiarOMostrar(9)
-			unidad.cambiarOMostrar(9)
-		} else {
-			const decenaT = dato.div(10)
-			decena.cambiarOMostrar(decenaT)
-			unidad.cambiarOMostrar(dato - decenaT * 10)
-		}
+		const dato = self.datoASensar().min(99)
+		const decenaT = dato.div(10)
+		decena.cambiarOMostrar(decenaT)
+		unidad.cambiarOMostrar(dato - decenaT * 10)
 	}
 }
 
@@ -79,5 +72,3 @@ object marcadorCoco inherits MarcadorNumero(posEnX = 11) {
 object marcadorBitcoin inherits MarcadorNumero(posEnX = 11) {
 	override method datoASensar() = utilidades.protagonista().dinero()
 }
-
-

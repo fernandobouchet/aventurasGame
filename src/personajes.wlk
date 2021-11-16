@@ -5,9 +5,6 @@ import nivel2.*
 import marcadores.*
 import nivel1.*
 
-// en la implementación real, conviene tener un personaje por nivel
-// los personajes probablemente tengan un comportamiendo más complejo que solamente
-// imagen y posición
 object neanthy inherits Movimiento(image = "neanthy_der.png") {
 
 	var property energia = 0
@@ -36,8 +33,9 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		salud -= danio
 		marcadorSalud.actualizar()
 		self.actualizarImagen()
-		game.schedule(100, { esAtacado = false
-		; self.actualizarImagen()
+		game.schedule(100, { 
+			esAtacado = false
+			self.actualizarImagen()
 		})
 	}
 
@@ -47,7 +45,9 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	}
 
 	method hayObjetoInteractivo() {
-		return self.objetosHacia(ultimoMovimiento).any({ obj => not obj.esAtravesable() and obj.esInteractivo() })
+		return self.objetosHacia(ultimoMovimiento).any({ 
+			obj => not obj.esAtravesable() and obj.esInteractivo()
+		})
 	}
 
 	method tirarCoco() {
@@ -81,7 +81,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		keyboard.down().onPressDo({ self.ejecutarMovimiento(direccionAbajo)})
 		keyboard.left().onPressDo({ self.ejecutarMovimiento(direccionIzquierda)})
 		keyboard.right().onPressDo({ self.ejecutarMovimiento(direccionDerecha)})
-		keyboard.space().onPressDo{ if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)
+		keyboard.space().onPressDo{ 
+			if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)
 		}
 	}
 
@@ -102,9 +103,11 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 	override method actualizarImagen() {
 		image = ultimoMovimiento.imagenDino()
 	}
+	
+	method danioAtaque() = 10  
 		
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(10)
+		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(self.danioAtaque())
 	}
 
 	override method configurate() {
@@ -128,9 +131,7 @@ class EnemigoSeguidor inherits EnemigoComun(image = "dino-rex-izq.png") {
 		image = ultimoMovimiento.imagenDinoRex()
 	}
 
-	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(20)
-	}
+	override method danioAtaque() = 20
 
 	override method moverEnemigo() {
 		if (game.hasVisual(self)) {
