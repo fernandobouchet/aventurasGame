@@ -213,7 +213,7 @@ class ElementoTransportador inherits Elemento {
 	var activado = true
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) {
+		if (objeto == utilidades.protagonista() and activado) {
 			const agujero = new Sound(file = "teletransporta.mp3")
 			agujero.play()
 			activado = false
@@ -226,42 +226,32 @@ class ElementoTransportador inherits Elemento {
 	}
 }
 
-class ElementoAcumulable inherits Elemento {
-	
-	const property image = "chicken.png"
-	
-	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) {
-		objeto.agarrarItem(self)
-		game.removeVisual(self)
-		}
-	}
-}
-
 class Coco inherits Movimiento(image = "coco.png") {
 	
 	var esAtravesable = true
 	var esProyectil = false
 	
-	override method reaccionarA(objeto) {    		
-		if (objeto == utilidades.protagonista()) {
-			if (not esProyectil) {
+	method atacar(objeto) {
+		if(game.hasVisual(self) and objeto != utilidades.protagonista()) {
+			const impacto = new Sound(file = "impactococo.mp3")
+			esAtravesable = true
+			game.removeVisual(objeto)
+			self.moverHacia(ultimoMovimiento)
+			image = "cocopum.png"
+			impacto.play()
+			game.schedule(150, { if (game.hasVisual(self)) game.removeVisual(self) })
+		}
+	}
+	
+	override method reaccionarA(objeto) {    	
+		if (esProyectil) self.atacar(objeto)
+		else {
+			if (objeto == utilidades.protagonista()) {
+				esProyectil = true
 				const sonidoTomarcoco = new Sound(file = "tomarcoco.mp3")
 				sonidoTomarcoco.play()
-				esProyectil = true
 				objeto.agarrarItem(self)
 				game.removeVisual(self)
-			}
-		}
-		else {
-			if (esProyectil and game.hasVisual(self)) {
-				const impacto = new Sound(file = "impactococo.mp3")
-				esAtravesable = true
-				game.removeVisual(objeto)
-				self.moverHacia(ultimoMovimiento)
-				image = "cocopum.png"
-				impacto.play()
-				game.schedule(150, { if (game.hasVisual(self)) game.removeVisual(self) })
 			}
 		}
 		marcadorCoco.actualizar()
@@ -279,23 +269,24 @@ class Coco inherits Movimiento(image = "coco.png") {
 	
 	override method esAtravesable() = esAtravesable
 	
+	method distanciaLanzamientoCoco(direccion, veces) {
+		if(game.hasVisual(self)) {
+			if (veces > 0) {
+				self.moverHacia(direccion)
+				game.schedule(150, {self.distanciaLanzamientoCoco(direccion, veces - 1)})
+			}
+			else {
+				game.removeVisual(self)
+			}
+		}
+	}
+	
 	method lanzar () {
-		const direccionPersonaje = neanthy.ultimoMovimiento()
+		const direccionPersonaje = utilidades.protagonista().ultimoMovimiento()
 		
-		position = neanthy.position()
+		position = utilidades.protagonista().position()
 		esAtravesable = false
 		game.addVisual(self)
-		self.moverHacia(direccionPersonaje)
-		var cantMov = 0
-        game.onTick(150,"coco" , {
-        	if(not esAtravesable) self.moverHacia(direccionPersonaje)
-        	if(cantMov == 3) {
-        		if (game.hasVisual(self)) {
-        			game.removeVisual(self)
-					game.removeTickEvent("coco")
-        		}
-        	}
-        	cantMov += 1
-        })
+		self.distanciaLanzamientoCoco(direccionPersonaje, 3)
 	}
 }
