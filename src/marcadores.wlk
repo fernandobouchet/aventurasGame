@@ -3,72 +3,48 @@ import wollok.game.*
 import personajes.*
 
 object barraMarcador {
-
 	const property position = game.at(0, game.height() - 1)
 	var property image = ""
-
-}
-
-class DecenaNumeroMarcador {
-
-	var image = "numerosMarcador/d0.png"
-	const property position
-
-	method image() = image
-
-	method cambiarOMostrar(numero) {
-		if (game.hasVisual(self)) game.removeVisual(self)
-		if (numero != 0) {
-			image = "numerosMarcador/d" + numero + ".png"
-			game.addVisual(self)
-		}
-	}
 }
 
 class UnidadNumeroMarcador {
-
-	var image = "numerosMarcador/0.png"
 	const property position
+	const bloque
 
-	method image() = image
+	method image() = self.actualizar(bloque.apply())
 
-	method cambiarOMostrar(numero) {
-		if (game.hasVisual(self)) game.removeVisual(self)
-		image = "numerosMarcador/" + numero + ".png"
-		game.addVisual(self)
+	method actualizar(numero) {
+		const unidad = (numero - numero.div(10) * 10).min(9)
+		return "numerosMarcador/" + unidad + ".png"
 	}
+}
 
+class DecenaNumeroMarcador inherits UnidadNumeroMarcador {
+	override method actualizar(numero) {
+		const decena = numero.div(10).min(9)
+		var nuevaImagen = "transparente.png"
+		if (decena != 0) nuevaImagen = "numerosMarcador/d" + decena + ".png"
+		return nuevaImagen
+	}
 }
 
 class MarcadorNumero {
 	const posEnX
-	const decena = new DecenaNumeroMarcador(position = game.at(posEnX, game.height() - 1))
-	const unidad = new UnidadNumeroMarcador(position = game.at(posEnX, game.height() - 1))
+	const datoASensar
+	const decena = new DecenaNumeroMarcador(position = game.at(posEnX, game.height() - 1), bloque = datoASensar)
+	const unidad = new UnidadNumeroMarcador(position = game.at(posEnX, game.height() - 1), bloque = datoASensar)
 
-	method datoASensar()
-
-	method actualizar() {
-		const dato = self.datoASensar().min(99) //cambio
-		const decenaT = dato.div(10)
-		decena.cambiarOMostrar(decenaT)
-		unidad.cambiarOMostrar(dato - decenaT * 10)
+	method configurate() {
+		game.addVisual(decena)
+		game.addVisual(unidad)
 	}
 }
 
-object marcadorFuerza inherits MarcadorNumero(posEnX = 3) {
-	override method datoASensar() = utilidades.protagonista().energia()
-}
 
-object marcadorSalud inherits MarcadorNumero(posEnX = 7) {
-	override method datoASensar() = utilidades.protagonista().salud()
-}
+object marcadorFuerza inherits MarcadorNumero(posEnX = 3, datoASensar = {utilidades.protagonista().energia()}) {}
 
+object marcadorSalud inherits MarcadorNumero(posEnX = 7, datoASensar = {utilidades.protagonista().salud()}) {}
 
-object marcadorCoco inherits MarcadorNumero(posEnX = 11) {
-	override method datoASensar() = utilidades.protagonista().cocos().size()
-}
+object marcadorCoco inherits MarcadorNumero(posEnX = 11, datoASensar = {utilidades.protagonista().cocos().size()}) {}
 
-
-object marcadorBitcoin inherits MarcadorNumero(posEnX = 11) {
-	override method datoASensar() = utilidades.protagonista().dinero()
-}
+object marcadorBitcoin inherits MarcadorNumero(posEnX = 11, datoASensar = {utilidades.protagonista().dinero()}) {}

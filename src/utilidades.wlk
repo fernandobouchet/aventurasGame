@@ -115,20 +115,32 @@ object direccionDerecha {
 
 }
 
-class Movimiento {
+class ElementoBase {
+	method reaccionarA(obstaculo) {}
+
+	method esAtravesable() = true
+
+	method esInteractivo() = false
+	
+	method accionarEfecto(objeto) {}
+
+	method agarrar(item) {}
+
+	method recibirAtaque(danio) {}
+}
+
+class Movimiento inherits ElementoBase {
 
 	var property position = game.at(0, 0)
 	var property image
 	var property ultimoMovimiento = direccionDerecha
 	var enMovimiento = false
 
-	method reaccionarA(obstaculo)
+	override method esAtravesable() = false
+	
+	method empujar(objeto) {}
 
 	method enMovimiento() = enMovimiento
-
-	method esAtravesable() = false
-
-	method esInteractivo() = false
 
 	method configurate() {
 		position = utilidades.posicionArbitrariaNoOcupada()

@@ -26,14 +26,14 @@ object nivelCocos inherits Nivel {
 	override method configurate() {
 		super()
 		if (not jurasic.played()) {
-		jurasic.play()
-		jurasic.volume(0.1)
+			jurasic.play()
+			jurasic.volume(0.1)
 		}
 		barraMarcador.image("marcadorNivel1.png")
 		cantidadDeCocos = 10
 		self.crearCoco()
-		marcadorCoco.actualizar()
-		keyboard.control().onPressDo({ neanthy.tirarCoco()})
+		marcadorCoco.configurate()
+		keyboard.control().onPressDo({ utilidades.protagonista().tirarCoco()})
 	}
 
 	override method estadoJuego() {
@@ -57,6 +57,10 @@ object nivelCocos inherits Nivel {
 				})
 			})
 		})
+	}
+
+	override method accionAgarrar(objeto) {
+		utilidades.protagonista().agarrarCoco(objeto)
 	}
 
 	override method perder() {

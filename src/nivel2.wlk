@@ -50,9 +50,10 @@ object nivelHuevos inherits Nivel {
 	override method configurate() {
 		super()
 		if (not ruidofogata.played()) {
-		ruidofogata.shouldLoop(true)
-		ruidofogata.play()
+			ruidofogata.shouldLoop(true)
+			ruidofogata.play()
 		}
+		utilidades.protagonista().vaciarInventario()
 		barraMarcador.image("marcadorNivel2.png")
 		self.crearElementoTransportador()
 	}

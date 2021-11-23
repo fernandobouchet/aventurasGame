@@ -2,15 +2,13 @@ import wollok.game.*
 import utilidades.*
 import personajes.*
 
-object pelo {
+object pelo inherits ElementoBase {
 	var image = "neanthy_der_pelo_1.png"
 	var position = game.at(0,0)
 	
 	method image() = image
 	
 	method position() = position
-
-	method esAtravesable() = true
 
 	method actualizar() {
 		position = neanthy.position()
@@ -24,7 +22,7 @@ object pelo {
 		else "pelo_1"
 }
 
-class AccesorioAgarrable {
+class AccesorioAgarrable inherits ElementoBase{
 	var position = game.at(0,0)
 	var image
 	const sonido
@@ -41,8 +39,7 @@ class AccesorioAgarrable {
 		})
 	}
 	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidades.protagonista() and not neanthy.tiene(self)) {
 			game.removeVisual(self)
 			objeto.agarrarItem(self)

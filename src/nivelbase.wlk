@@ -40,14 +40,18 @@ class Nivel {
 		self.generarParedes()
 		self.crearElementoEnergizante()
 		self.cargarPersonajesYObjetos()
-		marcadorFuerza.actualizar()
-		marcadorSalud.actualizar()
+		marcadorFuerza.configurate()
+		marcadorSalud.configurate()
 		game.onTick(50, "perder", { if (neanthy.energia() <= 0 or neanthy.salud() <= 0) self.perder()
 		})
 		keyboard.t().onPressDo({ self.terminar()})
 		keyboard.r().onPressDo{ self.restart()}
 		keyboard.p().onPressDo{ juegoEnPausa = !juegoEnPausa}
 		game.onTick(50, "estado juego", { self.estadoJuego()})
+	}
+
+	method accionAgarrar(objeto) {
+		utilidades.protagonista().agarrarItem(objeto)
 	}
 
 	method estadoJuego()

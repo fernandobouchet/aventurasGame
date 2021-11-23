@@ -4,30 +4,25 @@ import personajes.*
 import nivel2.*
 import marcadores.*
 
-class Pared {
+class Pared inherits ElementoBase {
 	const property image = "piedra.png"
 	const property position
-	method esAtravesable() = false
-	method reaccionarA(objeto) {}
-	method esInteractivo() = false
+	override method esAtravesable() = false
 }
 
-
-object puertaVictoriosa { 
+object puertaVictoriosa inherits ElementoBase { 
 	var position = game.at(0,0)
 	var property image = "pilchas.png" 
 	
     method position() = position
 	
-	method esAtravesable() = true
-	method reaccionarA(objeto) {
+	override method reaccionarA(objeto) {
 		if (objeto == utilidades.protagonista()) {
 			const sonidoPuerta = new Sound(file = "puerta.mp3")
 			sonidoPuerta.play()
 			utilidades.nivel().terminar()
 		}
 	}
-	
 	
 	method configurate() {
 		position = utilidades.posicionArbitrariaNoOcupada()
@@ -39,12 +34,14 @@ object puertaVictoriosa {
 	}
 }
 
-object fogata {
+object fogata inherits ElementoBase {
 	var position = game.at(0,0)
 	var property image = "fogata.png"
 	var tieneSarten = false
 	var property cantHuevos = 0
+	
 	method tieneSarten() = tieneSarten
+	
 	method ponerSarten() {
 		const sarten = new Sound(file = "sarten.mp3")
 		sarten.play()
@@ -61,9 +58,6 @@ object fogata {
 	
 	method estaCompleta() = cantHuevos == 3
 	
-	method esInteractivo() = false
-	method esAtravesable() = true
-	method reaccionarA(objeto) {}
 	method configurate() {
 		image = "fogata.png"
 		tieneSarten = false
@@ -74,20 +68,16 @@ object fogata {
 }
 
 class ObjetoMovible inherits Movimiento {
+
+	override method esAtravesable() = false
 	
 	override method configurate() {
 		super()
 		game.addVisual(self)
 	}
-	
 
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) {
-			if (self.puedeMover(objeto.ultimoMovimiento())) {
-				self.moverHacia(objeto.ultimoMovimiento())
-				objeto.moverHacia(objeto.ultimoMovimiento())
-			}
-		}
+		objeto.empujar(self)
 	}
 }
 
@@ -115,11 +105,8 @@ class Huevo inherits ObjetoMovible(image = "huevo.png") {
 	}
 }
 
-class Elemento {
+class Elemento inherits ElementoBase {
 	var position = game.at(0,0)
-
-	method esAtravesable() = true
-	method esInteractivo() = false
 	
 	method position() = position
 	method configurate() {
@@ -131,20 +118,20 @@ class Elemento {
 		})
 	}
 	
-	method reaccionarA(objeto) {}
+	override method reaccionarA(objeto) {
+		objeto.accionarEfecto(self)
+	}
 }
+
 class ElementoVitalidad inherits Elemento {
 	const property image = "mate.png"
 	var property salud
 	
-	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) {
-			const tomarmate = new Sound(file = "tomarmate.mp3")
-			tomarmate.play()
-			objeto.salud(objeto.salud()+ salud)
-			marcadorSalud.actualizar()
-			game.removeVisual(self)
-		}
+	override method accionarEfecto(objeto) {
+		const tomarmate = new Sound(file = "tomarmate.mp3")
+		tomarmate.play()
+		objeto.salud(objeto.salud()+ salud)
+		game.removeVisual(self)
 	}
 }
 
@@ -161,59 +148,51 @@ class ElementoEnergizante inherits Elemento {
 	}
 
 	method interactuarCon(objeto) {
-		if (objeto == utilidades.protagonista()) {
-			const tomar = new Sound(file = "abrirlata.mp3")
-			tomar.play()
-			objeto.energia(objeto.energia()+ energia)
-			marcadorFuerza.actualizar()
-			game.removeVisual(self)
-		}
+		const tomar = new Sound(file = "abrirlata.mp3")
+		tomar.play()
+		objeto.energia(objeto.energia()+ energia)
+		game.removeVisual(self)
 	}
 }
 
 class ElementoEnriquecedor inherits Elemento {
 	const property image = "bitcoin.png"
-		
-	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) {
-			const moneda = new Sound(file = "coin.mp3")
-			moneda.play()
-		    objeto.dinero(objeto.dinero() + 1)
-		    marcadorBitcoin.actualizar()
-		    game.removeVisual(self)
-		}
+
+	override method accionarEfecto(objeto) {
+		const moneda = new Sound(file = "coin.mp3")
+		moneda.play()
+		objeto.dinero(objeto.dinero() + 1)
+		game.removeVisual(self)
 	}
 }
 
 
 class ElementoSorpresa inherits Elemento {
 	const property image = "medialuna.png"
-	
-	override method reaccionarA(objeto) {
+
+	override method accionarEfecto(objeto) {
 	    const numeroRandom = 0.randomUpTo(66)
-		if(objeto == utilidades.protagonista()) {
-			var nuevoObjeto
-			const medialuna = new Sound(file = "comer.mp3")
-			medialuna.play()
-			if ( numeroRandom.between(0 , 33) ) {
-				nuevoObjeto = new ElementoVitalidad(salud = 25)
-			}
-			else {
-				nuevoObjeto = new ElementoEnergizante(energia = 40)
-			}
-			
-			nuevoObjeto.configurate()
-			game.removeVisual(self)
+		var nuevoObjeto
+		const medialuna = new Sound(file = "comer.mp3")
+		medialuna.play()
+		if ( numeroRandom.between(0 , 33) ) {
+			nuevoObjeto = new ElementoVitalidad(salud = 25)
 		}
+		else {
+			nuevoObjeto = new ElementoEnergizante(energia = 40)
+		}
+		
+		nuevoObjeto.configurate()
+		game.removeVisual(self)
 	}
 }
 
 class ElementoTransportador inherits Elemento {
 	var property image = "agujero.png"
 	var activado = true
-	
-	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista() and activado) {
+
+	override method accionarEfecto(objeto) {
+		if (activado) {
 			const agujero = new Sound(file = "teletransporta.mp3")
 			agujero.play()
 			activado = false
@@ -229,32 +208,26 @@ class ElementoTransportador inherits Elemento {
 class Coco inherits Movimiento(image = "coco.png") {
 	
 	var esAtravesable = true
+	
 	var esProyectil = false
 	
 	method atacar(objeto) {
-		if(game.hasVisual(self) and objeto != utilidades.protagonista()) {
+		if (not objeto.esAtravesable()) {
 			const impacto = new Sound(file = "impactococo.mp3")
-			esAtravesable = true
-			game.removeVisual(objeto)
-			self.moverHacia(ultimoMovimiento)
+			esAtravesable = false
+			objeto.recibirAtaque(0)
+			position = objeto.position()
 			image = "cocopum.png"
 			impacto.play()
 			game.schedule(150, { if (game.hasVisual(self)) game.removeVisual(self) })
 		}
 	}
 	
-	override method reaccionarA(objeto) {    	
-		if (esProyectil) self.atacar(objeto)
-		else {
-			if (objeto == utilidades.protagonista()) {
-				esProyectil = true
-				const sonidoTomarcoco = new Sound(file = "tomarcoco.mp3")
-				sonidoTomarcoco.play()
-				objeto.agarrarItem(self)
-				game.removeVisual(self)
-			}
+	override method reaccionarA(objeto) {
+		if (esAtravesable) {
+			if(esProyectil) { self.atacar(objeto) }
+			else { objeto.agarrar(self) }
 		}
-		marcadorCoco.actualizar()
 	}
 	
 	override method configurate() {
@@ -262,15 +235,14 @@ class Coco inherits Movimiento(image = "coco.png") {
 		game.addVisual(self)
 		game.onCollideDo(self, {
 			objeto =>
-			self.reaccionarA(objeto)
+				self.reaccionarA(objeto)
 		})
-		
 	}
 	
 	override method esAtravesable() = esAtravesable
 	
 	method distanciaLanzamientoCoco(direccion, veces) {
-		if(game.hasVisual(self)) {
+		if(esAtravesable and game.hasVisual(self)) {
 			if (veces > 0) {
 				self.moverHacia(direccion)
 				game.schedule(150, {self.distanciaLanzamientoCoco(direccion, veces - 1)})
@@ -283,9 +255,8 @@ class Coco inherits Movimiento(image = "coco.png") {
 	
 	method lanzar () {
 		const direccionPersonaje = utilidades.protagonista().ultimoMovimiento()
-		
+		esProyectil = true
 		position = utilidades.protagonista().position()
-		esAtravesable = false
 		game.addVisual(self)
 		self.distanciaLanzamientoCoco(direccionPersonaje, 3)
 	}

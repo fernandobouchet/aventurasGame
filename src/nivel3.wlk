@@ -29,7 +29,7 @@ object nivelBitcoin inherits Nivel {
 		}
 		barraMarcador.image("marcadorNivel3.png")
 		elementosEnriquecedores = 10
-		marcadorBitcoin.actualizar()
+		marcadorBitcoin.configurate()
 		self.crearElementoEnriquecedor()
 	}
 

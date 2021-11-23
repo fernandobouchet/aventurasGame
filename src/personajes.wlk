@@ -14,10 +14,36 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	const property cocos = []
 	var inventario = []
 
+	method vaciarInventario() {
+		inventario = []
+	}
+
 	method inventario() = inventario
 
+	override method agarrar(item) {
+		utilidades.nivel().accionAgarrar(item)
+	}
+
 	method agarrarItem(item) {
-		if (utilidades.nivel() == nivelCocos) cocos.add(item) else inventario.add(item)
+		inventario.add(item)
+	}
+
+	override method accionarEfecto(objeto) {
+		objeto.accionarEfecto(self)
+	}
+
+	method agarrarCoco(coco) {
+		const sonidoTomarcoco = new Sound(file = "tomarcoco.mp3")
+		sonidoTomarcoco.play()
+		cocos.add(coco)
+		game.removeVisual(coco)
+	}
+
+	override method empujar(objeto) {
+		if (objeto.puedeMover(ultimoMovimiento)) {
+			objeto.moverHacia(ultimoMovimiento)
+			self.moverHacia(objeto.ultimoMovimiento())
+		}
 	}
 
 	method tiene(item) = inventario.contains(item)
@@ -26,12 +52,11 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		return self.objetosHacia(ultimoMovimiento).find({ obj => not obj.esAtravesable() and obj.esInteractivo() })
 	}
 
-	method recibirAtaque(danio) {
+	override method recibirAtaque(danio) {
 		esAtacado = true
 		const recibirgolpe = new Sound(file = "recibirgolpe.mp3")
 		recibirgolpe.play()
 		salud -= danio
-		marcadorSalud.actualizar()
 		self.actualizarImagen()
 		game.schedule(100, { 
 			esAtacado = false
@@ -41,7 +66,6 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 
 	method cansarse(cantidad) {
 		energia -= cantidad
-		marcadorFuerza.actualizar()
 	}
 
 	method hayObjetoInteractivo() {
@@ -65,12 +89,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		image = ultimoMovimiento.imagenProtagonista()
 	}
 
-	override method reaccionarA(obstaculo) {
-	}
-
 	override method configurate() {
 		super()
-		if (utilidades.nivel() == nivelHuevos) inventario = []
 		energia = 30
 		salud = 50
 		dinero = 0
@@ -82,7 +102,8 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 		keyboard.left().onPressDo({ self.ejecutarMovimiento(direccionIzquierda)})
 		keyboard.right().onPressDo({ self.ejecutarMovimiento(direccionDerecha)})
 		keyboard.space().onPressDo{ 
-			if (self.hayObjetoInteractivo()) self.objetoInteractivoHacia().interactuarCon(self)
+			if (self.hayObjetoInteractivo())
+				self.objetoInteractivoHacia().interactuarCon(self)
 		}
 	}
 
@@ -95,7 +116,6 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 			}
 		})
 	}
-
 }
 
 class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
@@ -104,10 +124,14 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 		image = ultimoMovimiento.imagenDino()
 	}
 	
+	override method recibirAtaque(danio) {
+		game.removeVisual(self)
+	}
+
 	method danioAtaque() = 10  
-		
+	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista()) objeto.recibirAtaque(self.danioAtaque())
+		objeto.recibirAtaque(self.danioAtaque())
 	}
 
 	override method configurate() {
