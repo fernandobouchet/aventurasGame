@@ -215,7 +215,7 @@ class Coco inherits Movimiento(image = "coco.png") {
 		if (not objeto.esAtravesable()) {
 			const impacto = new Sound(file = "impactococo.mp3")
 			esAtravesable = false
-			objeto.recibirAtaque(0)
+			objeto.morir()
 			position = objeto.position()
 			image = "cocopum.png"
 			impacto.play()

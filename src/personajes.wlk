@@ -25,7 +25,11 @@ object neanthy inherits Movimiento(image = "neanthy_der.png") {
 	}
 
 	method agarrarItem(item) {
+		const sonidoP = new Sound(file = item.sonido())
 		inventario.add(item)
+		game.removeVisual(item)
+		sonidoP.play()
+		self.actualizarImagen()
 	}
 
 	override method accionarEfecto(objeto) {
@@ -124,7 +128,7 @@ class EnemigoComun inherits Movimiento(image = "dino-izq.png") {
 		image = ultimoMovimiento.imagenDino()
 	}
 	
-	override method recibirAtaque(danio) {
+	override method morir() {
 		game.removeVisual(self)
 	}
 

@@ -116,11 +116,13 @@ object direccionDerecha {
 }
 
 class ElementoBase {
-	method reaccionarA(obstaculo) {}
+	method reaccionarA(objeto) {}
 
 	method esAtravesable() = true
 
 	method esInteractivo() = false
+	
+	method morir() {}
 	
 	method accionarEfecto(objeto) {}
 

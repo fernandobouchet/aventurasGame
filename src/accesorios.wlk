@@ -11,21 +11,21 @@ object pelo inherits ElementoBase {
 	method position() = position
 
 	method actualizar() {
-		position = neanthy.position()
-		image = neanthy.ultimoMovimiento().imagenPelo()
+		position = utilidades.protagonista().position()
+		image = utilidades.protagonista().ultimoMovimiento().imagenPelo()
 		game.removeVisual(self)
 		game.addVisual(self)
 	}
 
 	method formaPelo() =
-		if (neanthy.tiene(peine)) "pelo_2"
+		if (utilidades.protagonista().tiene(peine)) "pelo_2"
 		else "pelo_1"
 }
 
 class AccesorioAgarrable inherits ElementoBase{
 	var position = game.at(0,0)
 	var image
-	const sonido
+	const property sonido
 
 	method position() = position
 	method image() = image
@@ -40,12 +40,8 @@ class AccesorioAgarrable inherits ElementoBase{
 	}
 	
 	override method reaccionarA(objeto) {
-		if (objeto == utilidades.protagonista() and not neanthy.tiene(self)) {
-			game.removeVisual(self)
-			objeto.agarrarItem(self)
-			const sonidoP = new Sound(file = sonido)
-			sonidoP.play()
-			objeto.actualizarImagen()
+		if (not utilidades.protagonista().tiene(self)) {
+			objeto.agarrar(self)
 		}
 	}
 }
